@@ -1,0 +1,69 @@
+﻿using Antlr4.Runtime;
+using Antlr4.Runtime.Tree;
+using DotMake.CommandLine;
+using FirstLanguage;
+using FirstLanguage.abstract_syntax_tree;
+
+// Add this single line to run you app!
+Cli.Run<RootCliCommand>(args);
+
+// Create a simple class like this to define your root command:
+[CliCommand(Description = "Compiles and runs an EduLang file.")]
+public class RootCliCommand
+{
+    [CliOption(Description = "File to compile.")]
+    public string File { get; set; } = "test.edu";
+
+
+    public static void ProcessFile(string filePath)
+    {
+        // 1. Load the file content
+        AntlrInputStream inputStream;
+        using (var fs = new FileStream(filePath, FileMode.Open))
+        {
+            inputStream = new AntlrInputStream(fs);
+        }
+
+        EduLangLexer lexer = new EduLangLexer(inputStream);
+
+        CommonTokenStream commonTokenStream = new CommonTokenStream(lexer);
+
+        EduLangParser parser = new EduLangParser(commonTokenStream);
+
+        IParseTree tree = parser.program();
+
+        MainVisitor mainVisitor = new MainVisitor();
+
+        var result = mainVisitor.Visit(tree);
+
+        var astNodes = (result as ProgramNode)?.Statements;
+        if (astNodes != null)
+        {
+            foreach (var statement in astNodes)
+            {
+                Console.WriteLine(statement);
+            }
+        }
+
+
+        Console.WriteLine("Parsing and visiting complete.");
+        // System.Console.WriteLine($"Result: {result}"); // If your visitor returns something
+    }
+
+    public void Run()
+    {
+        try
+        {
+            ProcessFile(File);
+        }
+        catch (FileNotFoundException e)
+        {
+            Console.WriteLine($"File {File} not found.");
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
+}
