@@ -50,4 +50,17 @@ public class MainVisitor : EduLangBaseVisitor<IAstNode>
     {
         return new SwapNode();
     }
+
+    public override IAstNode VisitLoad_instr(EduLangParser.Load_instrContext context)
+    {
+        var label = context.IDENTIFIER().GetText();
+        
+        return new LoadNode(label);
+    }
+
+    public override IAstNode VisitStore_instr(EduLangParser.Store_instrContext context)
+    {
+        var label  = context.IDENTIFIER().GetText();
+        return new StoreNode(label);
+    }
 }
