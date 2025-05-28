@@ -63,4 +63,35 @@ public class MainVisitor : EduLangBaseVisitor<IAstNode>
         var label  = context.IDENTIFIER().GetText();
         return new StoreNode(label);
     }
+
+
+    public override IAstNode VisitHalt_instr(EduLangParser.Halt_instrContext context)
+    {
+        return new HaltNode();
+    }
+
+    public override IAstNode VisitAdd_instr(EduLangParser.Add_instrContext context)
+    {
+        return new AddNode();
+    }
+
+    public override IAstNode VisitDiv_instr(EduLangParser.Div_instrContext context)
+    {
+        return new DivisionNode();
+    }
+
+    public override IAstNode VisitMod_instr(EduLangParser.Mod_instrContext context)
+    {
+        return new ModNode();
+    }
+
+    public override IAstNode VisitMul_instr(EduLangParser.Mul_instrContext context)
+    {
+        return new MultiplyNode();
+    }
+
+    public override IAstNode VisitSub_instr(EduLangParser.Sub_instrContext context)
+    {
+        return new SubNode();
+    }
 }
