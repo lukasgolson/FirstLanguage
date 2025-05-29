@@ -1,4 +1,5 @@
 ﻿using FirstLanguage.abstract_syntax_tree;
+using FirstLanguage.abstract_syntax_tree.arithmetic;
 
 namespace FirstLanguage;
 
