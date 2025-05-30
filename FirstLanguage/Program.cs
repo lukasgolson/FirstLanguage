@@ -3,6 +3,8 @@ using Antlr4.Runtime.Tree;
 using DotMake.CommandLine;
 using FirstLanguage;
 using FirstLanguage.abstract_syntax_tree;
+using FirstLanguage.abstract_syntax_tree.Core;
+using FirstLanguage.virtual_machine;
 
 // Add this single line to run you app!
 Cli.Run<RootCliCommand>(args);
@@ -36,14 +38,8 @@ public class RootCliCommand
 
         var result = mainVisitor.Visit(tree);
 
-        var astNodes = (result as ProgramNode)?.Statements;
-        if (astNodes != null)
-        {
-            foreach (var statement in astNodes)
-            {
-                Console.WriteLine(statement);
-            }
-        }
+
+        var vm = new VmContext((ProgramNode)result);
 
 
         Console.WriteLine("Parsing and visiting complete.");

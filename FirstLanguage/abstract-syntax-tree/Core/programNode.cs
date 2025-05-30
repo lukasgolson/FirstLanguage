@@ -1,4 +1,4 @@
-﻿namespace FirstLanguage.abstract_syntax_tree;
+﻿namespace FirstLanguage.abstract_syntax_tree.Core;
 
 public class ProgramNode : IAstNode
 {

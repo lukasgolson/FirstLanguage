@@ -1,4 +1,4 @@
-﻿namespace FirstLanguage.abstract_syntax_tree.Core.Misc;
+﻿namespace FirstLanguage.abstract_syntax_tree.Core.logic;
 
 public class LabelNode(string label) : ILabelledNode
 {
