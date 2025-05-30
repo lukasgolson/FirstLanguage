@@ -1,4 +1,1 @@
-﻿jumpz END
-push 5
-label END
-halt
+﻿push 258

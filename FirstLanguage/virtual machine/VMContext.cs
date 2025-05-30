@@ -93,8 +93,8 @@ public class VmContext
                 case PushNode pushNode:
                 {
                     instructions.Add((byte)OpCode.Push);
-                    // TODO: Add a constants mechanism with a lookup memory address
-                    instructions.Add(pushNode.Value);
+                    var bytes = LongToBytes(pushNode.Value);
+                    instructions.AddRange(bytes);
 
                     break;
                 }
