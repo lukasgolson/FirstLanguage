@@ -62,18 +62,6 @@ public interface IEduLangVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitPop_instr([NotNull] EduLangParser.Pop_instrContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="EduLangParser.dup_instr"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	Result VisitDup_instr([NotNull] EduLangParser.Dup_instrContext context);
-	/// <summary>
-	/// Visit a parse tree produced by <see cref="EduLangParser.swap_instr"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	Result VisitSwap_instr([NotNull] EduLangParser.Swap_instrContext context);
-	/// <summary>
 	/// Visit a parse tree produced by <see cref="EduLangParser.load_instr"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
@@ -98,89 +86,11 @@ public interface IEduLangVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitSub_instr([NotNull] EduLangParser.Sub_instrContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="EduLangParser.mul_instr"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	Result VisitMul_instr([NotNull] EduLangParser.Mul_instrContext context);
-	/// <summary>
-	/// Visit a parse tree produced by <see cref="EduLangParser.div_instr"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	Result VisitDiv_instr([NotNull] EduLangParser.Div_instrContext context);
-	/// <summary>
-	/// Visit a parse tree produced by <see cref="EduLangParser.mod_instr"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	Result VisitMod_instr([NotNull] EduLangParser.Mod_instrContext context);
-	/// <summary>
-	/// Visit a parse tree produced by <see cref="EduLangParser.eq_instr"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	Result VisitEq_instr([NotNull] EduLangParser.Eq_instrContext context);
-	/// <summary>
-	/// Visit a parse tree produced by <see cref="EduLangParser.neq_instr"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	Result VisitNeq_instr([NotNull] EduLangParser.Neq_instrContext context);
-	/// <summary>
-	/// Visit a parse tree produced by <see cref="EduLangParser.lt_instr"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	Result VisitLt_instr([NotNull] EduLangParser.Lt_instrContext context);
-	/// <summary>
-	/// Visit a parse tree produced by <see cref="EduLangParser.gt_instr"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	Result VisitGt_instr([NotNull] EduLangParser.Gt_instrContext context);
-	/// <summary>
-	/// Visit a parse tree produced by <see cref="EduLangParser.lte_instr"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	Result VisitLte_instr([NotNull] EduLangParser.Lte_instrContext context);
-	/// <summary>
-	/// Visit a parse tree produced by <see cref="EduLangParser.gte_instr"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	Result VisitGte_instr([NotNull] EduLangParser.Gte_instrContext context);
-	/// <summary>
-	/// Visit a parse tree produced by <see cref="EduLangParser.not_instr"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	Result VisitNot_instr([NotNull] EduLangParser.Not_instrContext context);
-	/// <summary>
-	/// Visit a parse tree produced by <see cref="EduLangParser.and_instr"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	Result VisitAnd_instr([NotNull] EduLangParser.And_instrContext context);
-	/// <summary>
-	/// Visit a parse tree produced by <see cref="EduLangParser.or_instr"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	Result VisitOr_instr([NotNull] EduLangParser.Or_instrContext context);
-	/// <summary>
 	/// Visit a parse tree produced by <see cref="EduLangParser.label_instr"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitLabel_instr([NotNull] EduLangParser.Label_instrContext context);
-	/// <summary>
-	/// Visit a parse tree produced by <see cref="EduLangParser.jump_instr"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	Result VisitJump_instr([NotNull] EduLangParser.Jump_instrContext context);
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="EduLangParser.jumpz_instr"/>.
 	/// </summary>
@@ -188,29 +98,11 @@ public interface IEduLangVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitJumpz_instr([NotNull] EduLangParser.Jumpz_instrContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="EduLangParser.jumpnz_instr"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	Result VisitJumpnz_instr([NotNull] EduLangParser.Jumpnz_instrContext context);
-	/// <summary>
-	/// Visit a parse tree produced by <see cref="EduLangParser.input_instr"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	Result VisitInput_instr([NotNull] EduLangParser.Input_instrContext context);
-	/// <summary>
 	/// Visit a parse tree produced by <see cref="EduLangParser.print_instr"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitPrint_instr([NotNull] EduLangParser.Print_instrContext context);
-	/// <summary>
-	/// Visit a parse tree produced by <see cref="EduLangParser.putc_instr"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	Result VisitPutc_instr([NotNull] EduLangParser.Putc_instrContext context);
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="EduLangParser.halt_instr"/>.
 	/// </summary>

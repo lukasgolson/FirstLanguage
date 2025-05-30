@@ -36,37 +36,26 @@ public partial class EduLangParser : Parser {
 	protected static DFA[] decisionToDFA;
 	protected static PredictionContextCache sharedContextCache = new PredictionContextCache();
 	public const int
-		KW_PUSH=1, KW_POP=2, KW_DUP=3, KW_SWAP=4, KW_LOAD=5, KW_STORE=6, KW_ADD=7, 
-		KW_SUB=8, KW_MUL=9, KW_DIV=10, KW_MOD=11, KW_EQ=12, KW_NEQ=13, KW_LT=14, 
-		KW_GT=15, KW_LTE=16, KW_GTE=17, KW_NOT=18, KW_AND=19, KW_OR=20, KW_LABEL=21, 
-		KW_JUMP=22, KW_JUMPZ=23, KW_JUMPNZ=24, KW_INPUT=25, KW_PRINT=26, KW_PUTC=27, 
-		KW_HALT=28, INTEGER_LITERAL=29, IDENTIFIER=30, COMMENT=31, WS=32, NEWLINE=33;
+		KW_PUSH=1, KW_POP=2, KW_LOAD=3, KW_STORE=4, KW_ADD=5, KW_SUB=6, KW_LABEL=7, 
+		KW_JUMPZ=8, KW_PRINT=9, KW_HALT=10, INTEGER_LITERAL=11, IDENTIFIER=12, 
+		COMMENT=13, WS=14, NEWLINE=15;
 	public const int
 		RULE_program = 0, RULE_statement = 1, RULE_instruction = 2, RULE_push_instr = 3, 
-		RULE_pop_instr = 4, RULE_dup_instr = 5, RULE_swap_instr = 6, RULE_load_instr = 7, 
-		RULE_store_instr = 8, RULE_add_instr = 9, RULE_sub_instr = 10, RULE_mul_instr = 11, 
-		RULE_div_instr = 12, RULE_mod_instr = 13, RULE_eq_instr = 14, RULE_neq_instr = 15, 
-		RULE_lt_instr = 16, RULE_gt_instr = 17, RULE_lte_instr = 18, RULE_gte_instr = 19, 
-		RULE_not_instr = 20, RULE_and_instr = 21, RULE_or_instr = 22, RULE_label_instr = 23, 
-		RULE_jump_instr = 24, RULE_jumpz_instr = 25, RULE_jumpnz_instr = 26, RULE_input_instr = 27, 
-		RULE_print_instr = 28, RULE_putc_instr = 29, RULE_halt_instr = 30;
+		RULE_pop_instr = 4, RULE_load_instr = 5, RULE_store_instr = 6, RULE_add_instr = 7, 
+		RULE_sub_instr = 8, RULE_label_instr = 9, RULE_jumpz_instr = 10, RULE_print_instr = 11, 
+		RULE_halt_instr = 12;
 	public static readonly string[] ruleNames = {
-		"program", "statement", "instruction", "push_instr", "pop_instr", "dup_instr", 
-		"swap_instr", "load_instr", "store_instr", "add_instr", "sub_instr", "mul_instr", 
-		"div_instr", "mod_instr", "eq_instr", "neq_instr", "lt_instr", "gt_instr", 
-		"lte_instr", "gte_instr", "not_instr", "and_instr", "or_instr", "label_instr", 
-		"jump_instr", "jumpz_instr", "jumpnz_instr", "input_instr", "print_instr", 
-		"putc_instr", "halt_instr"
+		"program", "statement", "instruction", "push_instr", "pop_instr", "load_instr", 
+		"store_instr", "add_instr", "sub_instr", "label_instr", "jumpz_instr", 
+		"print_instr", "halt_instr"
 	};
 
 	private static readonly string[] _LiteralNames = {
 	};
 	private static readonly string[] _SymbolicNames = {
-		null, "KW_PUSH", "KW_POP", "KW_DUP", "KW_SWAP", "KW_LOAD", "KW_STORE", 
-		"KW_ADD", "KW_SUB", "KW_MUL", "KW_DIV", "KW_MOD", "KW_EQ", "KW_NEQ", "KW_LT", 
-		"KW_GT", "KW_LTE", "KW_GTE", "KW_NOT", "KW_AND", "KW_OR", "KW_LABEL", 
-		"KW_JUMP", "KW_JUMPZ", "KW_JUMPNZ", "KW_INPUT", "KW_PRINT", "KW_PUTC", 
-		"KW_HALT", "INTEGER_LITERAL", "IDENTIFIER", "COMMENT", "WS", "NEWLINE"
+		null, "KW_PUSH", "KW_POP", "KW_LOAD", "KW_STORE", "KW_ADD", "KW_SUB", 
+		"KW_LABEL", "KW_JUMPZ", "KW_PRINT", "KW_HALT", "INTEGER_LITERAL", "IDENTIFIER", 
+		"COMMENT", "WS", "NEWLINE"
 	};
 	public static readonly IVocabulary DefaultVocabulary = new Vocabulary(_LiteralNames, _SymbolicNames);
 
@@ -143,50 +132,32 @@ public partial class EduLangParser : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 66;
+			State = 30;
 			ErrorHandler.Sync(this);
 			_la = TokenStream.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & 9126805502L) != 0)) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & 34814L) != 0)) {
 				{
-				State = 64;
+				State = 28;
 				ErrorHandler.Sync(this);
 				switch (TokenStream.LA(1)) {
 				case KW_PUSH:
 				case KW_POP:
-				case KW_DUP:
-				case KW_SWAP:
 				case KW_LOAD:
 				case KW_STORE:
 				case KW_ADD:
 				case KW_SUB:
-				case KW_MUL:
-				case KW_DIV:
-				case KW_MOD:
-				case KW_EQ:
-				case KW_NEQ:
-				case KW_LT:
-				case KW_GT:
-				case KW_LTE:
-				case KW_GTE:
-				case KW_NOT:
-				case KW_AND:
-				case KW_OR:
 				case KW_LABEL:
-				case KW_JUMP:
 				case KW_JUMPZ:
-				case KW_JUMPNZ:
-				case KW_INPUT:
 				case KW_PRINT:
-				case KW_PUTC:
 				case KW_HALT:
 					{
-					State = 62;
+					State = 26;
 					statement();
 					}
 					break;
 				case NEWLINE:
 					{
-					State = 63;
+					State = 27;
 					Match(NEWLINE);
 					}
 					break;
@@ -194,11 +165,11 @@ public partial class EduLangParser : Parser {
 					throw new NoViableAltException(this);
 				}
 				}
-				State = 68;
+				State = 32;
 				ErrorHandler.Sync(this);
 				_la = TokenStream.LA(1);
 			}
-			State = 69;
+			State = 33;
 			Match(Eof);
 			}
 		}
@@ -248,9 +219,9 @@ public partial class EduLangParser : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 71;
+			State = 35;
 			instruction();
-			State = 72;
+			State = 36;
 			Match(NEWLINE);
 			}
 		}
@@ -266,20 +237,14 @@ public partial class EduLangParser : Parser {
 	}
 
 	public partial class InstructionContext : ParserRuleContext {
-		[System.Diagnostics.DebuggerNonUserCode] public Push_instrContext push_instr() {
-			return GetRuleContext<Push_instrContext>(0);
+		[System.Diagnostics.DebuggerNonUserCode] public Load_instrContext load_instr() {
+			return GetRuleContext<Load_instrContext>(0);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public Pop_instrContext pop_instr() {
 			return GetRuleContext<Pop_instrContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public Dup_instrContext dup_instr() {
-			return GetRuleContext<Dup_instrContext>(0);
-		}
-		[System.Diagnostics.DebuggerNonUserCode] public Swap_instrContext swap_instr() {
-			return GetRuleContext<Swap_instrContext>(0);
-		}
-		[System.Diagnostics.DebuggerNonUserCode] public Load_instrContext load_instr() {
-			return GetRuleContext<Load_instrContext>(0);
+		[System.Diagnostics.DebuggerNonUserCode] public Push_instrContext push_instr() {
+			return GetRuleContext<Push_instrContext>(0);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public Store_instrContext store_instr() {
 			return GetRuleContext<Store_instrContext>(0);
@@ -290,65 +255,17 @@ public partial class EduLangParser : Parser {
 		[System.Diagnostics.DebuggerNonUserCode] public Sub_instrContext sub_instr() {
 			return GetRuleContext<Sub_instrContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public Mul_instrContext mul_instr() {
-			return GetRuleContext<Mul_instrContext>(0);
-		}
-		[System.Diagnostics.DebuggerNonUserCode] public Div_instrContext div_instr() {
-			return GetRuleContext<Div_instrContext>(0);
-		}
-		[System.Diagnostics.DebuggerNonUserCode] public Mod_instrContext mod_instr() {
-			return GetRuleContext<Mod_instrContext>(0);
-		}
-		[System.Diagnostics.DebuggerNonUserCode] public Eq_instrContext eq_instr() {
-			return GetRuleContext<Eq_instrContext>(0);
-		}
-		[System.Diagnostics.DebuggerNonUserCode] public Neq_instrContext neq_instr() {
-			return GetRuleContext<Neq_instrContext>(0);
-		}
-		[System.Diagnostics.DebuggerNonUserCode] public Lt_instrContext lt_instr() {
-			return GetRuleContext<Lt_instrContext>(0);
-		}
-		[System.Diagnostics.DebuggerNonUserCode] public Gt_instrContext gt_instr() {
-			return GetRuleContext<Gt_instrContext>(0);
-		}
-		[System.Diagnostics.DebuggerNonUserCode] public Lte_instrContext lte_instr() {
-			return GetRuleContext<Lte_instrContext>(0);
-		}
-		[System.Diagnostics.DebuggerNonUserCode] public Gte_instrContext gte_instr() {
-			return GetRuleContext<Gte_instrContext>(0);
-		}
-		[System.Diagnostics.DebuggerNonUserCode] public Not_instrContext not_instr() {
-			return GetRuleContext<Not_instrContext>(0);
-		}
-		[System.Diagnostics.DebuggerNonUserCode] public And_instrContext and_instr() {
-			return GetRuleContext<And_instrContext>(0);
-		}
-		[System.Diagnostics.DebuggerNonUserCode] public Or_instrContext or_instr() {
-			return GetRuleContext<Or_instrContext>(0);
-		}
-		[System.Diagnostics.DebuggerNonUserCode] public Label_instrContext label_instr() {
-			return GetRuleContext<Label_instrContext>(0);
-		}
-		[System.Diagnostics.DebuggerNonUserCode] public Jump_instrContext jump_instr() {
-			return GetRuleContext<Jump_instrContext>(0);
-		}
 		[System.Diagnostics.DebuggerNonUserCode] public Jumpz_instrContext jumpz_instr() {
 			return GetRuleContext<Jumpz_instrContext>(0);
-		}
-		[System.Diagnostics.DebuggerNonUserCode] public Jumpnz_instrContext jumpnz_instr() {
-			return GetRuleContext<Jumpnz_instrContext>(0);
-		}
-		[System.Diagnostics.DebuggerNonUserCode] public Input_instrContext input_instr() {
-			return GetRuleContext<Input_instrContext>(0);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public Print_instrContext print_instr() {
 			return GetRuleContext<Print_instrContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public Putc_instrContext putc_instr() {
-			return GetRuleContext<Putc_instrContext>(0);
-		}
 		[System.Diagnostics.DebuggerNonUserCode] public Halt_instrContext halt_instr() {
 			return GetRuleContext<Halt_instrContext>(0);
+		}
+		[System.Diagnostics.DebuggerNonUserCode] public Label_instrContext label_instr() {
+			return GetRuleContext<Label_instrContext>(0);
 		}
 		public InstructionContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
@@ -378,203 +295,77 @@ public partial class EduLangParser : Parser {
 		InstructionContext _localctx = new InstructionContext(Context, State);
 		EnterRule(_localctx, 4, RULE_instruction);
 		try {
-			State = 102;
+			State = 48;
 			ErrorHandler.Sync(this);
 			switch (TokenStream.LA(1)) {
-			case KW_PUSH:
+			case KW_LOAD:
 				EnterOuterAlt(_localctx, 1);
 				{
-				State = 74;
-				push_instr();
+				State = 38;
+				load_instr();
 				}
 				break;
 			case KW_POP:
 				EnterOuterAlt(_localctx, 2);
 				{
-				State = 75;
+				State = 39;
 				pop_instr();
 				}
 				break;
-			case KW_DUP:
+			case KW_PUSH:
 				EnterOuterAlt(_localctx, 3);
 				{
-				State = 76;
-				dup_instr();
-				}
-				break;
-			case KW_SWAP:
-				EnterOuterAlt(_localctx, 4);
-				{
-				State = 77;
-				swap_instr();
-				}
-				break;
-			case KW_LOAD:
-				EnterOuterAlt(_localctx, 5);
-				{
-				State = 78;
-				load_instr();
+				State = 40;
+				push_instr();
 				}
 				break;
 			case KW_STORE:
-				EnterOuterAlt(_localctx, 6);
+				EnterOuterAlt(_localctx, 4);
 				{
-				State = 79;
+				State = 41;
 				store_instr();
 				}
 				break;
 			case KW_ADD:
-				EnterOuterAlt(_localctx, 7);
+				EnterOuterAlt(_localctx, 5);
 				{
-				State = 80;
+				State = 42;
 				add_instr();
 				}
 				break;
 			case KW_SUB:
-				EnterOuterAlt(_localctx, 8);
+				EnterOuterAlt(_localctx, 6);
 				{
-				State = 81;
+				State = 43;
 				sub_instr();
 				}
 				break;
-			case KW_MUL:
-				EnterOuterAlt(_localctx, 9);
-				{
-				State = 82;
-				mul_instr();
-				}
-				break;
-			case KW_DIV:
-				EnterOuterAlt(_localctx, 10);
-				{
-				State = 83;
-				div_instr();
-				}
-				break;
-			case KW_MOD:
-				EnterOuterAlt(_localctx, 11);
-				{
-				State = 84;
-				mod_instr();
-				}
-				break;
-			case KW_EQ:
-				EnterOuterAlt(_localctx, 12);
-				{
-				State = 85;
-				eq_instr();
-				}
-				break;
-			case KW_NEQ:
-				EnterOuterAlt(_localctx, 13);
-				{
-				State = 86;
-				neq_instr();
-				}
-				break;
-			case KW_LT:
-				EnterOuterAlt(_localctx, 14);
-				{
-				State = 87;
-				lt_instr();
-				}
-				break;
-			case KW_GT:
-				EnterOuterAlt(_localctx, 15);
-				{
-				State = 88;
-				gt_instr();
-				}
-				break;
-			case KW_LTE:
-				EnterOuterAlt(_localctx, 16);
-				{
-				State = 89;
-				lte_instr();
-				}
-				break;
-			case KW_GTE:
-				EnterOuterAlt(_localctx, 17);
-				{
-				State = 90;
-				gte_instr();
-				}
-				break;
-			case KW_NOT:
-				EnterOuterAlt(_localctx, 18);
-				{
-				State = 91;
-				not_instr();
-				}
-				break;
-			case KW_AND:
-				EnterOuterAlt(_localctx, 19);
-				{
-				State = 92;
-				and_instr();
-				}
-				break;
-			case KW_OR:
-				EnterOuterAlt(_localctx, 20);
-				{
-				State = 93;
-				or_instr();
-				}
-				break;
-			case KW_LABEL:
-				EnterOuterAlt(_localctx, 21);
-				{
-				State = 94;
-				label_instr();
-				}
-				break;
-			case KW_JUMP:
-				EnterOuterAlt(_localctx, 22);
-				{
-				State = 95;
-				jump_instr();
-				}
-				break;
 			case KW_JUMPZ:
-				EnterOuterAlt(_localctx, 23);
+				EnterOuterAlt(_localctx, 7);
 				{
-				State = 96;
+				State = 44;
 				jumpz_instr();
 				}
 				break;
-			case KW_JUMPNZ:
-				EnterOuterAlt(_localctx, 24);
-				{
-				State = 97;
-				jumpnz_instr();
-				}
-				break;
-			case KW_INPUT:
-				EnterOuterAlt(_localctx, 25);
-				{
-				State = 98;
-				input_instr();
-				}
-				break;
 			case KW_PRINT:
-				EnterOuterAlt(_localctx, 26);
+				EnterOuterAlt(_localctx, 8);
 				{
-				State = 99;
+				State = 45;
 				print_instr();
 				}
 				break;
-			case KW_PUTC:
-				EnterOuterAlt(_localctx, 27);
+			case KW_HALT:
+				EnterOuterAlt(_localctx, 9);
 				{
-				State = 100;
-				putc_instr();
+				State = 46;
+				halt_instr();
 				}
 				break;
-			case KW_HALT:
-				EnterOuterAlt(_localctx, 28);
+			case KW_LABEL:
+				EnterOuterAlt(_localctx, 10);
 				{
-				State = 101;
-				halt_instr();
+				State = 47;
+				label_instr();
 				}
 				break;
 			default:
@@ -626,9 +417,9 @@ public partial class EduLangParser : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 104;
+			State = 50;
 			Match(KW_PUSH);
-			State = 105;
+			State = 51;
 			_localctx.val = Match(INTEGER_LITERAL);
 			}
 		}
@@ -675,102 +466,8 @@ public partial class EduLangParser : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 107;
+			State = 53;
 			Match(KW_POP);
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			ErrorHandler.ReportError(this, re);
-			ErrorHandler.Recover(this, re);
-		}
-		finally {
-			ExitRule();
-		}
-		return _localctx;
-	}
-
-	public partial class Dup_instrContext : ParserRuleContext {
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode KW_DUP() { return GetToken(EduLangParser.KW_DUP, 0); }
-		public Dup_instrContext(ParserRuleContext parent, int invokingState)
-			: base(parent, invokingState)
-		{
-		}
-		public override int RuleIndex { get { return RULE_dup_instr; } }
-		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
-			IEduLangListener typedListener = listener as IEduLangListener;
-			if (typedListener != null) typedListener.EnterDup_instr(this);
-		}
-		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
-			IEduLangListener typedListener = listener as IEduLangListener;
-			if (typedListener != null) typedListener.ExitDup_instr(this);
-		}
-		[System.Diagnostics.DebuggerNonUserCode]
-		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
-			IEduLangVisitor<TResult> typedVisitor = visitor as IEduLangVisitor<TResult>;
-			if (typedVisitor != null) return typedVisitor.VisitDup_instr(this);
-			else return visitor.VisitChildren(this);
-		}
-	}
-
-	[RuleVersion(0)]
-	public Dup_instrContext dup_instr() {
-		Dup_instrContext _localctx = new Dup_instrContext(Context, State);
-		EnterRule(_localctx, 10, RULE_dup_instr);
-		try {
-			EnterOuterAlt(_localctx, 1);
-			{
-			State = 109;
-			Match(KW_DUP);
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			ErrorHandler.ReportError(this, re);
-			ErrorHandler.Recover(this, re);
-		}
-		finally {
-			ExitRule();
-		}
-		return _localctx;
-	}
-
-	public partial class Swap_instrContext : ParserRuleContext {
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode KW_SWAP() { return GetToken(EduLangParser.KW_SWAP, 0); }
-		public Swap_instrContext(ParserRuleContext parent, int invokingState)
-			: base(parent, invokingState)
-		{
-		}
-		public override int RuleIndex { get { return RULE_swap_instr; } }
-		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
-			IEduLangListener typedListener = listener as IEduLangListener;
-			if (typedListener != null) typedListener.EnterSwap_instr(this);
-		}
-		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
-			IEduLangListener typedListener = listener as IEduLangListener;
-			if (typedListener != null) typedListener.ExitSwap_instr(this);
-		}
-		[System.Diagnostics.DebuggerNonUserCode]
-		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
-			IEduLangVisitor<TResult> typedVisitor = visitor as IEduLangVisitor<TResult>;
-			if (typedVisitor != null) return typedVisitor.VisitSwap_instr(this);
-			else return visitor.VisitChildren(this);
-		}
-	}
-
-	[RuleVersion(0)]
-	public Swap_instrContext swap_instr() {
-		Swap_instrContext _localctx = new Swap_instrContext(Context, State);
-		EnterRule(_localctx, 12, RULE_swap_instr);
-		try {
-			EnterOuterAlt(_localctx, 1);
-			{
-			State = 111;
-			Match(KW_SWAP);
 			}
 		}
 		catch (RecognitionException re) {
@@ -814,13 +511,13 @@ public partial class EduLangParser : Parser {
 	[RuleVersion(0)]
 	public Load_instrContext load_instr() {
 		Load_instrContext _localctx = new Load_instrContext(Context, State);
-		EnterRule(_localctx, 14, RULE_load_instr);
+		EnterRule(_localctx, 10, RULE_load_instr);
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 113;
+			State = 55;
 			Match(KW_LOAD);
-			State = 114;
+			State = 56;
 			_localctx.id = Match(IDENTIFIER);
 			}
 		}
@@ -865,13 +562,13 @@ public partial class EduLangParser : Parser {
 	[RuleVersion(0)]
 	public Store_instrContext store_instr() {
 		Store_instrContext _localctx = new Store_instrContext(Context, State);
-		EnterRule(_localctx, 16, RULE_store_instr);
+		EnterRule(_localctx, 12, RULE_store_instr);
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 116;
+			State = 58;
 			Match(KW_STORE);
-			State = 117;
+			State = 59;
 			_localctx.id = Match(IDENTIFIER);
 			}
 		}
@@ -914,11 +611,11 @@ public partial class EduLangParser : Parser {
 	[RuleVersion(0)]
 	public Add_instrContext add_instr() {
 		Add_instrContext _localctx = new Add_instrContext(Context, State);
-		EnterRule(_localctx, 18, RULE_add_instr);
+		EnterRule(_localctx, 14, RULE_add_instr);
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 119;
+			State = 61;
 			Match(KW_ADD);
 			}
 		}
@@ -961,576 +658,12 @@ public partial class EduLangParser : Parser {
 	[RuleVersion(0)]
 	public Sub_instrContext sub_instr() {
 		Sub_instrContext _localctx = new Sub_instrContext(Context, State);
-		EnterRule(_localctx, 20, RULE_sub_instr);
+		EnterRule(_localctx, 16, RULE_sub_instr);
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 121;
+			State = 63;
 			Match(KW_SUB);
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			ErrorHandler.ReportError(this, re);
-			ErrorHandler.Recover(this, re);
-		}
-		finally {
-			ExitRule();
-		}
-		return _localctx;
-	}
-
-	public partial class Mul_instrContext : ParserRuleContext {
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode KW_MUL() { return GetToken(EduLangParser.KW_MUL, 0); }
-		public Mul_instrContext(ParserRuleContext parent, int invokingState)
-			: base(parent, invokingState)
-		{
-		}
-		public override int RuleIndex { get { return RULE_mul_instr; } }
-		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
-			IEduLangListener typedListener = listener as IEduLangListener;
-			if (typedListener != null) typedListener.EnterMul_instr(this);
-		}
-		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
-			IEduLangListener typedListener = listener as IEduLangListener;
-			if (typedListener != null) typedListener.ExitMul_instr(this);
-		}
-		[System.Diagnostics.DebuggerNonUserCode]
-		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
-			IEduLangVisitor<TResult> typedVisitor = visitor as IEduLangVisitor<TResult>;
-			if (typedVisitor != null) return typedVisitor.VisitMul_instr(this);
-			else return visitor.VisitChildren(this);
-		}
-	}
-
-	[RuleVersion(0)]
-	public Mul_instrContext mul_instr() {
-		Mul_instrContext _localctx = new Mul_instrContext(Context, State);
-		EnterRule(_localctx, 22, RULE_mul_instr);
-		try {
-			EnterOuterAlt(_localctx, 1);
-			{
-			State = 123;
-			Match(KW_MUL);
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			ErrorHandler.ReportError(this, re);
-			ErrorHandler.Recover(this, re);
-		}
-		finally {
-			ExitRule();
-		}
-		return _localctx;
-	}
-
-	public partial class Div_instrContext : ParserRuleContext {
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode KW_DIV() { return GetToken(EduLangParser.KW_DIV, 0); }
-		public Div_instrContext(ParserRuleContext parent, int invokingState)
-			: base(parent, invokingState)
-		{
-		}
-		public override int RuleIndex { get { return RULE_div_instr; } }
-		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
-			IEduLangListener typedListener = listener as IEduLangListener;
-			if (typedListener != null) typedListener.EnterDiv_instr(this);
-		}
-		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
-			IEduLangListener typedListener = listener as IEduLangListener;
-			if (typedListener != null) typedListener.ExitDiv_instr(this);
-		}
-		[System.Diagnostics.DebuggerNonUserCode]
-		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
-			IEduLangVisitor<TResult> typedVisitor = visitor as IEduLangVisitor<TResult>;
-			if (typedVisitor != null) return typedVisitor.VisitDiv_instr(this);
-			else return visitor.VisitChildren(this);
-		}
-	}
-
-	[RuleVersion(0)]
-	public Div_instrContext div_instr() {
-		Div_instrContext _localctx = new Div_instrContext(Context, State);
-		EnterRule(_localctx, 24, RULE_div_instr);
-		try {
-			EnterOuterAlt(_localctx, 1);
-			{
-			State = 125;
-			Match(KW_DIV);
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			ErrorHandler.ReportError(this, re);
-			ErrorHandler.Recover(this, re);
-		}
-		finally {
-			ExitRule();
-		}
-		return _localctx;
-	}
-
-	public partial class Mod_instrContext : ParserRuleContext {
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode KW_MOD() { return GetToken(EduLangParser.KW_MOD, 0); }
-		public Mod_instrContext(ParserRuleContext parent, int invokingState)
-			: base(parent, invokingState)
-		{
-		}
-		public override int RuleIndex { get { return RULE_mod_instr; } }
-		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
-			IEduLangListener typedListener = listener as IEduLangListener;
-			if (typedListener != null) typedListener.EnterMod_instr(this);
-		}
-		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
-			IEduLangListener typedListener = listener as IEduLangListener;
-			if (typedListener != null) typedListener.ExitMod_instr(this);
-		}
-		[System.Diagnostics.DebuggerNonUserCode]
-		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
-			IEduLangVisitor<TResult> typedVisitor = visitor as IEduLangVisitor<TResult>;
-			if (typedVisitor != null) return typedVisitor.VisitMod_instr(this);
-			else return visitor.VisitChildren(this);
-		}
-	}
-
-	[RuleVersion(0)]
-	public Mod_instrContext mod_instr() {
-		Mod_instrContext _localctx = new Mod_instrContext(Context, State);
-		EnterRule(_localctx, 26, RULE_mod_instr);
-		try {
-			EnterOuterAlt(_localctx, 1);
-			{
-			State = 127;
-			Match(KW_MOD);
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			ErrorHandler.ReportError(this, re);
-			ErrorHandler.Recover(this, re);
-		}
-		finally {
-			ExitRule();
-		}
-		return _localctx;
-	}
-
-	public partial class Eq_instrContext : ParserRuleContext {
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode KW_EQ() { return GetToken(EduLangParser.KW_EQ, 0); }
-		public Eq_instrContext(ParserRuleContext parent, int invokingState)
-			: base(parent, invokingState)
-		{
-		}
-		public override int RuleIndex { get { return RULE_eq_instr; } }
-		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
-			IEduLangListener typedListener = listener as IEduLangListener;
-			if (typedListener != null) typedListener.EnterEq_instr(this);
-		}
-		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
-			IEduLangListener typedListener = listener as IEduLangListener;
-			if (typedListener != null) typedListener.ExitEq_instr(this);
-		}
-		[System.Diagnostics.DebuggerNonUserCode]
-		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
-			IEduLangVisitor<TResult> typedVisitor = visitor as IEduLangVisitor<TResult>;
-			if (typedVisitor != null) return typedVisitor.VisitEq_instr(this);
-			else return visitor.VisitChildren(this);
-		}
-	}
-
-	[RuleVersion(0)]
-	public Eq_instrContext eq_instr() {
-		Eq_instrContext _localctx = new Eq_instrContext(Context, State);
-		EnterRule(_localctx, 28, RULE_eq_instr);
-		try {
-			EnterOuterAlt(_localctx, 1);
-			{
-			State = 129;
-			Match(KW_EQ);
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			ErrorHandler.ReportError(this, re);
-			ErrorHandler.Recover(this, re);
-		}
-		finally {
-			ExitRule();
-		}
-		return _localctx;
-	}
-
-	public partial class Neq_instrContext : ParserRuleContext {
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode KW_NEQ() { return GetToken(EduLangParser.KW_NEQ, 0); }
-		public Neq_instrContext(ParserRuleContext parent, int invokingState)
-			: base(parent, invokingState)
-		{
-		}
-		public override int RuleIndex { get { return RULE_neq_instr; } }
-		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
-			IEduLangListener typedListener = listener as IEduLangListener;
-			if (typedListener != null) typedListener.EnterNeq_instr(this);
-		}
-		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
-			IEduLangListener typedListener = listener as IEduLangListener;
-			if (typedListener != null) typedListener.ExitNeq_instr(this);
-		}
-		[System.Diagnostics.DebuggerNonUserCode]
-		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
-			IEduLangVisitor<TResult> typedVisitor = visitor as IEduLangVisitor<TResult>;
-			if (typedVisitor != null) return typedVisitor.VisitNeq_instr(this);
-			else return visitor.VisitChildren(this);
-		}
-	}
-
-	[RuleVersion(0)]
-	public Neq_instrContext neq_instr() {
-		Neq_instrContext _localctx = new Neq_instrContext(Context, State);
-		EnterRule(_localctx, 30, RULE_neq_instr);
-		try {
-			EnterOuterAlt(_localctx, 1);
-			{
-			State = 131;
-			Match(KW_NEQ);
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			ErrorHandler.ReportError(this, re);
-			ErrorHandler.Recover(this, re);
-		}
-		finally {
-			ExitRule();
-		}
-		return _localctx;
-	}
-
-	public partial class Lt_instrContext : ParserRuleContext {
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode KW_LT() { return GetToken(EduLangParser.KW_LT, 0); }
-		public Lt_instrContext(ParserRuleContext parent, int invokingState)
-			: base(parent, invokingState)
-		{
-		}
-		public override int RuleIndex { get { return RULE_lt_instr; } }
-		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
-			IEduLangListener typedListener = listener as IEduLangListener;
-			if (typedListener != null) typedListener.EnterLt_instr(this);
-		}
-		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
-			IEduLangListener typedListener = listener as IEduLangListener;
-			if (typedListener != null) typedListener.ExitLt_instr(this);
-		}
-		[System.Diagnostics.DebuggerNonUserCode]
-		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
-			IEduLangVisitor<TResult> typedVisitor = visitor as IEduLangVisitor<TResult>;
-			if (typedVisitor != null) return typedVisitor.VisitLt_instr(this);
-			else return visitor.VisitChildren(this);
-		}
-	}
-
-	[RuleVersion(0)]
-	public Lt_instrContext lt_instr() {
-		Lt_instrContext _localctx = new Lt_instrContext(Context, State);
-		EnterRule(_localctx, 32, RULE_lt_instr);
-		try {
-			EnterOuterAlt(_localctx, 1);
-			{
-			State = 133;
-			Match(KW_LT);
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			ErrorHandler.ReportError(this, re);
-			ErrorHandler.Recover(this, re);
-		}
-		finally {
-			ExitRule();
-		}
-		return _localctx;
-	}
-
-	public partial class Gt_instrContext : ParserRuleContext {
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode KW_GT() { return GetToken(EduLangParser.KW_GT, 0); }
-		public Gt_instrContext(ParserRuleContext parent, int invokingState)
-			: base(parent, invokingState)
-		{
-		}
-		public override int RuleIndex { get { return RULE_gt_instr; } }
-		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
-			IEduLangListener typedListener = listener as IEduLangListener;
-			if (typedListener != null) typedListener.EnterGt_instr(this);
-		}
-		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
-			IEduLangListener typedListener = listener as IEduLangListener;
-			if (typedListener != null) typedListener.ExitGt_instr(this);
-		}
-		[System.Diagnostics.DebuggerNonUserCode]
-		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
-			IEduLangVisitor<TResult> typedVisitor = visitor as IEduLangVisitor<TResult>;
-			if (typedVisitor != null) return typedVisitor.VisitGt_instr(this);
-			else return visitor.VisitChildren(this);
-		}
-	}
-
-	[RuleVersion(0)]
-	public Gt_instrContext gt_instr() {
-		Gt_instrContext _localctx = new Gt_instrContext(Context, State);
-		EnterRule(_localctx, 34, RULE_gt_instr);
-		try {
-			EnterOuterAlt(_localctx, 1);
-			{
-			State = 135;
-			Match(KW_GT);
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			ErrorHandler.ReportError(this, re);
-			ErrorHandler.Recover(this, re);
-		}
-		finally {
-			ExitRule();
-		}
-		return _localctx;
-	}
-
-	public partial class Lte_instrContext : ParserRuleContext {
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode KW_LTE() { return GetToken(EduLangParser.KW_LTE, 0); }
-		public Lte_instrContext(ParserRuleContext parent, int invokingState)
-			: base(parent, invokingState)
-		{
-		}
-		public override int RuleIndex { get { return RULE_lte_instr; } }
-		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
-			IEduLangListener typedListener = listener as IEduLangListener;
-			if (typedListener != null) typedListener.EnterLte_instr(this);
-		}
-		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
-			IEduLangListener typedListener = listener as IEduLangListener;
-			if (typedListener != null) typedListener.ExitLte_instr(this);
-		}
-		[System.Diagnostics.DebuggerNonUserCode]
-		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
-			IEduLangVisitor<TResult> typedVisitor = visitor as IEduLangVisitor<TResult>;
-			if (typedVisitor != null) return typedVisitor.VisitLte_instr(this);
-			else return visitor.VisitChildren(this);
-		}
-	}
-
-	[RuleVersion(0)]
-	public Lte_instrContext lte_instr() {
-		Lte_instrContext _localctx = new Lte_instrContext(Context, State);
-		EnterRule(_localctx, 36, RULE_lte_instr);
-		try {
-			EnterOuterAlt(_localctx, 1);
-			{
-			State = 137;
-			Match(KW_LTE);
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			ErrorHandler.ReportError(this, re);
-			ErrorHandler.Recover(this, re);
-		}
-		finally {
-			ExitRule();
-		}
-		return _localctx;
-	}
-
-	public partial class Gte_instrContext : ParserRuleContext {
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode KW_GTE() { return GetToken(EduLangParser.KW_GTE, 0); }
-		public Gte_instrContext(ParserRuleContext parent, int invokingState)
-			: base(parent, invokingState)
-		{
-		}
-		public override int RuleIndex { get { return RULE_gte_instr; } }
-		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
-			IEduLangListener typedListener = listener as IEduLangListener;
-			if (typedListener != null) typedListener.EnterGte_instr(this);
-		}
-		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
-			IEduLangListener typedListener = listener as IEduLangListener;
-			if (typedListener != null) typedListener.ExitGte_instr(this);
-		}
-		[System.Diagnostics.DebuggerNonUserCode]
-		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
-			IEduLangVisitor<TResult> typedVisitor = visitor as IEduLangVisitor<TResult>;
-			if (typedVisitor != null) return typedVisitor.VisitGte_instr(this);
-			else return visitor.VisitChildren(this);
-		}
-	}
-
-	[RuleVersion(0)]
-	public Gte_instrContext gte_instr() {
-		Gte_instrContext _localctx = new Gte_instrContext(Context, State);
-		EnterRule(_localctx, 38, RULE_gte_instr);
-		try {
-			EnterOuterAlt(_localctx, 1);
-			{
-			State = 139;
-			Match(KW_GTE);
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			ErrorHandler.ReportError(this, re);
-			ErrorHandler.Recover(this, re);
-		}
-		finally {
-			ExitRule();
-		}
-		return _localctx;
-	}
-
-	public partial class Not_instrContext : ParserRuleContext {
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode KW_NOT() { return GetToken(EduLangParser.KW_NOT, 0); }
-		public Not_instrContext(ParserRuleContext parent, int invokingState)
-			: base(parent, invokingState)
-		{
-		}
-		public override int RuleIndex { get { return RULE_not_instr; } }
-		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
-			IEduLangListener typedListener = listener as IEduLangListener;
-			if (typedListener != null) typedListener.EnterNot_instr(this);
-		}
-		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
-			IEduLangListener typedListener = listener as IEduLangListener;
-			if (typedListener != null) typedListener.ExitNot_instr(this);
-		}
-		[System.Diagnostics.DebuggerNonUserCode]
-		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
-			IEduLangVisitor<TResult> typedVisitor = visitor as IEduLangVisitor<TResult>;
-			if (typedVisitor != null) return typedVisitor.VisitNot_instr(this);
-			else return visitor.VisitChildren(this);
-		}
-	}
-
-	[RuleVersion(0)]
-	public Not_instrContext not_instr() {
-		Not_instrContext _localctx = new Not_instrContext(Context, State);
-		EnterRule(_localctx, 40, RULE_not_instr);
-		try {
-			EnterOuterAlt(_localctx, 1);
-			{
-			State = 141;
-			Match(KW_NOT);
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			ErrorHandler.ReportError(this, re);
-			ErrorHandler.Recover(this, re);
-		}
-		finally {
-			ExitRule();
-		}
-		return _localctx;
-	}
-
-	public partial class And_instrContext : ParserRuleContext {
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode KW_AND() { return GetToken(EduLangParser.KW_AND, 0); }
-		public And_instrContext(ParserRuleContext parent, int invokingState)
-			: base(parent, invokingState)
-		{
-		}
-		public override int RuleIndex { get { return RULE_and_instr; } }
-		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
-			IEduLangListener typedListener = listener as IEduLangListener;
-			if (typedListener != null) typedListener.EnterAnd_instr(this);
-		}
-		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
-			IEduLangListener typedListener = listener as IEduLangListener;
-			if (typedListener != null) typedListener.ExitAnd_instr(this);
-		}
-		[System.Diagnostics.DebuggerNonUserCode]
-		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
-			IEduLangVisitor<TResult> typedVisitor = visitor as IEduLangVisitor<TResult>;
-			if (typedVisitor != null) return typedVisitor.VisitAnd_instr(this);
-			else return visitor.VisitChildren(this);
-		}
-	}
-
-	[RuleVersion(0)]
-	public And_instrContext and_instr() {
-		And_instrContext _localctx = new And_instrContext(Context, State);
-		EnterRule(_localctx, 42, RULE_and_instr);
-		try {
-			EnterOuterAlt(_localctx, 1);
-			{
-			State = 143;
-			Match(KW_AND);
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			ErrorHandler.ReportError(this, re);
-			ErrorHandler.Recover(this, re);
-		}
-		finally {
-			ExitRule();
-		}
-		return _localctx;
-	}
-
-	public partial class Or_instrContext : ParserRuleContext {
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode KW_OR() { return GetToken(EduLangParser.KW_OR, 0); }
-		public Or_instrContext(ParserRuleContext parent, int invokingState)
-			: base(parent, invokingState)
-		{
-		}
-		public override int RuleIndex { get { return RULE_or_instr; } }
-		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
-			IEduLangListener typedListener = listener as IEduLangListener;
-			if (typedListener != null) typedListener.EnterOr_instr(this);
-		}
-		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
-			IEduLangListener typedListener = listener as IEduLangListener;
-			if (typedListener != null) typedListener.ExitOr_instr(this);
-		}
-		[System.Diagnostics.DebuggerNonUserCode]
-		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
-			IEduLangVisitor<TResult> typedVisitor = visitor as IEduLangVisitor<TResult>;
-			if (typedVisitor != null) return typedVisitor.VisitOr_instr(this);
-			else return visitor.VisitChildren(this);
-		}
-	}
-
-	[RuleVersion(0)]
-	public Or_instrContext or_instr() {
-		Or_instrContext _localctx = new Or_instrContext(Context, State);
-		EnterRule(_localctx, 44, RULE_or_instr);
-		try {
-			EnterOuterAlt(_localctx, 1);
-			{
-			State = 145;
-			Match(KW_OR);
 			}
 		}
 		catch (RecognitionException re) {
@@ -1574,64 +707,13 @@ public partial class EduLangParser : Parser {
 	[RuleVersion(0)]
 	public Label_instrContext label_instr() {
 		Label_instrContext _localctx = new Label_instrContext(Context, State);
-		EnterRule(_localctx, 46, RULE_label_instr);
+		EnterRule(_localctx, 18, RULE_label_instr);
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 147;
+			State = 65;
 			Match(KW_LABEL);
-			State = 148;
-			_localctx.id = Match(IDENTIFIER);
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			ErrorHandler.ReportError(this, re);
-			ErrorHandler.Recover(this, re);
-		}
-		finally {
-			ExitRule();
-		}
-		return _localctx;
-	}
-
-	public partial class Jump_instrContext : ParserRuleContext {
-		public IToken id;
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode KW_JUMP() { return GetToken(EduLangParser.KW_JUMP, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode IDENTIFIER() { return GetToken(EduLangParser.IDENTIFIER, 0); }
-		public Jump_instrContext(ParserRuleContext parent, int invokingState)
-			: base(parent, invokingState)
-		{
-		}
-		public override int RuleIndex { get { return RULE_jump_instr; } }
-		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
-			IEduLangListener typedListener = listener as IEduLangListener;
-			if (typedListener != null) typedListener.EnterJump_instr(this);
-		}
-		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
-			IEduLangListener typedListener = listener as IEduLangListener;
-			if (typedListener != null) typedListener.ExitJump_instr(this);
-		}
-		[System.Diagnostics.DebuggerNonUserCode]
-		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
-			IEduLangVisitor<TResult> typedVisitor = visitor as IEduLangVisitor<TResult>;
-			if (typedVisitor != null) return typedVisitor.VisitJump_instr(this);
-			else return visitor.VisitChildren(this);
-		}
-	}
-
-	[RuleVersion(0)]
-	public Jump_instrContext jump_instr() {
-		Jump_instrContext _localctx = new Jump_instrContext(Context, State);
-		EnterRule(_localctx, 48, RULE_jump_instr);
-		try {
-			EnterOuterAlt(_localctx, 1);
-			{
-			State = 150;
-			Match(KW_JUMP);
-			State = 151;
+			State = 66;
 			_localctx.id = Match(IDENTIFIER);
 			}
 		}
@@ -1676,112 +758,14 @@ public partial class EduLangParser : Parser {
 	[RuleVersion(0)]
 	public Jumpz_instrContext jumpz_instr() {
 		Jumpz_instrContext _localctx = new Jumpz_instrContext(Context, State);
-		EnterRule(_localctx, 50, RULE_jumpz_instr);
+		EnterRule(_localctx, 20, RULE_jumpz_instr);
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 153;
+			State = 68;
 			Match(KW_JUMPZ);
-			State = 154;
+			State = 69;
 			_localctx.id = Match(IDENTIFIER);
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			ErrorHandler.ReportError(this, re);
-			ErrorHandler.Recover(this, re);
-		}
-		finally {
-			ExitRule();
-		}
-		return _localctx;
-	}
-
-	public partial class Jumpnz_instrContext : ParserRuleContext {
-		public IToken id;
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode KW_JUMPNZ() { return GetToken(EduLangParser.KW_JUMPNZ, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode IDENTIFIER() { return GetToken(EduLangParser.IDENTIFIER, 0); }
-		public Jumpnz_instrContext(ParserRuleContext parent, int invokingState)
-			: base(parent, invokingState)
-		{
-		}
-		public override int RuleIndex { get { return RULE_jumpnz_instr; } }
-		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
-			IEduLangListener typedListener = listener as IEduLangListener;
-			if (typedListener != null) typedListener.EnterJumpnz_instr(this);
-		}
-		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
-			IEduLangListener typedListener = listener as IEduLangListener;
-			if (typedListener != null) typedListener.ExitJumpnz_instr(this);
-		}
-		[System.Diagnostics.DebuggerNonUserCode]
-		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
-			IEduLangVisitor<TResult> typedVisitor = visitor as IEduLangVisitor<TResult>;
-			if (typedVisitor != null) return typedVisitor.VisitJumpnz_instr(this);
-			else return visitor.VisitChildren(this);
-		}
-	}
-
-	[RuleVersion(0)]
-	public Jumpnz_instrContext jumpnz_instr() {
-		Jumpnz_instrContext _localctx = new Jumpnz_instrContext(Context, State);
-		EnterRule(_localctx, 52, RULE_jumpnz_instr);
-		try {
-			EnterOuterAlt(_localctx, 1);
-			{
-			State = 156;
-			Match(KW_JUMPNZ);
-			State = 157;
-			_localctx.id = Match(IDENTIFIER);
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			ErrorHandler.ReportError(this, re);
-			ErrorHandler.Recover(this, re);
-		}
-		finally {
-			ExitRule();
-		}
-		return _localctx;
-	}
-
-	public partial class Input_instrContext : ParserRuleContext {
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode KW_INPUT() { return GetToken(EduLangParser.KW_INPUT, 0); }
-		public Input_instrContext(ParserRuleContext parent, int invokingState)
-			: base(parent, invokingState)
-		{
-		}
-		public override int RuleIndex { get { return RULE_input_instr; } }
-		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
-			IEduLangListener typedListener = listener as IEduLangListener;
-			if (typedListener != null) typedListener.EnterInput_instr(this);
-		}
-		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
-			IEduLangListener typedListener = listener as IEduLangListener;
-			if (typedListener != null) typedListener.ExitInput_instr(this);
-		}
-		[System.Diagnostics.DebuggerNonUserCode]
-		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
-			IEduLangVisitor<TResult> typedVisitor = visitor as IEduLangVisitor<TResult>;
-			if (typedVisitor != null) return typedVisitor.VisitInput_instr(this);
-			else return visitor.VisitChildren(this);
-		}
-	}
-
-	[RuleVersion(0)]
-	public Input_instrContext input_instr() {
-		Input_instrContext _localctx = new Input_instrContext(Context, State);
-		EnterRule(_localctx, 54, RULE_input_instr);
-		try {
-			EnterOuterAlt(_localctx, 1);
-			{
-			State = 159;
-			Match(KW_INPUT);
 			}
 		}
 		catch (RecognitionException re) {
@@ -1823,59 +807,12 @@ public partial class EduLangParser : Parser {
 	[RuleVersion(0)]
 	public Print_instrContext print_instr() {
 		Print_instrContext _localctx = new Print_instrContext(Context, State);
-		EnterRule(_localctx, 56, RULE_print_instr);
+		EnterRule(_localctx, 22, RULE_print_instr);
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 161;
+			State = 71;
 			Match(KW_PRINT);
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			ErrorHandler.ReportError(this, re);
-			ErrorHandler.Recover(this, re);
-		}
-		finally {
-			ExitRule();
-		}
-		return _localctx;
-	}
-
-	public partial class Putc_instrContext : ParserRuleContext {
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode KW_PUTC() { return GetToken(EduLangParser.KW_PUTC, 0); }
-		public Putc_instrContext(ParserRuleContext parent, int invokingState)
-			: base(parent, invokingState)
-		{
-		}
-		public override int RuleIndex { get { return RULE_putc_instr; } }
-		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
-			IEduLangListener typedListener = listener as IEduLangListener;
-			if (typedListener != null) typedListener.EnterPutc_instr(this);
-		}
-		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
-			IEduLangListener typedListener = listener as IEduLangListener;
-			if (typedListener != null) typedListener.ExitPutc_instr(this);
-		}
-		[System.Diagnostics.DebuggerNonUserCode]
-		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
-			IEduLangVisitor<TResult> typedVisitor = visitor as IEduLangVisitor<TResult>;
-			if (typedVisitor != null) return typedVisitor.VisitPutc_instr(this);
-			else return visitor.VisitChildren(this);
-		}
-	}
-
-	[RuleVersion(0)]
-	public Putc_instrContext putc_instr() {
-		Putc_instrContext _localctx = new Putc_instrContext(Context, State);
-		EnterRule(_localctx, 58, RULE_putc_instr);
-		try {
-			EnterOuterAlt(_localctx, 1);
-			{
-			State = 163;
-			Match(KW_PUTC);
 			}
 		}
 		catch (RecognitionException re) {
@@ -1917,11 +854,11 @@ public partial class EduLangParser : Parser {
 	[RuleVersion(0)]
 	public Halt_instrContext halt_instr() {
 		Halt_instrContext _localctx = new Halt_instrContext(Context, State);
-		EnterRule(_localctx, 60, RULE_halt_instr);
+		EnterRule(_localctx, 24, RULE_halt_instr);
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 165;
+			State = 73;
 			Match(KW_HALT);
 			}
 		}
@@ -1937,55 +874,27 @@ public partial class EduLangParser : Parser {
 	}
 
 	private static int[] _serializedATN = {
-		4,1,33,168,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,2,4,7,4,2,5,7,5,2,6,7,6,2,7,
-		7,7,2,8,7,8,2,9,7,9,2,10,7,10,2,11,7,11,2,12,7,12,2,13,7,13,2,14,7,14,
-		2,15,7,15,2,16,7,16,2,17,7,17,2,18,7,18,2,19,7,19,2,20,7,20,2,21,7,21,
-		2,22,7,22,2,23,7,23,2,24,7,24,2,25,7,25,2,26,7,26,2,27,7,27,2,28,7,28,
-		2,29,7,29,2,30,7,30,1,0,1,0,5,0,65,8,0,10,0,12,0,68,9,0,1,0,1,0,1,1,1,
-		1,1,1,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,
-		1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,3,2,103,8,2,1,3,1,3,1,
-		3,1,4,1,4,1,5,1,5,1,6,1,6,1,7,1,7,1,7,1,8,1,8,1,8,1,9,1,9,1,10,1,10,1,
-		11,1,11,1,12,1,12,1,13,1,13,1,14,1,14,1,15,1,15,1,16,1,16,1,17,1,17,1,
-		18,1,18,1,19,1,19,1,20,1,20,1,21,1,21,1,22,1,22,1,23,1,23,1,23,1,24,1,
-		24,1,24,1,25,1,25,1,25,1,26,1,26,1,26,1,27,1,27,1,28,1,28,1,29,1,29,1,
-		30,1,30,1,30,0,0,31,0,2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,
-		38,40,42,44,46,48,50,52,54,56,58,60,0,0,165,0,66,1,0,0,0,2,71,1,0,0,0,
-		4,102,1,0,0,0,6,104,1,0,0,0,8,107,1,0,0,0,10,109,1,0,0,0,12,111,1,0,0,
-		0,14,113,1,0,0,0,16,116,1,0,0,0,18,119,1,0,0,0,20,121,1,0,0,0,22,123,1,
-		0,0,0,24,125,1,0,0,0,26,127,1,0,0,0,28,129,1,0,0,0,30,131,1,0,0,0,32,133,
-		1,0,0,0,34,135,1,0,0,0,36,137,1,0,0,0,38,139,1,0,0,0,40,141,1,0,0,0,42,
-		143,1,0,0,0,44,145,1,0,0,0,46,147,1,0,0,0,48,150,1,0,0,0,50,153,1,0,0,
-		0,52,156,1,0,0,0,54,159,1,0,0,0,56,161,1,0,0,0,58,163,1,0,0,0,60,165,1,
-		0,0,0,62,65,3,2,1,0,63,65,5,33,0,0,64,62,1,0,0,0,64,63,1,0,0,0,65,68,1,
-		0,0,0,66,64,1,0,0,0,66,67,1,0,0,0,67,69,1,0,0,0,68,66,1,0,0,0,69,70,5,
-		0,0,1,70,1,1,0,0,0,71,72,3,4,2,0,72,73,5,33,0,0,73,3,1,0,0,0,74,103,3,
-		6,3,0,75,103,3,8,4,0,76,103,3,10,5,0,77,103,3,12,6,0,78,103,3,14,7,0,79,
-		103,3,16,8,0,80,103,3,18,9,0,81,103,3,20,10,0,82,103,3,22,11,0,83,103,
-		3,24,12,0,84,103,3,26,13,0,85,103,3,28,14,0,86,103,3,30,15,0,87,103,3,
-		32,16,0,88,103,3,34,17,0,89,103,3,36,18,0,90,103,3,38,19,0,91,103,3,40,
-		20,0,92,103,3,42,21,0,93,103,3,44,22,0,94,103,3,46,23,0,95,103,3,48,24,
-		0,96,103,3,50,25,0,97,103,3,52,26,0,98,103,3,54,27,0,99,103,3,56,28,0,
-		100,103,3,58,29,0,101,103,3,60,30,0,102,74,1,0,0,0,102,75,1,0,0,0,102,
-		76,1,0,0,0,102,77,1,0,0,0,102,78,1,0,0,0,102,79,1,0,0,0,102,80,1,0,0,0,
-		102,81,1,0,0,0,102,82,1,0,0,0,102,83,1,0,0,0,102,84,1,0,0,0,102,85,1,0,
-		0,0,102,86,1,0,0,0,102,87,1,0,0,0,102,88,1,0,0,0,102,89,1,0,0,0,102,90,
-		1,0,0,0,102,91,1,0,0,0,102,92,1,0,0,0,102,93,1,0,0,0,102,94,1,0,0,0,102,
-		95,1,0,0,0,102,96,1,0,0,0,102,97,1,0,0,0,102,98,1,0,0,0,102,99,1,0,0,0,
-		102,100,1,0,0,0,102,101,1,0,0,0,103,5,1,0,0,0,104,105,5,1,0,0,105,106,
-		5,29,0,0,106,7,1,0,0,0,107,108,5,2,0,0,108,9,1,0,0,0,109,110,5,3,0,0,110,
-		11,1,0,0,0,111,112,5,4,0,0,112,13,1,0,0,0,113,114,5,5,0,0,114,115,5,30,
-		0,0,115,15,1,0,0,0,116,117,5,6,0,0,117,118,5,30,0,0,118,17,1,0,0,0,119,
-		120,5,7,0,0,120,19,1,0,0,0,121,122,5,8,0,0,122,21,1,0,0,0,123,124,5,9,
-		0,0,124,23,1,0,0,0,125,126,5,10,0,0,126,25,1,0,0,0,127,128,5,11,0,0,128,
-		27,1,0,0,0,129,130,5,12,0,0,130,29,1,0,0,0,131,132,5,13,0,0,132,31,1,0,
-		0,0,133,134,5,14,0,0,134,33,1,0,0,0,135,136,5,15,0,0,136,35,1,0,0,0,137,
-		138,5,16,0,0,138,37,1,0,0,0,139,140,5,17,0,0,140,39,1,0,0,0,141,142,5,
-		18,0,0,142,41,1,0,0,0,143,144,5,19,0,0,144,43,1,0,0,0,145,146,5,20,0,0,
-		146,45,1,0,0,0,147,148,5,21,0,0,148,149,5,30,0,0,149,47,1,0,0,0,150,151,
-		5,22,0,0,151,152,5,30,0,0,152,49,1,0,0,0,153,154,5,23,0,0,154,155,5,30,
-		0,0,155,51,1,0,0,0,156,157,5,24,0,0,157,158,5,30,0,0,158,53,1,0,0,0,159,
-		160,5,25,0,0,160,55,1,0,0,0,161,162,5,26,0,0,162,57,1,0,0,0,163,164,5,
-		27,0,0,164,59,1,0,0,0,165,166,5,28,0,0,166,61,1,0,0,0,3,64,66,102
+		4,1,15,76,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,2,4,7,4,2,5,7,5,2,6,7,6,2,7,
+		7,7,2,8,7,8,2,9,7,9,2,10,7,10,2,11,7,11,2,12,7,12,1,0,1,0,5,0,29,8,0,10,
+		0,12,0,32,9,0,1,0,1,0,1,1,1,1,1,1,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,
+		1,2,3,2,49,8,2,1,3,1,3,1,3,1,4,1,4,1,5,1,5,1,5,1,6,1,6,1,6,1,7,1,7,1,8,
+		1,8,1,9,1,9,1,9,1,10,1,10,1,10,1,11,1,11,1,12,1,12,1,12,0,0,13,0,2,4,6,
+		8,10,12,14,16,18,20,22,24,0,0,73,0,30,1,0,0,0,2,35,1,0,0,0,4,48,1,0,0,
+		0,6,50,1,0,0,0,8,53,1,0,0,0,10,55,1,0,0,0,12,58,1,0,0,0,14,61,1,0,0,0,
+		16,63,1,0,0,0,18,65,1,0,0,0,20,68,1,0,0,0,22,71,1,0,0,0,24,73,1,0,0,0,
+		26,29,3,2,1,0,27,29,5,15,0,0,28,26,1,0,0,0,28,27,1,0,0,0,29,32,1,0,0,0,
+		30,28,1,0,0,0,30,31,1,0,0,0,31,33,1,0,0,0,32,30,1,0,0,0,33,34,5,0,0,1,
+		34,1,1,0,0,0,35,36,3,4,2,0,36,37,5,15,0,0,37,3,1,0,0,0,38,49,3,10,5,0,
+		39,49,3,8,4,0,40,49,3,6,3,0,41,49,3,12,6,0,42,49,3,14,7,0,43,49,3,16,8,
+		0,44,49,3,20,10,0,45,49,3,22,11,0,46,49,3,24,12,0,47,49,3,18,9,0,48,38,
+		1,0,0,0,48,39,1,0,0,0,48,40,1,0,0,0,48,41,1,0,0,0,48,42,1,0,0,0,48,43,
+		1,0,0,0,48,44,1,0,0,0,48,45,1,0,0,0,48,46,1,0,0,0,48,47,1,0,0,0,49,5,1,
+		0,0,0,50,51,5,1,0,0,51,52,5,11,0,0,52,7,1,0,0,0,53,54,5,2,0,0,54,9,1,0,
+		0,0,55,56,5,3,0,0,56,57,5,12,0,0,57,11,1,0,0,0,58,59,5,4,0,0,59,60,5,12,
+		0,0,60,13,1,0,0,0,61,62,5,5,0,0,62,15,1,0,0,0,63,64,5,6,0,0,64,17,1,0,
+		0,0,65,66,5,7,0,0,66,67,5,12,0,0,67,19,1,0,0,0,68,69,5,8,0,0,69,70,5,12,
+		0,0,70,21,1,0,0,0,71,72,5,9,0,0,72,23,1,0,0,0,73,74,5,10,0,0,74,25,1,0,
+		0,0,3,28,30,48
 	};
 
 	public static readonly ATN _ATN =

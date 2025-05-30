@@ -81,26 +81,6 @@ public interface IEduLangListener : IParseTreeListener {
 	/// <param name="context">The parse tree.</param>
 	void ExitPop_instr([NotNull] EduLangParser.Pop_instrContext context);
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="EduLangParser.dup_instr"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterDup_instr([NotNull] EduLangParser.Dup_instrContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="EduLangParser.dup_instr"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitDup_instr([NotNull] EduLangParser.Dup_instrContext context);
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="EduLangParser.swap_instr"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterSwap_instr([NotNull] EduLangParser.Swap_instrContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="EduLangParser.swap_instr"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitSwap_instr([NotNull] EduLangParser.Swap_instrContext context);
-	/// <summary>
 	/// Enter a parse tree produced by <see cref="EduLangParser.load_instr"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
@@ -141,126 +121,6 @@ public interface IEduLangListener : IParseTreeListener {
 	/// <param name="context">The parse tree.</param>
 	void ExitSub_instr([NotNull] EduLangParser.Sub_instrContext context);
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="EduLangParser.mul_instr"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterMul_instr([NotNull] EduLangParser.Mul_instrContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="EduLangParser.mul_instr"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitMul_instr([NotNull] EduLangParser.Mul_instrContext context);
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="EduLangParser.div_instr"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterDiv_instr([NotNull] EduLangParser.Div_instrContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="EduLangParser.div_instr"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitDiv_instr([NotNull] EduLangParser.Div_instrContext context);
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="EduLangParser.mod_instr"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterMod_instr([NotNull] EduLangParser.Mod_instrContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="EduLangParser.mod_instr"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitMod_instr([NotNull] EduLangParser.Mod_instrContext context);
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="EduLangParser.eq_instr"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterEq_instr([NotNull] EduLangParser.Eq_instrContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="EduLangParser.eq_instr"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitEq_instr([NotNull] EduLangParser.Eq_instrContext context);
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="EduLangParser.neq_instr"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterNeq_instr([NotNull] EduLangParser.Neq_instrContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="EduLangParser.neq_instr"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitNeq_instr([NotNull] EduLangParser.Neq_instrContext context);
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="EduLangParser.lt_instr"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterLt_instr([NotNull] EduLangParser.Lt_instrContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="EduLangParser.lt_instr"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitLt_instr([NotNull] EduLangParser.Lt_instrContext context);
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="EduLangParser.gt_instr"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterGt_instr([NotNull] EduLangParser.Gt_instrContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="EduLangParser.gt_instr"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitGt_instr([NotNull] EduLangParser.Gt_instrContext context);
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="EduLangParser.lte_instr"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterLte_instr([NotNull] EduLangParser.Lte_instrContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="EduLangParser.lte_instr"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitLte_instr([NotNull] EduLangParser.Lte_instrContext context);
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="EduLangParser.gte_instr"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterGte_instr([NotNull] EduLangParser.Gte_instrContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="EduLangParser.gte_instr"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitGte_instr([NotNull] EduLangParser.Gte_instrContext context);
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="EduLangParser.not_instr"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterNot_instr([NotNull] EduLangParser.Not_instrContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="EduLangParser.not_instr"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitNot_instr([NotNull] EduLangParser.Not_instrContext context);
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="EduLangParser.and_instr"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterAnd_instr([NotNull] EduLangParser.And_instrContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="EduLangParser.and_instr"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitAnd_instr([NotNull] EduLangParser.And_instrContext context);
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="EduLangParser.or_instr"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterOr_instr([NotNull] EduLangParser.Or_instrContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="EduLangParser.or_instr"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitOr_instr([NotNull] EduLangParser.Or_instrContext context);
-	/// <summary>
 	/// Enter a parse tree produced by <see cref="EduLangParser.label_instr"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
@@ -270,16 +130,6 @@ public interface IEduLangListener : IParseTreeListener {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	void ExitLabel_instr([NotNull] EduLangParser.Label_instrContext context);
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="EduLangParser.jump_instr"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterJump_instr([NotNull] EduLangParser.Jump_instrContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="EduLangParser.jump_instr"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitJump_instr([NotNull] EduLangParser.Jump_instrContext context);
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="EduLangParser.jumpz_instr"/>.
 	/// </summary>
@@ -291,26 +141,6 @@ public interface IEduLangListener : IParseTreeListener {
 	/// <param name="context">The parse tree.</param>
 	void ExitJumpz_instr([NotNull] EduLangParser.Jumpz_instrContext context);
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="EduLangParser.jumpnz_instr"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterJumpnz_instr([NotNull] EduLangParser.Jumpnz_instrContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="EduLangParser.jumpnz_instr"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitJumpnz_instr([NotNull] EduLangParser.Jumpnz_instrContext context);
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="EduLangParser.input_instr"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterInput_instr([NotNull] EduLangParser.Input_instrContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="EduLangParser.input_instr"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitInput_instr([NotNull] EduLangParser.Input_instrContext context);
-	/// <summary>
 	/// Enter a parse tree produced by <see cref="EduLangParser.print_instr"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
@@ -320,16 +150,6 @@ public interface IEduLangListener : IParseTreeListener {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	void ExitPrint_instr([NotNull] EduLangParser.Print_instrContext context);
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="EduLangParser.putc_instr"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterPutc_instr([NotNull] EduLangParser.Putc_instrContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="EduLangParser.putc_instr"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitPutc_instr([NotNull] EduLangParser.Putc_instrContext context);
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="EduLangParser.halt_instr"/>.
 	/// </summary>

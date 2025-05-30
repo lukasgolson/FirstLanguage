@@ -1,4 +1,4 @@
-﻿namespace FirstLanguage.abstract_syntax_tree;
+﻿namespace FirstLanguage.abstract_syntax_tree.Core.manipulation;
 
 public class StoreNode(string label) : ILabelledNode
 {

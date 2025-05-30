@@ -1,5 +1,7 @@
 ﻿using FirstLanguage.abstract_syntax_tree;
-using FirstLanguage.abstract_syntax_tree.arithmetic;
+using FirstLanguage.abstract_syntax_tree.Core.logic;
+using FirstLanguage.abstract_syntax_tree.Core.manipulation;
+using FirstLanguage.abstract_syntax_tree.Core.Misc;
 
 namespace FirstLanguage;
 
@@ -42,16 +44,6 @@ public class MainVisitor : EduLangBaseVisitor<IAstNode>
         return new PopNode();
     }
 
-    public override IAstNode VisitDup_instr(EduLangParser.Dup_instrContext context)
-    {
-        return new DupNode();
-    }
-
-    public override IAstNode VisitSwap_instr(EduLangParser.Swap_instrContext context)
-    {
-        return new SwapNode();
-    }
-
     public override IAstNode VisitLoad_instr(EduLangParser.Load_instrContext context)
     {
         var label = context.IDENTIFIER().GetText();
@@ -61,8 +53,35 @@ public class MainVisitor : EduLangBaseVisitor<IAstNode>
 
     public override IAstNode VisitStore_instr(EduLangParser.Store_instrContext context)
     {
-        var label  = context.IDENTIFIER().GetText();
+        var label = context.IDENTIFIER().GetText();
         return new StoreNode(label);
+    }
+
+    public override IAstNode VisitAdd_instr(EduLangParser.Add_instrContext context)
+    {
+        return new AddNode();
+    }
+    
+    public override IAstNode VisitSub_instr(EduLangParser.Sub_instrContext context)
+    {
+        return new SubNode();
+    }
+
+    public override IAstNode VisitLabel_instr(EduLangParser.Label_instrContext context)
+    {
+        var label = context.IDENTIFIER().GetText();
+        return new LabelNode(label);
+    }
+
+    public override IAstNode VisitJumpz_instr(EduLangParser.Jumpz_instrContext context)
+    {
+        var label = context.IDENTIFIER().GetText();
+        return new JumpzNode(label);
+    }
+
+    public override IAstNode VisitPrint_instr(EduLangParser.Print_instrContext context)
+    {
+        return new PrintNode();
     }
 
 
@@ -71,28 +90,5 @@ public class MainVisitor : EduLangBaseVisitor<IAstNode>
         return new HaltNode();
     }
 
-    public override IAstNode VisitAdd_instr(EduLangParser.Add_instrContext context)
-    {
-        return new AddNode();
-    }
 
-    public override IAstNode VisitDiv_instr(EduLangParser.Div_instrContext context)
-    {
-        return new DivisionNode();
-    }
-
-    public override IAstNode VisitMod_instr(EduLangParser.Mod_instrContext context)
-    {
-        return new ModNode();
-    }
-
-    public override IAstNode VisitMul_instr(EduLangParser.Mul_instrContext context)
-    {
-        return new MultiplyNode();
-    }
-
-    public override IAstNode VisitSub_instr(EduLangParser.Sub_instrContext context)
-    {
-        return new SubNode();
-    }
 }
