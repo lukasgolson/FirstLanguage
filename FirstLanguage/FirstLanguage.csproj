@@ -22,7 +22,7 @@
 
 
     <ItemGroup>
-      <None Update="test.edu">
+      <None Update="programs\sum-n.edu">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
     </ItemGroup>

@@ -1,0 +1,52 @@
+﻿# ================================================
+# Example: Sum of the first N positive integers
+# This program computes 1 + 2 + ... + N and prints the result.
+# For demonstration, we set N = 25. You can change 25 to any integer.
+# ================================================
+
+# 1) Initialize N = 25 and store in register 'n'
+PUSH 25
+STORE n
+
+# 2) Initialize 'sum' = 0
+PUSH 0
+STORE sum
+
+# 3) Initialize loop counter 'i' = 1
+PUSH 1
+STORE i
+
+# 4) Start of loop (label = loopStart)
+LABEL loopStart
+
+    # 4.1) sum = sum + i
+    LOAD sum
+    LOAD i
+    ADD
+    STORE sum
+
+    # 4.2) Check if i == n (i - n == 0?)
+    LOAD i
+    LOAD n
+    SUB
+    JUMPZ endLoop
+
+    # 4.3) i = i + 1  (only if i != n)
+    LOAD i
+    PUSH 1
+    ADD
+    STORE i
+
+    # 4.4) Jump back to loopStart
+    push 0
+    JUMPZ loopStart
+
+# 5) End of loop: i was equal to n when we got here
+LABEL endLoop
+
+    # 5.1) Now 'sum' holds the total 1 + 2 + ... + N
+    LOAD sum
+    PRINT
+
+# 6) Terminate the program
+HALT

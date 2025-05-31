@@ -14,7 +14,7 @@ Cli.Run<RootCliCommand>(args);
 public class RootCliCommand
 {
     [CliOption(Description = "File to compile.")]
-    public string File { get; set; } = "test.edu";
+    public string File { get; set; }
 
 
     public static void ProcessFile(string filePath)
