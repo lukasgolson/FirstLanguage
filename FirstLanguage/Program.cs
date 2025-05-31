@@ -41,7 +41,14 @@ public class RootCliCommand
 
         var vm = new VmContext((ProgramNode)result);
 
-        vm.Execute();
+        try
+        {
+            vm.Execute();
+        }
+        catch (VMException e)
+        {
+            Console.WriteLine(e);
+        }
 
 
         //Console.WriteLine("Parsing and visiting complete.");

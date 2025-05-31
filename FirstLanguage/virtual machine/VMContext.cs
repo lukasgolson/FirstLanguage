@@ -33,7 +33,7 @@ public class VmContext
         _executing = true;
         while (_executing)
         {
-            var instruction = _instructions[_instructionIndex];
+            var instruction = (OpCode) _instructions[_instructionIndex];
 
             byte nextInstruction = 0;
             if (_instructions.Length - 1 >= _instructionIndex + 1)
@@ -56,9 +56,21 @@ public class VmContext
                     _stack.Pop();
                     break;
                 case OpCode.Add:
+
+                    if (_stack.Count < 2)
+                    {
+                        throw new VMException("Stack underflow, stack does not contain enough elements to add.");
+                    }
+                    
                     _stack.Push(_stack.Pop() + _stack.Pop());
                     break;
                 case OpCode.Sub:
+
+                    if (_stack.Count < 2)
+                    {
+                        throw new VMException("Stack underflow, stack does not contain enough elements to sub.");
+                    }
+                    
                     _stack.Push(_stack.Pop() - _stack.Pop());
                     break;
                 case OpCode.Load:
@@ -149,9 +161,10 @@ public class VmContext
     private static byte[] GenerateBytecode(ProgramNode program)
     {
         List<byte> instructions = [];
-
         var labelsDict = new Dictionary<string, int>();
         List<string> registers = [];
+
+        int stackSize = 0;
 
 
         List<(string label, int position)> unresolvedLabels = [];
@@ -162,6 +175,7 @@ public class VmContext
             {
                 case AddNode:
                     instructions.Add((byte)OpCode.Add);
+                    
                     break;
                 case SubNode:
                     instructions.Add((byte)OpCode.Sub);
@@ -222,23 +236,18 @@ public class VmContext
                     instructions.Add((byte)OpCode.Push);
                     var bytes = LongToBytes(pushNode.Value);
                     instructions.AddRange(bytes);
-
                     break;
                 }
-
-
                 case HaltNode:
                 {
                     instructions.Add((byte)OpCode.Halt);
                     break;
                 }
-
                 case PrintNode:
                 {
                     instructions.Add((byte)OpCode.Print);
                     break;
                 }
-
                 case LoadNode loadNode:
                 {
                     var label = loadNode.Label;

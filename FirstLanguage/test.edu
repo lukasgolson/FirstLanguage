@@ -1,4 +1,8 @@
 ﻿push 258
-add
+label start
+push 10
+sub
 print
+push 0
+jumpz start
 halt

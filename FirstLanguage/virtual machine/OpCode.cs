@@ -2,6 +2,7 @@
 
 public enum OpCode : byte
 {
+    Null,
     Load,
     Pop,
     Push,
