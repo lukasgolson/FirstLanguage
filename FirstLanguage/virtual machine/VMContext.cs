@@ -7,40 +7,148 @@ namespace FirstLanguage.virtual_machine;
 
 public class VmContext
 {
-    public VmContext(ProgramNode root)
+    private readonly byte[] _instructions;
+    private readonly Stack<long> _stack = new();
+    private readonly Dictionary<int, long> _registers = new();
+    
+    private int _instructionIndex = 0;
+    private bool _executing = false;
+
+
+    public VmContext(ProgramNode program)
     {
-        var instructions = GenerateBytecode(root);
+        _instructions = GenerateBytecode(program);
+    }
 
-        
-        
-        
-        var data_section_length = (int) BytesToLong(instructions[..sizeof(long)]);
-        var data = instructions[sizeof(long)..data_section_length];
-        var program = instructions[data_section_length..];
+    public void Reset()
+    {
+        _stack.Clear();
+        _registers.Clear();
+        _instructionIndex = 0;
+        _executing = false;
+    }
 
-
-
-        foreach (var b in data)
+    public bool Execute()
+    {
+        _executing = true;
+        while (_executing)
         {
-            Console.Write(b + ",");
-        }
-        Console.Write(" ");
+            var instruction = _instructions[_instructionIndex];
 
-        foreach (var b in program)
+            byte nextInstruction = 0;
+            if (_instructions.Length - 1 >= _instructionIndex + 1)
+            {
+                nextInstruction = _instructions[_instructionIndex + 1];
+            }
+
+
+            int bytesRead = 1;
+
+            switch ((OpCode) instruction)
+            {
+                case OpCode.Push:
+                    var dataBytes = _instructions[(_instructionIndex + 1)..(_instructionIndex + 1 + sizeof(long))];
+                    var dataConverted = BytesToLong(dataBytes);
+                    _stack.Push(dataConverted);
+                    bytesRead += sizeof(long);
+                    break;
+                case OpCode.Pop:
+                    _stack.Pop();
+                    break;
+                case OpCode.Add:
+                    _stack.Push(_stack.Pop() + _stack.Pop());
+                    break;
+                case OpCode.Sub:
+                    _stack.Push(_stack.Pop() - _stack.Pop());
+                    break;
+                case OpCode.Load:
+                    _stack.Push(_registers[nextInstruction]);
+                    bytesRead++;
+                    break;
+                case OpCode.Store:
+                    _registers[nextInstruction] = _stack.Pop();
+                    bytesRead++;
+                    break;
+                case OpCode.Jump:
+
+                    if (_stack.Pop() == 0)
+                    {
+                        _instructionIndex = nextInstruction;
+                    }
+                    else
+                    {
+                        bytesRead++;
+                    }
+                    
+                    break;
+                case OpCode.Print:
+                    Console.WriteLine(_stack.Peek());
+                    break;
+                case OpCode.Halt:
+                    _executing = false;
+                    break;
+                case OpCode.Label:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(instruction), instruction, null);
+            }
+
+
+            _instructionIndex += bytesRead;
+        }
+
+
+        return true;
+    }
+
+    private bool PrintInstructions(byte[] instructions)
+    {
+        Console.WriteLine(string.Join(" ", instructions));
+        int dataCounter = 0;
+        OpCode lastCode;
+        for (var index = 0; index < instructions.Length; index++)
         {
-            Console.Write((OpCode)b + " ");
+            var word = instructions[index];
+            if (dataCounter == 0)
+            {
+                var instruction = (OpCode)word;
+                Console.WriteLine(instruction);
+
+                if (instruction.HasData() && instruction != OpCode.Push)
+                {
+                    dataCounter = 1;
+                }
+                else if (instruction.HasData())
+                {
+                    dataCounter = sizeof(long);
+                }
+
+                lastCode = instruction;
+            }
+            else
+            {
+                var data = instructions[index..(index + dataCounter)];
+
+                foreach (var b in data)
+                {
+                    Console.Write(b);
+                }
+
+                Console.WriteLine();
+
+                index += dataCounter - 1;
+                dataCounter = 0;
+            }
         }
 
-       
 
-        Console.WriteLine();
+        return true;
     }
 
 
     private static byte[] GenerateBytecode(ProgramNode program)
     {
-        List<OpCode> instructions = [];
-        List<byte> data = [];
+        List<byte> instructions = [];
 
         var labelsDict = new Dictionary<string, int>();
         List<string> registers = [];
@@ -53,31 +161,35 @@ public class VmContext
             switch (node)
             {
                 case AddNode:
-                    instructions.Add(OpCode.Add);
+                    instructions.Add((byte)OpCode.Add);
                     break;
                 case SubNode:
-                    instructions.Add(OpCode.Sub);
+                    instructions.Add((byte)OpCode.Sub);
                     break;
                 case JumpzNode jumpzNode:
                 {
                     var label = jumpzNode.Label;
-                    instructions.Add(OpCode.Jump);
+                    instructions.Add((byte)OpCode.Jump);
 
 
                     if (labelsDict.TryGetValue(label, out var jumpIndex))
                     {
-                        data.Add((byte)jumpIndex);
+                        instructions.Add((byte)jumpIndex);
                     }
                     else
                     {
-                        data.Add(0);
-                        unresolvedLabels.Add((label, data.Count - 1));
+                        instructions.Add(0);
+                        unresolvedLabels.Add((label, Position() - 1));
                     }
 
                     break;
                 }
                 case LabelNode labelNode:
                 {
+                    // This op-code does not do much, but it may let us validate jumps in the future.
+                    instructions.Add((byte)OpCode.Label); 
+                    
+                    
                     var label = labelNode.Label;
 
                     if (!labelsDict.ContainsKey(label))
@@ -92,26 +204,24 @@ public class VmContext
                     for (var i = unresolvedLabels.Count - 1; i >= 0; i--)
                     {
                         if (unresolvedLabels[i].label != label) continue;
-                        data[unresolvedLabels[i].position] = (byte)Position();
+                        instructions[unresolvedLabels[i].position] = (byte)Position();
                         unresolvedLabels.RemoveAt(i);
                     }
                     
-                    instructions.Add(OpCode.Label);
-
                     break;
                 }
 
                 case PopNode:
                 {
-                    instructions.Add(OpCode.Pop);
+                    instructions.Add((byte)OpCode.Pop);
                     break;
                 }
 
                 case PushNode pushNode:
                 {
-                    instructions.Add(OpCode.Push);
+                    instructions.Add((byte)OpCode.Push);
                     var bytes = LongToBytes(pushNode.Value);
-                    data.AddRange(bytes);
+                    instructions.AddRange(bytes);
 
                     break;
                 }
@@ -119,13 +229,13 @@ public class VmContext
 
                 case HaltNode:
                 {
-                    instructions.Add(OpCode.Halt);
+                    instructions.Add((byte)OpCode.Halt);
                     break;
                 }
 
                 case PrintNode:
                 {
-                    instructions.Add(OpCode.Print);
+                    instructions.Add((byte)OpCode.Print);
                     break;
                 }
 
@@ -135,10 +245,10 @@ public class VmContext
 
                     if (registers.Contains(label))
                     {
-                        instructions.Add(OpCode.Load);
+                        instructions.Add((byte)OpCode.Load);
 
                         var register = registers.IndexOf(label);
-                        data.Add((byte)register);
+                        instructions.Add((byte)register);
                     }
                     else
                     {
@@ -158,25 +268,18 @@ public class VmContext
                     }
 
                     var register = registers.IndexOf(label);
-                    instructions.Add(OpCode.Store);
-                    data.Add((byte)register);
+                    instructions.Add((byte)OpCode.Store);
+                    instructions.Add((byte)register);
 
                     break;
                 }
             }
         }
-        
+
         // To create our final byte code, our final instructions will look like: data, start op code, program
-        
-        List<byte> bytecode = [];
-        
-        bytecode.AddRange(LongToBytes(data.Count + sizeof(long)));
-        
-        bytecode.AddRange(data);
 
-        bytecode.AddRange(instructions.Select(instruction => (byte)instruction));
 
-        return bytecode.ToArray();
+        return instructions.ToArray();
 
         int Position() => instructions.Count - 1;
     }

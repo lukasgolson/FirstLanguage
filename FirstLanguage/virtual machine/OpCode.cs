@@ -11,5 +11,15 @@ public enum OpCode : byte
     Jump,
     Print,
     Halt,
-    Label
+    Label,
+    
+}
+
+
+public static class OpCodeExtensions
+{
+    public static bool HasData(this OpCode instruction)
+    {
+        return instruction is OpCode.Jump or OpCode.Push or OpCode.Load or OpCode.Store;
+    }
 }

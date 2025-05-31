@@ -1,2 +1,4 @@
 ﻿push 258
+add
+print
 halt
