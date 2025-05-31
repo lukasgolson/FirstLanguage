@@ -81,7 +81,7 @@ public class VmContext
                     _registers[nextInstruction] = _stack.Pop();
                     bytesRead++;
                     break;
-                case OpCode.Jump:
+                case OpCode.JumpZ:
 
                     if (_stack.Pop() == 0)
                     {
@@ -183,7 +183,7 @@ public class VmContext
                 case JumpzNode jumpzNode:
                 {
                     var label = jumpzNode.Label;
-                    instructions.Add((byte)OpCode.Jump);
+                    instructions.Add((byte)OpCode.JumpZ);
 
 
                     if (labelsDict.TryGetValue(label, out var jumpIndex))
