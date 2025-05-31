@@ -44,7 +44,7 @@ public class VmContext
 
             int bytesRead = 1;
 
-            switch ((OpCode) instruction)
+            switch (instruction)
             {
                 case OpCode.Push:
                     var dataBytes = _instructions[(_instructionIndex + 1)..(_instructionIndex + 1 + sizeof(long))];
@@ -85,11 +85,11 @@ public class VmContext
 
                     if (_stack.Pop() == 0)
                     {
-                        _instructionIndex = nextInstruction;
+                        _instructionIndex = nextInstruction; // Jump
                     }
                     else
                     {
-                        bytesRead++;
+                        bytesRead++; // Skip over address
                     }
                     
                     break;
@@ -193,7 +193,7 @@ public class VmContext
                     else
                     {
                         instructions.Add(0);
-                        unresolvedLabels.Add((label, Position() - 1));
+                        unresolvedLabels.Add((label, Position()));
                     }
 
                     break;
@@ -254,9 +254,8 @@ public class VmContext
 
                     if (registers.Contains(label))
                     {
-                        instructions.Add((byte)OpCode.Load);
-
                         var register = registers.IndexOf(label);
+                        instructions.Add((byte)OpCode.Load);
                         instructions.Add((byte)register);
                     }
                     else
