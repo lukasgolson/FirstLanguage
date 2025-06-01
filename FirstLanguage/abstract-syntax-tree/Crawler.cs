@@ -15,6 +15,7 @@ public class Crawler
         var nodesToVisit = new Stack<IAstNode>();
 
         var macros = new Dictionary<string, MacroDefNode>();
+        var macroCounter = new Dictionary<string, int>();
         var callSites = new List<MacroCallNode>();
 
 
@@ -64,11 +65,22 @@ public class Crawler
             }
 
 
+            if (macroCounter.TryGetValue(label, out var count))
+            {
+                macroCounter[label] = count + 1;
+            }
+            else
+            {
+                count = 0;
+                macroCounter[label] = 1;
+            }
+
+
             if (callNode.Parent is IBlockNode parent)
             {
                 var index = parent.Children.IndexOf(callNode);
             
-                var expanded = ExpandMacro(macro, callNode);
+                var expanded = ExpandMacro(macro, callNode, count);
             
                 parent.Children.Remove(callNode);
                 parent.Children.InsertRange(index, expanded);
@@ -86,7 +98,7 @@ public class Crawler
     /// <param name="macroDefinition"></param>
     /// <param name="caller"></param>
     /// <returns></returns>
-    private List<IAstNode> ExpandMacro(MacroDefNode macroDefinition, MacroCallNode caller)
+    private List<IAstNode> ExpandMacro(MacroDefNode macroDefinition, MacroCallNode caller, int instance = 0)
     {
         var macro = macroDefinition.Clone() as MacroDefNode;
         
@@ -110,10 +122,6 @@ public class Crawler
         {
             nodesToVisit.Push(child);
         }
-        
-        
-        var expandedMacros = new List<IAstNode>();
-
 
         while (nodesToVisit.Count > 0)
         {
@@ -130,17 +138,16 @@ public class Crawler
 
                 if (!labelReplacements.TryGetValue(label, out var replacement))
                 {
-                    replacement = macroDefinition.Label + "_" + label;
+                    replacement = macroDefinition.Label + "_" + label + "_" + instance;
                 }
                 
                 labelledNode.Label = replacement;
             }
             
-            expandedMacros.Add(node);
         }
 
         
-        return expandedMacros;
+        return macro.Children;
     }
 
 
