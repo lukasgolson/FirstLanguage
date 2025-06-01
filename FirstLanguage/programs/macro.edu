@@ -1,0 +1,4 @@
+﻿test
+macro test var1 var2
+push 5
+end

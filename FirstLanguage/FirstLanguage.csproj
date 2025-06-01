@@ -25,6 +25,9 @@
       <None Update="programs\sum-n.edu">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
+      <None Update="programs\macro.edu">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
     </ItemGroup>
 
 </Project>

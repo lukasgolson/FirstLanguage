@@ -34,7 +34,7 @@ public partial class EduLangLexer : Lexer {
 	protected static PredictionContextCache sharedContextCache = new PredictionContextCache();
 	public const int
 		KW_PUSH=1, KW_POP=2, KW_LOAD=3, KW_STORE=4, KW_ADD=5, KW_SUB=6, KW_LABEL=7, 
-		KW_JUMPZ=8, KW_PRINT=9, KW_HALT=10, KW_MACRO=11, KW_MACRO_END=12, INTEGER_LITERAL=13, 
+		KW_JUMPZ=8, KW_PRINT=9, KW_HALT=10, KW_MACRO=11, KW_BLOCK_END=12, INTEGER_LITERAL=13, 
 		IDENTIFIER=14, COMMENT=15, WS=16, NEWLINE=17;
 	public static string[] channelNames = {
 		"DEFAULT_TOKEN_CHANNEL", "HIDDEN"
@@ -48,7 +48,7 @@ public partial class EduLangLexer : Lexer {
 		"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", 
 		"O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "KW_PUSH", 
 		"KW_POP", "KW_LOAD", "KW_STORE", "KW_ADD", "KW_SUB", "KW_LABEL", "KW_JUMPZ", 
-		"KW_PRINT", "KW_HALT", "KW_MACRO", "KW_MACRO_END", "INTEGER_LITERAL", 
+		"KW_PRINT", "KW_HALT", "KW_MACRO", "KW_BLOCK_END", "INTEGER_LITERAL", 
 		"IDENTIFIER", "COMMENT", "WS", "NEWLINE"
 	};
 
@@ -66,7 +66,7 @@ public partial class EduLangLexer : Lexer {
 	};
 	private static readonly string[] _SymbolicNames = {
 		null, "KW_PUSH", "KW_POP", "KW_LOAD", "KW_STORE", "KW_ADD", "KW_SUB", 
-		"KW_LABEL", "KW_JUMPZ", "KW_PRINT", "KW_HALT", "KW_MACRO", "KW_MACRO_END", 
+		"KW_LABEL", "KW_JUMPZ", "KW_PRINT", "KW_HALT", "KW_MACRO", "KW_BLOCK_END", 
 		"INTEGER_LITERAL", "IDENTIFIER", "COMMENT", "WS", "NEWLINE"
 	};
 	public static readonly IVocabulary DefaultVocabulary = new Vocabulary(_LiteralNames, _SymbolicNames);

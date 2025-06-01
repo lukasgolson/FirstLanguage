@@ -8,13 +8,15 @@ grammar EduLang;
 // A line can either be a statement (an instruction followed by a newline)
 // or just a NEWLINE (representing an empty line or a line that became empty
 // after comments were removed).
-program: (statement | macro | NEWLINE)* EOF;
+program: (statement | NEWLINE)* EOF;
 
 // A statement is defined as an instruction followed by a NEWLINE.
 // This enforces that each instruction is terminated by a newline.
-statement: instruction NEWLINE;
+statement: (instruction | macro_def | macro_call) NEWLINE;
 
-macro: macro_instr name=IDENTIFIER (param=IDENTIFIER)* NEWLINE (statement)* block_end_instr NEWLINE;
+macro_def: macro_instr name=IDENTIFIER (param=IDENTIFIER)* NEWLINE (statement | NEWLINE)* block_end_instr;
+
+macro_call: name=IDENTIFIER;
 
 // The main 'instruction' rule is an alternative of all possible specific instructions.
 instruction:

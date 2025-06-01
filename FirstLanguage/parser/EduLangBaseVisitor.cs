@@ -55,7 +55,7 @@ public partial class EduLangBaseVisitor<Result> : AbstractParseTreeVisitor<Resul
 	/// <return>The visitor result.</return>
 	public virtual Result VisitStatement([NotNull] EduLangParser.StatementContext context) { return VisitChildren(context); }
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="EduLangParser.macro"/>.
+	/// Visit a parse tree produced by <see cref="EduLangParser.macro_def"/>.
 	/// <para>
 	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
 	/// on <paramref name="context"/>.
@@ -63,7 +63,17 @@ public partial class EduLangBaseVisitor<Result> : AbstractParseTreeVisitor<Resul
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	public virtual Result VisitMacro([NotNull] EduLangParser.MacroContext context) { return VisitChildren(context); }
+	public virtual Result VisitMacro_def([NotNull] EduLangParser.Macro_defContext context) { return VisitChildren(context); }
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="EduLangParser.macro_call"/>.
+	/// <para>
+	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
+	/// on <paramref name="context"/>.
+	/// </para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	public virtual Result VisitMacro_call([NotNull] EduLangParser.Macro_callContext context) { return VisitChildren(context); }
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="EduLangParser.instruction"/>.
 	/// <para>
@@ -185,7 +195,7 @@ public partial class EduLangBaseVisitor<Result> : AbstractParseTreeVisitor<Resul
 	/// <return>The visitor result.</return>
 	public virtual Result VisitMacro_instr([NotNull] EduLangParser.Macro_instrContext context) { return VisitChildren(context); }
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="EduLangParser.macro_end_instr"/>.
+	/// Visit a parse tree produced by <see cref="EduLangParser.block_end_instr"/>.
 	/// <para>
 	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
 	/// on <paramref name="context"/>.
@@ -193,5 +203,5 @@ public partial class EduLangBaseVisitor<Result> : AbstractParseTreeVisitor<Resul
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	public virtual Result VisitMacro_end_instr([NotNull] EduLangParser.Macro_end_instrContext context) { return VisitChildren(context); }
+	public virtual Result VisitBlock_end_instr([NotNull] EduLangParser.Block_end_instrContext context) { return VisitChildren(context); }
 }

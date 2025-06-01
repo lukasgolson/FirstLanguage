@@ -60,17 +60,29 @@ public partial class EduLangBaseListener : IEduLangListener {
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitStatement([NotNull] EduLangParser.StatementContext context) { }
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="EduLangParser.macro"/>.
+	/// Enter a parse tree produced by <see cref="EduLangParser.macro_def"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void EnterMacro([NotNull] EduLangParser.MacroContext context) { }
+	public virtual void EnterMacro_def([NotNull] EduLangParser.Macro_defContext context) { }
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="EduLangParser.macro"/>.
+	/// Exit a parse tree produced by <see cref="EduLangParser.macro_def"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void ExitMacro([NotNull] EduLangParser.MacroContext context) { }
+	public virtual void ExitMacro_def([NotNull] EduLangParser.Macro_defContext context) { }
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="EduLangParser.macro_call"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterMacro_call([NotNull] EduLangParser.Macro_callContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="EduLangParser.macro_call"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitMacro_call([NotNull] EduLangParser.Macro_callContext context) { }
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="EduLangParser.instruction"/>.
 	/// <para>The default implementation does nothing.</para>
@@ -216,17 +228,17 @@ public partial class EduLangBaseListener : IEduLangListener {
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitMacro_instr([NotNull] EduLangParser.Macro_instrContext context) { }
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="EduLangParser.macro_end_instr"/>.
+	/// Enter a parse tree produced by <see cref="EduLangParser.block_end_instr"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void EnterMacro_end_instr([NotNull] EduLangParser.Macro_end_instrContext context) { }
+	public virtual void EnterBlock_end_instr([NotNull] EduLangParser.Block_end_instrContext context) { }
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="EduLangParser.macro_end_instr"/>.
+	/// Exit a parse tree produced by <see cref="EduLangParser.block_end_instr"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void ExitMacro_end_instr([NotNull] EduLangParser.Macro_end_instrContext context) { }
+	public virtual void ExitBlock_end_instr([NotNull] EduLangParser.Block_end_instrContext context) { }
 
 	/// <inheritdoc/>
 	/// <remarks>The default implementation does nothing.</remarks>

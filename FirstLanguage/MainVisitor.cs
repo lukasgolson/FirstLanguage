@@ -3,6 +3,7 @@ using FirstLanguage.abstract_syntax_tree.Core;
 using FirstLanguage.abstract_syntax_tree.Core.logic;
 using FirstLanguage.abstract_syntax_tree.Core.manipulation;
 using FirstLanguage.abstract_syntax_tree.Core.Misc;
+using FirstLanguage.abstract_syntax_tree.Macro;
 
 namespace FirstLanguage;
 
@@ -22,6 +23,30 @@ public class MainVisitor : EduLangBaseVisitor<IAstNode>
         }
 
         return programNode;
+    }
+
+    public override IAstNode VisitMacro_def(EduLangParser.Macro_defContext context)
+    {
+
+        var macroNode = new MacroDefNode();
+
+        var label = context.name.Text;
+        
+        macroNode.Label = label;
+        
+        
+
+        foreach (var statementContext in context.statement())
+        {
+            var stmtNode = Visit(statementContext);
+            if (stmtNode != null)
+            {
+                macroNode.Statements.Add(stmtNode);
+            }
+        }
+        
+
+        return macroNode;
     }
 
     public override IAstNode VisitStatement(EduLangParser.StatementContext context)
@@ -91,5 +116,9 @@ public class MainVisitor : EduLangBaseVisitor<IAstNode>
         return new HaltNode();
     }
 
-
+    public override IAstNode VisitMacro_call(EduLangParser.Macro_callContext context)
+    {
+        var label = context.IDENTIFIER().GetText();
+        return new MacroCallNode(label);
+    }
 }
