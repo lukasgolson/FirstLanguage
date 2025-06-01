@@ -14,9 +14,9 @@ program: (statement | NEWLINE)* EOF;
 // This enforces that each instruction is terminated by a newline.
 statement: (instruction | macro_def | macro_call) NEWLINE;
 
-macro_def: macro_instr name=IDENTIFIER (param=IDENTIFIER)* NEWLINE (statement | NEWLINE)* block_end_instr;
+macro_def: macro_instr name=IDENTIFIER args+=IDENTIFIER* NEWLINE (statement | NEWLINE)* block_end_instr;
 
-macro_call: name=IDENTIFIER;
+macro_call: name=IDENTIFIER args+=IDENTIFIER*;
 
 // The main 'instruction' rule is an alternative of all possible specific instructions.
 instruction:

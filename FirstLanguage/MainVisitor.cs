@@ -25,33 +25,54 @@ public class MainVisitor : EduLangBaseVisitor<IAstNode>
         return programNode;
     }
 
+
+    public override IAstNode VisitStatement(EduLangParser.StatementContext context)
+    {
+        if (context.instruction() != null)
+        {
+            return Visit(context.instruction());
+        }
+
+        if (context.macro_def() != null)
+        {
+            return Visit(context.macro_def());
+        }
+
+        if (context.macro_call() != null)
+        {
+            return Visit(context.macro_call());
+        }
+
+
+        throw new NotImplementedException("Unknown statement");
+    }
+
+    public override IAstNode VisitMacro_call(EduLangParser.Macro_callContext context)
+    {
+        var label = context.name.Text;
+        var arguments = context._args.Select(parameterContext => parameterContext.Text).ToList();
+
+        return new MacroCallNode(label, arguments.ToArray());
+    }
+
     public override IAstNode VisitMacro_def(EduLangParser.Macro_defContext context)
     {
-
-        var macroNode = new MacroDefNode();
-
         var label = context.name.Text;
-        
-        macroNode.Label = label;
-        
-        
+        var argumentNames = context._args.Select(parameterContext => parameterContext.Text).ToList();
+
+        var macroDef = new MacroDefNode(label, argumentNames.ToArray());
+
 
         foreach (var statementContext in context.statement())
         {
             var stmtNode = Visit(statementContext);
             if (stmtNode != null)
             {
-                macroNode.Statements.Add(stmtNode);
+                macroDef.Statements.Add(stmtNode);
             }
         }
-        
 
-        return macroNode;
-    }
-
-    public override IAstNode VisitStatement(EduLangParser.StatementContext context)
-    {
-        return Visit(context.instruction());
+        return macroDef;
     }
 
     public override IAstNode VisitPush_instr(EduLangParser.Push_instrContext context)
@@ -73,7 +94,7 @@ public class MainVisitor : EduLangBaseVisitor<IAstNode>
     public override IAstNode VisitLoad_instr(EduLangParser.Load_instrContext context)
     {
         var label = context.IDENTIFIER().GetText();
-        
+
         return new LoadNode(label);
     }
 
@@ -87,7 +108,7 @@ public class MainVisitor : EduLangBaseVisitor<IAstNode>
     {
         return new AddNode();
     }
-    
+
     public override IAstNode VisitSub_instr(EduLangParser.Sub_instrContext context)
     {
         return new SubNode();
@@ -114,11 +135,5 @@ public class MainVisitor : EduLangBaseVisitor<IAstNode>
     public override IAstNode VisitHalt_instr(EduLangParser.Halt_instrContext context)
     {
         return new HaltNode();
-    }
-
-    public override IAstNode VisitMacro_call(EduLangParser.Macro_callContext context)
-    {
-        var label = context.IDENTIFIER().GetText();
-        return new MacroCallNode(label);
     }
 }

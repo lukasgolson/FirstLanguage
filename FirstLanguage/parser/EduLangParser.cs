@@ -278,7 +278,8 @@ public partial class EduLangParser : Parser {
 
 	public partial class Macro_defContext : ParserRuleContext {
 		public IToken name;
-		public IToken param;
+		public IToken _IDENTIFIER;
+		public IList<IToken> _args = new List<IToken>();
 		[System.Diagnostics.DebuggerNonUserCode] public Macro_instrContext macro_instr() {
 			return GetRuleContext<Macro_instrContext>(0);
 		}
@@ -341,7 +342,8 @@ public partial class EduLangParser : Parser {
 				{
 				{
 				State = 52;
-				_localctx.param = Match(IDENTIFIER);
+				_localctx._IDENTIFIER = Match(IDENTIFIER);
+				_localctx._args.Add(_localctx._IDENTIFIER);
 				}
 				}
 				State = 57;
@@ -406,7 +408,12 @@ public partial class EduLangParser : Parser {
 
 	public partial class Macro_callContext : ParserRuleContext {
 		public IToken name;
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode IDENTIFIER() { return GetToken(EduLangParser.IDENTIFIER, 0); }
+		public IToken _IDENTIFIER;
+		public IList<IToken> _args = new List<IToken>();
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode[] IDENTIFIER() { return GetTokens(EduLangParser.IDENTIFIER); }
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode IDENTIFIER(int i) {
+			return GetToken(EduLangParser.IDENTIFIER, i);
+		}
 		public Macro_callContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
 		{
@@ -434,11 +441,27 @@ public partial class EduLangParser : Parser {
 	public Macro_callContext macro_call() {
 		Macro_callContext _localctx = new Macro_callContext(Context, State);
 		EnterRule(_localctx, 6, RULE_macro_call);
+		int _la;
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
 			State = 68;
 			_localctx.name = Match(IDENTIFIER);
+			State = 72;
+			ErrorHandler.Sync(this);
+			_la = TokenStream.LA(1);
+			while (_la==IDENTIFIER) {
+				{
+				{
+				State = 69;
+				_localctx._IDENTIFIER = Match(IDENTIFIER);
+				_localctx._args.Add(_localctx._IDENTIFIER);
+				}
+				}
+				State = 74;
+				ErrorHandler.Sync(this);
+				_la = TokenStream.LA(1);
+			}
 			}
 		}
 		catch (RecognitionException re) {
@@ -511,76 +534,76 @@ public partial class EduLangParser : Parser {
 		InstructionContext _localctx = new InstructionContext(Context, State);
 		EnterRule(_localctx, 8, RULE_instruction);
 		try {
-			State = 80;
+			State = 85;
 			ErrorHandler.Sync(this);
 			switch (TokenStream.LA(1)) {
 			case KW_LOAD:
 				EnterOuterAlt(_localctx, 1);
 				{
-				State = 70;
+				State = 75;
 				load_instr();
 				}
 				break;
 			case KW_POP:
 				EnterOuterAlt(_localctx, 2);
 				{
-				State = 71;
+				State = 76;
 				pop_instr();
 				}
 				break;
 			case KW_PUSH:
 				EnterOuterAlt(_localctx, 3);
 				{
-				State = 72;
+				State = 77;
 				push_instr();
 				}
 				break;
 			case KW_STORE:
 				EnterOuterAlt(_localctx, 4);
 				{
-				State = 73;
+				State = 78;
 				store_instr();
 				}
 				break;
 			case KW_ADD:
 				EnterOuterAlt(_localctx, 5);
 				{
-				State = 74;
+				State = 79;
 				add_instr();
 				}
 				break;
 			case KW_SUB:
 				EnterOuterAlt(_localctx, 6);
 				{
-				State = 75;
+				State = 80;
 				sub_instr();
 				}
 				break;
 			case KW_JUMPZ:
 				EnterOuterAlt(_localctx, 7);
 				{
-				State = 76;
+				State = 81;
 				jumpz_instr();
 				}
 				break;
 			case KW_PRINT:
 				EnterOuterAlt(_localctx, 8);
 				{
-				State = 77;
+				State = 82;
 				print_instr();
 				}
 				break;
 			case KW_HALT:
 				EnterOuterAlt(_localctx, 9);
 				{
-				State = 78;
+				State = 83;
 				halt_instr();
 				}
 				break;
 			case KW_LABEL:
 				EnterOuterAlt(_localctx, 10);
 				{
-				State = 79;
+				State = 84;
 				label_instr();
 				}
 				break;
@@ -633,9 +656,9 @@ public partial class EduLangParser : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 82;
+			State = 87;
 			Match(KW_PUSH);
-			State = 83;
+			State = 88;
 			_localctx.val = Match(INTEGER_LITERAL);
 			}
 		}
@@ -682,7 +705,7 @@ public partial class EduLangParser : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 85;
+			State = 90;
 			Match(KW_POP);
 			}
 		}
@@ -731,9 +754,9 @@ public partial class EduLangParser : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 87;
+			State = 92;
 			Match(KW_LOAD);
-			State = 88;
+			State = 93;
 			_localctx.id = Match(IDENTIFIER);
 			}
 		}
@@ -782,9 +805,9 @@ public partial class EduLangParser : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 90;
+			State = 95;
 			Match(KW_STORE);
-			State = 91;
+			State = 96;
 			_localctx.id = Match(IDENTIFIER);
 			}
 		}
@@ -831,7 +854,7 @@ public partial class EduLangParser : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 93;
+			State = 98;
 			Match(KW_ADD);
 			}
 		}
@@ -878,7 +901,7 @@ public partial class EduLangParser : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 95;
+			State = 100;
 			Match(KW_SUB);
 			}
 		}
@@ -927,9 +950,9 @@ public partial class EduLangParser : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 97;
+			State = 102;
 			Match(KW_LABEL);
-			State = 98;
+			State = 103;
 			_localctx.id = Match(IDENTIFIER);
 			}
 		}
@@ -978,9 +1001,9 @@ public partial class EduLangParser : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 100;
+			State = 105;
 			Match(KW_JUMPZ);
-			State = 101;
+			State = 106;
 			_localctx.id = Match(IDENTIFIER);
 			}
 		}
@@ -1027,7 +1050,7 @@ public partial class EduLangParser : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 103;
+			State = 108;
 			Match(KW_PRINT);
 			}
 		}
@@ -1074,7 +1097,7 @@ public partial class EduLangParser : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 105;
+			State = 110;
 			Match(KW_HALT);
 			}
 		}
@@ -1121,7 +1144,7 @@ public partial class EduLangParser : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 107;
+			State = 112;
 			Match(KW_MACRO);
 			}
 		}
@@ -1168,7 +1191,7 @@ public partial class EduLangParser : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 109;
+			State = 114;
 			Match(KW_BLOCK_END);
 			}
 		}
@@ -1184,37 +1207,39 @@ public partial class EduLangParser : Parser {
 	}
 
 	private static int[] _serializedATN = {
-		4,1,17,112,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,2,4,7,4,2,5,7,5,2,6,7,6,2,7,
+		4,1,17,117,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,2,4,7,4,2,5,7,5,2,6,7,6,2,7,
 		7,7,2,8,7,8,2,9,7,9,2,10,7,10,2,11,7,11,2,12,7,12,2,13,7,13,2,14,7,14,
 		2,15,7,15,2,16,7,16,1,0,1,0,5,0,37,8,0,10,0,12,0,40,9,0,1,0,1,0,1,1,1,
 		1,1,1,3,1,47,8,1,1,1,1,1,1,2,1,2,1,2,5,2,54,8,2,10,2,12,2,57,9,2,1,2,1,
-		2,1,2,5,2,62,8,2,10,2,12,2,65,9,2,1,2,1,2,1,3,1,3,1,4,1,4,1,4,1,4,1,4,
-		1,4,1,4,1,4,1,4,1,4,3,4,81,8,4,1,5,1,5,1,5,1,6,1,6,1,7,1,7,1,7,1,8,1,8,
-		1,8,1,9,1,9,1,10,1,10,1,11,1,11,1,11,1,12,1,12,1,12,1,13,1,13,1,14,1,14,
-		1,15,1,15,1,16,1,16,1,16,0,0,17,0,2,4,6,8,10,12,14,16,18,20,22,24,26,28,
-		30,32,0,0,110,0,38,1,0,0,0,2,46,1,0,0,0,4,50,1,0,0,0,6,68,1,0,0,0,8,80,
-		1,0,0,0,10,82,1,0,0,0,12,85,1,0,0,0,14,87,1,0,0,0,16,90,1,0,0,0,18,93,
-		1,0,0,0,20,95,1,0,0,0,22,97,1,0,0,0,24,100,1,0,0,0,26,103,1,0,0,0,28,105,
-		1,0,0,0,30,107,1,0,0,0,32,109,1,0,0,0,34,37,3,2,1,0,35,37,5,17,0,0,36,
-		34,1,0,0,0,36,35,1,0,0,0,37,40,1,0,0,0,38,36,1,0,0,0,38,39,1,0,0,0,39,
-		41,1,0,0,0,40,38,1,0,0,0,41,42,5,0,0,1,42,1,1,0,0,0,43,47,3,8,4,0,44,47,
-		3,4,2,0,45,47,3,6,3,0,46,43,1,0,0,0,46,44,1,0,0,0,46,45,1,0,0,0,47,48,
-		1,0,0,0,48,49,5,17,0,0,49,3,1,0,0,0,50,51,3,30,15,0,51,55,5,14,0,0,52,
-		54,5,14,0,0,53,52,1,0,0,0,54,57,1,0,0,0,55,53,1,0,0,0,55,56,1,0,0,0,56,
-		58,1,0,0,0,57,55,1,0,0,0,58,63,5,17,0,0,59,62,3,2,1,0,60,62,5,17,0,0,61,
-		59,1,0,0,0,61,60,1,0,0,0,62,65,1,0,0,0,63,61,1,0,0,0,63,64,1,0,0,0,64,
-		66,1,0,0,0,65,63,1,0,0,0,66,67,3,32,16,0,67,5,1,0,0,0,68,69,5,14,0,0,69,
-		7,1,0,0,0,70,81,3,14,7,0,71,81,3,12,6,0,72,81,3,10,5,0,73,81,3,16,8,0,
-		74,81,3,18,9,0,75,81,3,20,10,0,76,81,3,24,12,0,77,81,3,26,13,0,78,81,3,
-		28,14,0,79,81,3,22,11,0,80,70,1,0,0,0,80,71,1,0,0,0,80,72,1,0,0,0,80,73,
-		1,0,0,0,80,74,1,0,0,0,80,75,1,0,0,0,80,76,1,0,0,0,80,77,1,0,0,0,80,78,
-		1,0,0,0,80,79,1,0,0,0,81,9,1,0,0,0,82,83,5,1,0,0,83,84,5,13,0,0,84,11,
-		1,0,0,0,85,86,5,2,0,0,86,13,1,0,0,0,87,88,5,3,0,0,88,89,5,14,0,0,89,15,
-		1,0,0,0,90,91,5,4,0,0,91,92,5,14,0,0,92,17,1,0,0,0,93,94,5,5,0,0,94,19,
-		1,0,0,0,95,96,5,6,0,0,96,21,1,0,0,0,97,98,5,7,0,0,98,99,5,14,0,0,99,23,
-		1,0,0,0,100,101,5,8,0,0,101,102,5,14,0,0,102,25,1,0,0,0,103,104,5,9,0,
-		0,104,27,1,0,0,0,105,106,5,10,0,0,106,29,1,0,0,0,107,108,5,11,0,0,108,
-		31,1,0,0,0,109,110,5,12,0,0,110,33,1,0,0,0,7,36,38,46,55,61,63,80
+		2,1,2,5,2,62,8,2,10,2,12,2,65,9,2,1,2,1,2,1,3,1,3,5,3,71,8,3,10,3,12,3,
+		74,9,3,1,4,1,4,1,4,1,4,1,4,1,4,1,4,1,4,1,4,1,4,3,4,86,8,4,1,5,1,5,1,5,
+		1,6,1,6,1,7,1,7,1,7,1,8,1,8,1,8,1,9,1,9,1,10,1,10,1,11,1,11,1,11,1,12,
+		1,12,1,12,1,13,1,13,1,14,1,14,1,15,1,15,1,16,1,16,1,16,0,0,17,0,2,4,6,
+		8,10,12,14,16,18,20,22,24,26,28,30,32,0,0,116,0,38,1,0,0,0,2,46,1,0,0,
+		0,4,50,1,0,0,0,6,68,1,0,0,0,8,85,1,0,0,0,10,87,1,0,0,0,12,90,1,0,0,0,14,
+		92,1,0,0,0,16,95,1,0,0,0,18,98,1,0,0,0,20,100,1,0,0,0,22,102,1,0,0,0,24,
+		105,1,0,0,0,26,108,1,0,0,0,28,110,1,0,0,0,30,112,1,0,0,0,32,114,1,0,0,
+		0,34,37,3,2,1,0,35,37,5,17,0,0,36,34,1,0,0,0,36,35,1,0,0,0,37,40,1,0,0,
+		0,38,36,1,0,0,0,38,39,1,0,0,0,39,41,1,0,0,0,40,38,1,0,0,0,41,42,5,0,0,
+		1,42,1,1,0,0,0,43,47,3,8,4,0,44,47,3,4,2,0,45,47,3,6,3,0,46,43,1,0,0,0,
+		46,44,1,0,0,0,46,45,1,0,0,0,47,48,1,0,0,0,48,49,5,17,0,0,49,3,1,0,0,0,
+		50,51,3,30,15,0,51,55,5,14,0,0,52,54,5,14,0,0,53,52,1,0,0,0,54,57,1,0,
+		0,0,55,53,1,0,0,0,55,56,1,0,0,0,56,58,1,0,0,0,57,55,1,0,0,0,58,63,5,17,
+		0,0,59,62,3,2,1,0,60,62,5,17,0,0,61,59,1,0,0,0,61,60,1,0,0,0,62,65,1,0,
+		0,0,63,61,1,0,0,0,63,64,1,0,0,0,64,66,1,0,0,0,65,63,1,0,0,0,66,67,3,32,
+		16,0,67,5,1,0,0,0,68,72,5,14,0,0,69,71,5,14,0,0,70,69,1,0,0,0,71,74,1,
+		0,0,0,72,70,1,0,0,0,72,73,1,0,0,0,73,7,1,0,0,0,74,72,1,0,0,0,75,86,3,14,
+		7,0,76,86,3,12,6,0,77,86,3,10,5,0,78,86,3,16,8,0,79,86,3,18,9,0,80,86,
+		3,20,10,0,81,86,3,24,12,0,82,86,3,26,13,0,83,86,3,28,14,0,84,86,3,22,11,
+		0,85,75,1,0,0,0,85,76,1,0,0,0,85,77,1,0,0,0,85,78,1,0,0,0,85,79,1,0,0,
+		0,85,80,1,0,0,0,85,81,1,0,0,0,85,82,1,0,0,0,85,83,1,0,0,0,85,84,1,0,0,
+		0,86,9,1,0,0,0,87,88,5,1,0,0,88,89,5,13,0,0,89,11,1,0,0,0,90,91,5,2,0,
+		0,91,13,1,0,0,0,92,93,5,3,0,0,93,94,5,14,0,0,94,15,1,0,0,0,95,96,5,4,0,
+		0,96,97,5,14,0,0,97,17,1,0,0,0,98,99,5,5,0,0,99,19,1,0,0,0,100,101,5,6,
+		0,0,101,21,1,0,0,0,102,103,5,7,0,0,103,104,5,14,0,0,104,23,1,0,0,0,105,
+		106,5,8,0,0,106,107,5,14,0,0,107,25,1,0,0,0,108,109,5,9,0,0,109,27,1,0,
+		0,0,110,111,5,10,0,0,111,29,1,0,0,0,112,113,5,11,0,0,113,31,1,0,0,0,114,
+		115,5,12,0,0,115,33,1,0,0,0,8,36,38,46,55,61,63,72,85
 	};
 
 	public static readonly ATN _ATN =
