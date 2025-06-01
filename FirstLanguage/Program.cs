@@ -35,7 +35,7 @@ public class RootCliCommand
         IParseTree tree = parser.program();
 
         MainVisitor mainVisitor = new MainVisitor();
-
+        
         var result = (ProgramNode) mainVisitor.Visit(tree);
         
         var crawler = new Crawler();

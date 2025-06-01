@@ -50,6 +50,7 @@ public class MainVisitor : EduLangBaseVisitor<IAstNode>
         throw new NotImplementedException("Unknown statement");
     }
 
+    
     public override IAstNode VisitMacro_call(EduLangParser.Macro_callContext context)
     {
         var label = context.name.Text;
@@ -132,6 +133,11 @@ public class MainVisitor : EduLangBaseVisitor<IAstNode>
     public override IAstNode VisitPrint_instr(EduLangParser.Print_instrContext context)
     {
         return new PrintNode();
+    }
+
+    public override IAstNode VisitInput_instr(EduLangParser.Input_instrContext context)
+    {
+        return new InputNode();
     }
 
 

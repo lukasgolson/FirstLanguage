@@ -11,7 +11,6 @@ grammar EduLang;
 program: (statement | NEWLINE)* EOF;
 
 // A statement is defined as an instruction followed by a NEWLINE.
-// This enforces that each instruction is terminated by a newline.
 statement: (instruction | macro_def | macro_call) NEWLINE;
 
 macro_def: macro_instr name=IDENTIFIER args+=IDENTIFIER* NEWLINE (statement | NEWLINE)* block_end_instr;
@@ -28,13 +27,12 @@ instruction:
     | sub_instr
     | jumpz_instr
     | print_instr
+    | input_instr
     | halt_instr
     | label_instr
     ;
 
 // Specific parser rules for each EduLang instruction.
-// Their structure remains the same, but they are now part of a 'statement'
-// which must end with a NEWLINE.
 
 // Stack Manipulation Instructions
 push_instr  : KW_PUSH val=INTEGER_LITERAL;
@@ -54,6 +52,7 @@ jumpz_instr : KW_JUMPZ id=IDENTIFIER;
 
 // Misc
 print_instr : KW_PRINT;
+input_instr : KW_INPUT;
 halt_instr  : KW_HALT;
 
 macro_instr : KW_MACRO;
@@ -86,6 +85,7 @@ KW_LABEL : L A B E L;
 KW_JUMPZ : J U M P Z;
 
 KW_PRINT: P R I N T;
+KW_INPUT: I N P U T;
 KW_HALT : H A L T;
 
 KW_MACRO: M A C R O;

@@ -171,6 +171,16 @@ public interface IEduLangListener : IParseTreeListener {
 	/// <param name="context">The parse tree.</param>
 	void ExitPrint_instr([NotNull] EduLangParser.Print_instrContext context);
 	/// <summary>
+	/// Enter a parse tree produced by <see cref="EduLangParser.input_instr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterInput_instr([NotNull] EduLangParser.Input_instrContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="EduLangParser.input_instr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitInput_instr([NotNull] EduLangParser.Input_instrContext context);
+	/// <summary>
 	/// Enter a parse tree produced by <see cref="EduLangParser.halt_instr"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>

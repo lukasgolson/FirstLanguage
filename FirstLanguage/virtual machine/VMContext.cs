@@ -297,8 +297,9 @@ public class VmContext
                     break;
                 }
                 default:
+                    var type = node.GetType().Name;
                     throw new CompilerException(
-                        "Unsupported node type, insufficient lowering or unsupported language instructions.");
+                        $"Unsupported node type, {type}, insufficient lowering or unsupported language instructions.");
             }
         }
 

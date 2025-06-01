@@ -4,8 +4,9 @@ public class LabelNode(string label) : ILabelledNode
 {
     public string Label { get; set; } = label;
     public IAstNode? Parent { get; set; }
+
     public IAstNode Clone()
     {
-       return new LabelNode(Label);
+        return new LabelNode(Label);
     }
 }
