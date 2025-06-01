@@ -1,6 +1,0 @@
-﻿namespace FirstLanguage.abstract_syntax_tree.Core.logic;
-
-public class JumpzNode(string label) : ILabelledNode
-{
-    public string Label { get; } = label;
-}

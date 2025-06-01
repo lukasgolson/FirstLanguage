@@ -1,4 +1,4 @@
-﻿namespace FirstLanguage.abstract_syntax_tree.Core.manipulation;
+﻿namespace FirstLanguage.abstract_syntax_tree.Nodes.Core.manipulation;
 
 public class PushNode(long value) : IAstNode
 {
@@ -7,5 +7,11 @@ public class PushNode(long value) : IAstNode
     {
         var name = "Push: " + Value;
         return name;
+    }
+
+    public IAstNode? Parent { get; set; }
+    public IAstNode Clone()
+    {
+        return new PushNode(Value);
     }
 }

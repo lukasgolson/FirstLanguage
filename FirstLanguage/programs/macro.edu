@@ -1,4 +1,43 @@
-﻿macro test var1 var2
-push 5
-end
+﻿# ================================================
+# Example: Create a new multiplier macro
+# This program defines a new multiply macro
+# We then multiply 25 by 10
+# ================================================
+
+push 25
+push 10
+mult
+print
 halt
+
+
+macro mult
+    STORE i # Store the top of the stack as our Multiplier
+    STORE j # Store the next value as our Multiplicand
+    
+    PUSH 0
+    STORE sum
+    
+    label loopStart
+    
+        # Sum = sum + j
+        LOAD sum
+        LOAD j
+        ADD
+        STORE sum
+        
+        LOAD i
+        push 1
+        SUB
+        STORE i
+        # store pops the value, we need to load it again to check if its 0
+        LOAD i 
+        JUMPZ endLoop
+        
+        # Jump back to loop start
+        push 0
+        JUMPZ loopStart
+        
+    label endLoop
+    LOAD sum     
+end

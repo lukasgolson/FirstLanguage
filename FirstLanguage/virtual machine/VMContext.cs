@@ -1,7 +1,9 @@
-﻿using FirstLanguage.abstract_syntax_tree.Core;
-using FirstLanguage.abstract_syntax_tree.Core.logic;
-using FirstLanguage.abstract_syntax_tree.Core.manipulation;
-using FirstLanguage.abstract_syntax_tree.Core.Misc;
+﻿using FirstLanguage.abstract_syntax_tree.Nodes.Core;
+using FirstLanguage.abstract_syntax_tree.Nodes.Core.arithmetic;
+using FirstLanguage.abstract_syntax_tree.Nodes.Core.logic;
+using FirstLanguage.abstract_syntax_tree.Nodes.Core.manipulation;
+using FirstLanguage.abstract_syntax_tree.Nodes.Core.Misc;
+using FirstLanguage.abstract_syntax_tree.Nodes.Core.variables;
 
 namespace FirstLanguage.virtual_machine;
 
@@ -10,14 +12,39 @@ public class VmContext
     private readonly byte[] _instructions;
     private readonly Stack<long> _stack = new();
     private readonly Dictionary<int, long> _registers = new();
-    
+
     private int _instructionIndex = 0;
     private bool _executing = false;
 
 
     public VmContext(ProgramNode program)
     {
-        _instructions = GenerateBytecode(program);
+        _instructions = CompileBytecode(program);
+    }
+
+    private long Pop()
+    {
+        try
+        {
+            return _stack.Pop();
+        }
+        catch (InvalidOperationException e)
+        {
+            throw new VMException($"Stack underflow with instruction {_instructionIndex}: {(OpCode) _instructions[_instructionIndex]}", e);
+        }
+    }
+
+    private long Peek()
+    {
+        try
+        {
+            return _stack.Peek();
+        }
+        catch (InvalidOperationException e)
+        {
+            throw new VMException(
+                $"Stack underflow with instruction {_instructionIndex}: {(OpCode)_instructions[_instructionIndex]}", e);
+        }
     }
 
     public void Reset()
@@ -33,7 +60,7 @@ public class VmContext
         _executing = true;
         while (_executing)
         {
-            var instruction = (OpCode) _instructions[_instructionIndex];
+            var instruction = (OpCode)_instructions[_instructionIndex];
 
             byte nextInstruction = 0;
             if (_instructions.Length - 1 >= _instructionIndex + 1)
@@ -53,7 +80,7 @@ public class VmContext
                     bytesRead += sizeof(long);
                     break;
                 case OpCode.Pop:
-                    _stack.Pop();
+                    Pop();
                     break;
                 case OpCode.Add:
 
@@ -61,8 +88,8 @@ public class VmContext
                     {
                         throw new VMException("Stack underflow, stack does not contain enough elements to add.");
                     }
-                    
-                    _stack.Push(_stack.Pop() + _stack.Pop());
+
+                    _stack.Push(Pop() + Pop());
                     break;
                 case OpCode.Sub:
 
@@ -70,20 +97,20 @@ public class VmContext
                     {
                         throw new VMException("Stack underflow, stack does not contain enough elements to sub.");
                     }
-                    
-                    _stack.Push(_stack.Pop() - _stack.Pop());
+
+                    _stack.Push(Pop() - Pop());
                     break;
                 case OpCode.Load:
                     _stack.Push(_registers[nextInstruction]);
                     bytesRead++;
                     break;
                 case OpCode.Store:
-                    _registers[nextInstruction] = _stack.Pop();
+                    _registers[nextInstruction] = Pop();
                     bytesRead++;
                     break;
                 case OpCode.JumpZ:
 
-                    if (_stack.Pop() == 0)
+                    if (Pop() == 0)
                     {
                         _instructionIndex = nextInstruction; // Jump
                     }
@@ -91,11 +118,11 @@ public class VmContext
                     {
                         bytesRead++; // Skip over address
                     }
-                    
+
                     break;
                 case OpCode.Print:
-                    
-                    Console.WriteLine(_stack.Peek());
+
+                    Console.WriteLine(Peek());
                     break;
                 case OpCode.Halt:
                     _executing = false;
@@ -159,24 +186,21 @@ public class VmContext
     }
 
 
-    private static byte[] GenerateBytecode(ProgramNode program)
+    private static byte[] CompileBytecode(ProgramNode program)
     {
         List<byte> instructions = [];
         var labelsDict = new Dictionary<string, int>();
         List<string> registers = [];
 
-        int stackSize = 0;
-
 
         List<(string label, int position)> unresolvedLabels = [];
 
-        foreach (var node in program.Statements)
+        foreach (var node in program.Children)
         {
             switch (node)
             {
                 case AddNode:
                     instructions.Add((byte)OpCode.Add);
-                    
                     break;
                 case SubNode:
                     instructions.Add((byte)OpCode.Sub);
@@ -202,9 +226,9 @@ public class VmContext
                 case LabelNode labelNode:
                 {
                     // This op-code does not do much, but it may let us validate jumps in the future.
-                    instructions.Add((byte)OpCode.Label); 
-                    
-                    
+                    instructions.Add((byte)OpCode.Label);
+
+
                     var label = labelNode.Label;
 
                     if (!labelsDict.ContainsKey(label))
@@ -213,7 +237,7 @@ public class VmContext
                     }
                     else
                     {
-                        throw new Exception($"Label [{label}] already defined");
+                        throw new CompilerException($"Label [{label}] already defined");
                     }
 
                     for (var i = unresolvedLabels.Count - 1; i >= 0; i--)
@@ -222,16 +246,12 @@ public class VmContext
                         instructions[unresolvedLabels[i].position] = (byte)Position();
                         unresolvedLabels.RemoveAt(i);
                     }
-                    
+
                     break;
                 }
-
                 case PopNode:
-                {
                     instructions.Add((byte)OpCode.Pop);
                     break;
-                }
-
                 case PushNode pushNode:
                 {
                     instructions.Add((byte)OpCode.Push);
@@ -240,15 +260,11 @@ public class VmContext
                     break;
                 }
                 case HaltNode:
-                {
                     instructions.Add((byte)OpCode.Halt);
                     break;
-                }
                 case PrintNode:
-                {
                     instructions.Add((byte)OpCode.Print);
                     break;
-                }
                 case LoadNode loadNode:
                 {
                     var label = loadNode.Label;
@@ -261,12 +277,11 @@ public class VmContext
                     }
                     else
                     {
-                        throw new Exception("Register not found");
+                        throw new CompilerException($"Register, {label}, not found");
                     }
 
                     break;
                 }
-
                 case StoreNode storeNode:
                 {
                     var label = storeNode.Label;
@@ -279,9 +294,11 @@ public class VmContext
                     var register = registers.IndexOf(label);
                     instructions.Add((byte)OpCode.Store);
                     instructions.Add((byte)register);
-
                     break;
                 }
+                default:
+                    throw new CompilerException(
+                        "Unsupported node type, insufficient lowering or unsupported language instructions.");
             }
         }
 

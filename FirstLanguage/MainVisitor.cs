@@ -1,9 +1,12 @@
 ﻿using FirstLanguage.abstract_syntax_tree;
-using FirstLanguage.abstract_syntax_tree.Core;
-using FirstLanguage.abstract_syntax_tree.Core.logic;
-using FirstLanguage.abstract_syntax_tree.Core.manipulation;
-using FirstLanguage.abstract_syntax_tree.Core.Misc;
-using FirstLanguage.abstract_syntax_tree.Macro;
+using FirstLanguage.abstract_syntax_tree.Nodes;
+using FirstLanguage.abstract_syntax_tree.Nodes.Core;
+using FirstLanguage.abstract_syntax_tree.Nodes.Core.arithmetic;
+using FirstLanguage.abstract_syntax_tree.Nodes.Core.logic;
+using FirstLanguage.abstract_syntax_tree.Nodes.Core.manipulation;
+using FirstLanguage.abstract_syntax_tree.Nodes.Core.Misc;
+using FirstLanguage.abstract_syntax_tree.Nodes.Core.variables;
+using FirstLanguage.abstract_syntax_tree.Nodes.Macro;
 
 namespace FirstLanguage;
 
@@ -18,7 +21,7 @@ public class MainVisitor : EduLangBaseVisitor<IAstNode>
             var stmtNode = Visit(statementContext);
             if (stmtNode != null)
             {
-                programNode.Statements.Add(stmtNode);
+                programNode.Children.Add(stmtNode);
             }
         }
 
@@ -68,7 +71,7 @@ public class MainVisitor : EduLangBaseVisitor<IAstNode>
             var stmtNode = Visit(statementContext);
             if (stmtNode != null)
             {
-                macroDef.Statements.Add(stmtNode);
+                macroDef.Children.Add(stmtNode);
             }
         }
 
