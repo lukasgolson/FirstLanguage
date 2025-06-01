@@ -44,6 +44,12 @@ public interface IEduLangVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitStatement([NotNull] EduLangParser.StatementContext context);
 	/// <summary>
+	/// Visit a parse tree produced by <see cref="EduLangParser.macro"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitMacro([NotNull] EduLangParser.MacroContext context);
+	/// <summary>
 	/// Visit a parse tree produced by <see cref="EduLangParser.instruction"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
@@ -109,4 +115,16 @@ public interface IEduLangVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitHalt_instr([NotNull] EduLangParser.Halt_instrContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="EduLangParser.macro_instr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitMacro_instr([NotNull] EduLangParser.Macro_instrContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="EduLangParser.macro_end_instr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitMacro_end_instr([NotNull] EduLangParser.Macro_end_instrContext context);
 }

@@ -37,25 +37,25 @@ public partial class EduLangParser : Parser {
 	protected static PredictionContextCache sharedContextCache = new PredictionContextCache();
 	public const int
 		KW_PUSH=1, KW_POP=2, KW_LOAD=3, KW_STORE=4, KW_ADD=5, KW_SUB=6, KW_LABEL=7, 
-		KW_JUMPZ=8, KW_PRINT=9, KW_HALT=10, INTEGER_LITERAL=11, IDENTIFIER=12, 
-		COMMENT=13, WS=14, NEWLINE=15;
+		KW_JUMPZ=8, KW_PRINT=9, KW_HALT=10, KW_MACRO=11, KW_MACRO_END=12, INTEGER_LITERAL=13, 
+		IDENTIFIER=14, COMMENT=15, WS=16, NEWLINE=17;
 	public const int
-		RULE_program = 0, RULE_statement = 1, RULE_instruction = 2, RULE_push_instr = 3, 
-		RULE_pop_instr = 4, RULE_load_instr = 5, RULE_store_instr = 6, RULE_add_instr = 7, 
-		RULE_sub_instr = 8, RULE_label_instr = 9, RULE_jumpz_instr = 10, RULE_print_instr = 11, 
-		RULE_halt_instr = 12;
+		RULE_program = 0, RULE_statement = 1, RULE_macro = 2, RULE_instruction = 3, 
+		RULE_push_instr = 4, RULE_pop_instr = 5, RULE_load_instr = 6, RULE_store_instr = 7, 
+		RULE_add_instr = 8, RULE_sub_instr = 9, RULE_label_instr = 10, RULE_jumpz_instr = 11, 
+		RULE_print_instr = 12, RULE_halt_instr = 13, RULE_macro_instr = 14, RULE_macro_end_instr = 15;
 	public static readonly string[] ruleNames = {
-		"program", "statement", "instruction", "push_instr", "pop_instr", "load_instr", 
-		"store_instr", "add_instr", "sub_instr", "label_instr", "jumpz_instr", 
-		"print_instr", "halt_instr"
+		"program", "statement", "macro", "instruction", "push_instr", "pop_instr", 
+		"load_instr", "store_instr", "add_instr", "sub_instr", "label_instr", 
+		"jumpz_instr", "print_instr", "halt_instr", "macro_instr", "macro_end_instr"
 	};
 
 	private static readonly string[] _LiteralNames = {
 	};
 	private static readonly string[] _SymbolicNames = {
 		null, "KW_PUSH", "KW_POP", "KW_LOAD", "KW_STORE", "KW_ADD", "KW_SUB", 
-		"KW_LABEL", "KW_JUMPZ", "KW_PRINT", "KW_HALT", "INTEGER_LITERAL", "IDENTIFIER", 
-		"COMMENT", "WS", "NEWLINE"
+		"KW_LABEL", "KW_JUMPZ", "KW_PRINT", "KW_HALT", "KW_MACRO", "KW_MACRO_END", 
+		"INTEGER_LITERAL", "IDENTIFIER", "COMMENT", "WS", "NEWLINE"
 	};
 	public static readonly IVocabulary DefaultVocabulary = new Vocabulary(_LiteralNames, _SymbolicNames);
 
@@ -97,6 +97,12 @@ public partial class EduLangParser : Parser {
 		[System.Diagnostics.DebuggerNonUserCode] public StatementContext statement(int i) {
 			return GetRuleContext<StatementContext>(i);
 		}
+		[System.Diagnostics.DebuggerNonUserCode] public MacroContext[] macro() {
+			return GetRuleContexts<MacroContext>();
+		}
+		[System.Diagnostics.DebuggerNonUserCode] public MacroContext macro(int i) {
+			return GetRuleContext<MacroContext>(i);
+		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode[] NEWLINE() { return GetTokens(EduLangParser.NEWLINE); }
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode NEWLINE(int i) {
 			return GetToken(EduLangParser.NEWLINE, i);
@@ -132,12 +138,12 @@ public partial class EduLangParser : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 30;
+			State = 37;
 			ErrorHandler.Sync(this);
 			_la = TokenStream.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & 34814L) != 0)) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & 135166L) != 0)) {
 				{
-				State = 28;
+				State = 35;
 				ErrorHandler.Sync(this);
 				switch (TokenStream.LA(1)) {
 				case KW_PUSH:
@@ -151,13 +157,19 @@ public partial class EduLangParser : Parser {
 				case KW_PRINT:
 				case KW_HALT:
 					{
-					State = 26;
+					State = 32;
 					statement();
+					}
+					break;
+				case KW_MACRO:
+					{
+					State = 33;
+					macro();
 					}
 					break;
 				case NEWLINE:
 					{
-					State = 27;
+					State = 34;
 					Match(NEWLINE);
 					}
 					break;
@@ -165,11 +177,11 @@ public partial class EduLangParser : Parser {
 					throw new NoViableAltException(this);
 				}
 				}
-				State = 32;
+				State = 39;
 				ErrorHandler.Sync(this);
 				_la = TokenStream.LA(1);
 			}
-			State = 33;
+			State = 40;
 			Match(Eof);
 			}
 		}
@@ -219,9 +231,114 @@ public partial class EduLangParser : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 35;
+			State = 42;
 			instruction();
-			State = 36;
+			State = 43;
+			Match(NEWLINE);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			ErrorHandler.ReportError(this, re);
+			ErrorHandler.Recover(this, re);
+		}
+		finally {
+			ExitRule();
+		}
+		return _localctx;
+	}
+
+	public partial class MacroContext : ParserRuleContext {
+		public IToken name;
+		public IToken param;
+		[System.Diagnostics.DebuggerNonUserCode] public Macro_instrContext macro_instr() {
+			return GetRuleContext<Macro_instrContext>(0);
+		}
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode[] NEWLINE() { return GetTokens(EduLangParser.NEWLINE); }
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode NEWLINE(int i) {
+			return GetToken(EduLangParser.NEWLINE, i);
+		}
+		[System.Diagnostics.DebuggerNonUserCode] public Macro_end_instrContext macro_end_instr() {
+			return GetRuleContext<Macro_end_instrContext>(0);
+		}
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode[] IDENTIFIER() { return GetTokens(EduLangParser.IDENTIFIER); }
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode IDENTIFIER(int i) {
+			return GetToken(EduLangParser.IDENTIFIER, i);
+		}
+		[System.Diagnostics.DebuggerNonUserCode] public StatementContext[] statement() {
+			return GetRuleContexts<StatementContext>();
+		}
+		[System.Diagnostics.DebuggerNonUserCode] public StatementContext statement(int i) {
+			return GetRuleContext<StatementContext>(i);
+		}
+		public MacroContext(ParserRuleContext parent, int invokingState)
+			: base(parent, invokingState)
+		{
+		}
+		public override int RuleIndex { get { return RULE_macro; } }
+		[System.Diagnostics.DebuggerNonUserCode]
+		public override void EnterRule(IParseTreeListener listener) {
+			IEduLangListener typedListener = listener as IEduLangListener;
+			if (typedListener != null) typedListener.EnterMacro(this);
+		}
+		[System.Diagnostics.DebuggerNonUserCode]
+		public override void ExitRule(IParseTreeListener listener) {
+			IEduLangListener typedListener = listener as IEduLangListener;
+			if (typedListener != null) typedListener.ExitMacro(this);
+		}
+		[System.Diagnostics.DebuggerNonUserCode]
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IEduLangVisitor<TResult> typedVisitor = visitor as IEduLangVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitMacro(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+
+	[RuleVersion(0)]
+	public MacroContext macro() {
+		MacroContext _localctx = new MacroContext(Context, State);
+		EnterRule(_localctx, 4, RULE_macro);
+		int _la;
+		try {
+			EnterOuterAlt(_localctx, 1);
+			{
+			State = 45;
+			macro_instr();
+			State = 46;
+			_localctx.name = Match(IDENTIFIER);
+			State = 50;
+			ErrorHandler.Sync(this);
+			_la = TokenStream.LA(1);
+			while (_la==IDENTIFIER) {
+				{
+				{
+				State = 47;
+				_localctx.param = Match(IDENTIFIER);
+				}
+				}
+				State = 52;
+				ErrorHandler.Sync(this);
+				_la = TokenStream.LA(1);
+			}
+			State = 53;
+			Match(NEWLINE);
+			State = 57;
+			ErrorHandler.Sync(this);
+			_la = TokenStream.LA(1);
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & 2046L) != 0)) {
+				{
+				{
+				State = 54;
+				statement();
+				}
+				}
+				State = 59;
+				ErrorHandler.Sync(this);
+				_la = TokenStream.LA(1);
+			}
+			State = 60;
+			macro_end_instr();
+			State = 61;
 			Match(NEWLINE);
 			}
 		}
@@ -293,78 +410,78 @@ public partial class EduLangParser : Parser {
 	[RuleVersion(0)]
 	public InstructionContext instruction() {
 		InstructionContext _localctx = new InstructionContext(Context, State);
-		EnterRule(_localctx, 4, RULE_instruction);
+		EnterRule(_localctx, 6, RULE_instruction);
 		try {
-			State = 48;
+			State = 73;
 			ErrorHandler.Sync(this);
 			switch (TokenStream.LA(1)) {
 			case KW_LOAD:
 				EnterOuterAlt(_localctx, 1);
 				{
-				State = 38;
+				State = 63;
 				load_instr();
 				}
 				break;
 			case KW_POP:
 				EnterOuterAlt(_localctx, 2);
 				{
-				State = 39;
+				State = 64;
 				pop_instr();
 				}
 				break;
 			case KW_PUSH:
 				EnterOuterAlt(_localctx, 3);
 				{
-				State = 40;
+				State = 65;
 				push_instr();
 				}
 				break;
 			case KW_STORE:
 				EnterOuterAlt(_localctx, 4);
 				{
-				State = 41;
+				State = 66;
 				store_instr();
 				}
 				break;
 			case KW_ADD:
 				EnterOuterAlt(_localctx, 5);
 				{
-				State = 42;
+				State = 67;
 				add_instr();
 				}
 				break;
 			case KW_SUB:
 				EnterOuterAlt(_localctx, 6);
 				{
-				State = 43;
+				State = 68;
 				sub_instr();
 				}
 				break;
 			case KW_JUMPZ:
 				EnterOuterAlt(_localctx, 7);
 				{
-				State = 44;
+				State = 69;
 				jumpz_instr();
 				}
 				break;
 			case KW_PRINT:
 				EnterOuterAlt(_localctx, 8);
 				{
-				State = 45;
+				State = 70;
 				print_instr();
 				}
 				break;
 			case KW_HALT:
 				EnterOuterAlt(_localctx, 9);
 				{
-				State = 46;
+				State = 71;
 				halt_instr();
 				}
 				break;
 			case KW_LABEL:
 				EnterOuterAlt(_localctx, 10);
 				{
-				State = 47;
+				State = 72;
 				label_instr();
 				}
 				break;
@@ -413,13 +530,13 @@ public partial class EduLangParser : Parser {
 	[RuleVersion(0)]
 	public Push_instrContext push_instr() {
 		Push_instrContext _localctx = new Push_instrContext(Context, State);
-		EnterRule(_localctx, 6, RULE_push_instr);
+		EnterRule(_localctx, 8, RULE_push_instr);
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 50;
+			State = 75;
 			Match(KW_PUSH);
-			State = 51;
+			State = 76;
 			_localctx.val = Match(INTEGER_LITERAL);
 			}
 		}
@@ -462,11 +579,11 @@ public partial class EduLangParser : Parser {
 	[RuleVersion(0)]
 	public Pop_instrContext pop_instr() {
 		Pop_instrContext _localctx = new Pop_instrContext(Context, State);
-		EnterRule(_localctx, 8, RULE_pop_instr);
+		EnterRule(_localctx, 10, RULE_pop_instr);
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 53;
+			State = 78;
 			Match(KW_POP);
 			}
 		}
@@ -511,13 +628,13 @@ public partial class EduLangParser : Parser {
 	[RuleVersion(0)]
 	public Load_instrContext load_instr() {
 		Load_instrContext _localctx = new Load_instrContext(Context, State);
-		EnterRule(_localctx, 10, RULE_load_instr);
+		EnterRule(_localctx, 12, RULE_load_instr);
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 55;
+			State = 80;
 			Match(KW_LOAD);
-			State = 56;
+			State = 81;
 			_localctx.id = Match(IDENTIFIER);
 			}
 		}
@@ -562,13 +679,13 @@ public partial class EduLangParser : Parser {
 	[RuleVersion(0)]
 	public Store_instrContext store_instr() {
 		Store_instrContext _localctx = new Store_instrContext(Context, State);
-		EnterRule(_localctx, 12, RULE_store_instr);
+		EnterRule(_localctx, 14, RULE_store_instr);
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 58;
+			State = 83;
 			Match(KW_STORE);
-			State = 59;
+			State = 84;
 			_localctx.id = Match(IDENTIFIER);
 			}
 		}
@@ -611,11 +728,11 @@ public partial class EduLangParser : Parser {
 	[RuleVersion(0)]
 	public Add_instrContext add_instr() {
 		Add_instrContext _localctx = new Add_instrContext(Context, State);
-		EnterRule(_localctx, 14, RULE_add_instr);
+		EnterRule(_localctx, 16, RULE_add_instr);
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 61;
+			State = 86;
 			Match(KW_ADD);
 			}
 		}
@@ -658,11 +775,11 @@ public partial class EduLangParser : Parser {
 	[RuleVersion(0)]
 	public Sub_instrContext sub_instr() {
 		Sub_instrContext _localctx = new Sub_instrContext(Context, State);
-		EnterRule(_localctx, 16, RULE_sub_instr);
+		EnterRule(_localctx, 18, RULE_sub_instr);
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 63;
+			State = 88;
 			Match(KW_SUB);
 			}
 		}
@@ -707,13 +824,13 @@ public partial class EduLangParser : Parser {
 	[RuleVersion(0)]
 	public Label_instrContext label_instr() {
 		Label_instrContext _localctx = new Label_instrContext(Context, State);
-		EnterRule(_localctx, 18, RULE_label_instr);
+		EnterRule(_localctx, 20, RULE_label_instr);
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 65;
+			State = 90;
 			Match(KW_LABEL);
-			State = 66;
+			State = 91;
 			_localctx.id = Match(IDENTIFIER);
 			}
 		}
@@ -758,13 +875,13 @@ public partial class EduLangParser : Parser {
 	[RuleVersion(0)]
 	public Jumpz_instrContext jumpz_instr() {
 		Jumpz_instrContext _localctx = new Jumpz_instrContext(Context, State);
-		EnterRule(_localctx, 20, RULE_jumpz_instr);
+		EnterRule(_localctx, 22, RULE_jumpz_instr);
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 68;
+			State = 93;
 			Match(KW_JUMPZ);
-			State = 69;
+			State = 94;
 			_localctx.id = Match(IDENTIFIER);
 			}
 		}
@@ -807,11 +924,11 @@ public partial class EduLangParser : Parser {
 	[RuleVersion(0)]
 	public Print_instrContext print_instr() {
 		Print_instrContext _localctx = new Print_instrContext(Context, State);
-		EnterRule(_localctx, 22, RULE_print_instr);
+		EnterRule(_localctx, 24, RULE_print_instr);
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 71;
+			State = 96;
 			Match(KW_PRINT);
 			}
 		}
@@ -854,11 +971,11 @@ public partial class EduLangParser : Parser {
 	[RuleVersion(0)]
 	public Halt_instrContext halt_instr() {
 		Halt_instrContext _localctx = new Halt_instrContext(Context, State);
-		EnterRule(_localctx, 24, RULE_halt_instr);
+		EnterRule(_localctx, 26, RULE_halt_instr);
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 73;
+			State = 98;
 			Match(KW_HALT);
 			}
 		}
@@ -873,28 +990,130 @@ public partial class EduLangParser : Parser {
 		return _localctx;
 	}
 
+	public partial class Macro_instrContext : ParserRuleContext {
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode KW_MACRO() { return GetToken(EduLangParser.KW_MACRO, 0); }
+		public Macro_instrContext(ParserRuleContext parent, int invokingState)
+			: base(parent, invokingState)
+		{
+		}
+		public override int RuleIndex { get { return RULE_macro_instr; } }
+		[System.Diagnostics.DebuggerNonUserCode]
+		public override void EnterRule(IParseTreeListener listener) {
+			IEduLangListener typedListener = listener as IEduLangListener;
+			if (typedListener != null) typedListener.EnterMacro_instr(this);
+		}
+		[System.Diagnostics.DebuggerNonUserCode]
+		public override void ExitRule(IParseTreeListener listener) {
+			IEduLangListener typedListener = listener as IEduLangListener;
+			if (typedListener != null) typedListener.ExitMacro_instr(this);
+		}
+		[System.Diagnostics.DebuggerNonUserCode]
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IEduLangVisitor<TResult> typedVisitor = visitor as IEduLangVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitMacro_instr(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+
+	[RuleVersion(0)]
+	public Macro_instrContext macro_instr() {
+		Macro_instrContext _localctx = new Macro_instrContext(Context, State);
+		EnterRule(_localctx, 28, RULE_macro_instr);
+		try {
+			EnterOuterAlt(_localctx, 1);
+			{
+			State = 100;
+			Match(KW_MACRO);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			ErrorHandler.ReportError(this, re);
+			ErrorHandler.Recover(this, re);
+		}
+		finally {
+			ExitRule();
+		}
+		return _localctx;
+	}
+
+	public partial class Macro_end_instrContext : ParserRuleContext {
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode KW_MACRO_END() { return GetToken(EduLangParser.KW_MACRO_END, 0); }
+		public Macro_end_instrContext(ParserRuleContext parent, int invokingState)
+			: base(parent, invokingState)
+		{
+		}
+		public override int RuleIndex { get { return RULE_macro_end_instr; } }
+		[System.Diagnostics.DebuggerNonUserCode]
+		public override void EnterRule(IParseTreeListener listener) {
+			IEduLangListener typedListener = listener as IEduLangListener;
+			if (typedListener != null) typedListener.EnterMacro_end_instr(this);
+		}
+		[System.Diagnostics.DebuggerNonUserCode]
+		public override void ExitRule(IParseTreeListener listener) {
+			IEduLangListener typedListener = listener as IEduLangListener;
+			if (typedListener != null) typedListener.ExitMacro_end_instr(this);
+		}
+		[System.Diagnostics.DebuggerNonUserCode]
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IEduLangVisitor<TResult> typedVisitor = visitor as IEduLangVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitMacro_end_instr(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+
+	[RuleVersion(0)]
+	public Macro_end_instrContext macro_end_instr() {
+		Macro_end_instrContext _localctx = new Macro_end_instrContext(Context, State);
+		EnterRule(_localctx, 30, RULE_macro_end_instr);
+		try {
+			EnterOuterAlt(_localctx, 1);
+			{
+			State = 102;
+			Match(KW_MACRO_END);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			ErrorHandler.ReportError(this, re);
+			ErrorHandler.Recover(this, re);
+		}
+		finally {
+			ExitRule();
+		}
+		return _localctx;
+	}
+
 	private static int[] _serializedATN = {
-		4,1,15,76,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,2,4,7,4,2,5,7,5,2,6,7,6,2,7,
-		7,7,2,8,7,8,2,9,7,9,2,10,7,10,2,11,7,11,2,12,7,12,1,0,1,0,5,0,29,8,0,10,
-		0,12,0,32,9,0,1,0,1,0,1,1,1,1,1,1,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,
-		1,2,3,2,49,8,2,1,3,1,3,1,3,1,4,1,4,1,5,1,5,1,5,1,6,1,6,1,6,1,7,1,7,1,8,
-		1,8,1,9,1,9,1,9,1,10,1,10,1,10,1,11,1,11,1,12,1,12,1,12,0,0,13,0,2,4,6,
-		8,10,12,14,16,18,20,22,24,0,0,73,0,30,1,0,0,0,2,35,1,0,0,0,4,48,1,0,0,
-		0,6,50,1,0,0,0,8,53,1,0,0,0,10,55,1,0,0,0,12,58,1,0,0,0,14,61,1,0,0,0,
-		16,63,1,0,0,0,18,65,1,0,0,0,20,68,1,0,0,0,22,71,1,0,0,0,24,73,1,0,0,0,
-		26,29,3,2,1,0,27,29,5,15,0,0,28,26,1,0,0,0,28,27,1,0,0,0,29,32,1,0,0,0,
-		30,28,1,0,0,0,30,31,1,0,0,0,31,33,1,0,0,0,32,30,1,0,0,0,33,34,5,0,0,1,
-		34,1,1,0,0,0,35,36,3,4,2,0,36,37,5,15,0,0,37,3,1,0,0,0,38,49,3,10,5,0,
-		39,49,3,8,4,0,40,49,3,6,3,0,41,49,3,12,6,0,42,49,3,14,7,0,43,49,3,16,8,
-		0,44,49,3,20,10,0,45,49,3,22,11,0,46,49,3,24,12,0,47,49,3,18,9,0,48,38,
-		1,0,0,0,48,39,1,0,0,0,48,40,1,0,0,0,48,41,1,0,0,0,48,42,1,0,0,0,48,43,
-		1,0,0,0,48,44,1,0,0,0,48,45,1,0,0,0,48,46,1,0,0,0,48,47,1,0,0,0,49,5,1,
-		0,0,0,50,51,5,1,0,0,51,52,5,11,0,0,52,7,1,0,0,0,53,54,5,2,0,0,54,9,1,0,
-		0,0,55,56,5,3,0,0,56,57,5,12,0,0,57,11,1,0,0,0,58,59,5,4,0,0,59,60,5,12,
-		0,0,60,13,1,0,0,0,61,62,5,5,0,0,62,15,1,0,0,0,63,64,5,6,0,0,64,17,1,0,
-		0,0,65,66,5,7,0,0,66,67,5,12,0,0,67,19,1,0,0,0,68,69,5,8,0,0,69,70,5,12,
-		0,0,70,21,1,0,0,0,71,72,5,9,0,0,72,23,1,0,0,0,73,74,5,10,0,0,74,25,1,0,
-		0,0,3,28,30,48
+		4,1,17,105,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,2,4,7,4,2,5,7,5,2,6,7,6,2,7,
+		7,7,2,8,7,8,2,9,7,9,2,10,7,10,2,11,7,11,2,12,7,12,2,13,7,13,2,14,7,14,
+		2,15,7,15,1,0,1,0,1,0,5,0,36,8,0,10,0,12,0,39,9,0,1,0,1,0,1,1,1,1,1,1,
+		1,2,1,2,1,2,5,2,49,8,2,10,2,12,2,52,9,2,1,2,1,2,5,2,56,8,2,10,2,12,2,59,
+		9,2,1,2,1,2,1,2,1,3,1,3,1,3,1,3,1,3,1,3,1,3,1,3,1,3,1,3,3,3,74,8,3,1,4,
+		1,4,1,4,1,5,1,5,1,6,1,6,1,6,1,7,1,7,1,7,1,8,1,8,1,9,1,9,1,10,1,10,1,10,
+		1,11,1,11,1,11,1,12,1,12,1,13,1,13,1,14,1,14,1,15,1,15,1,15,0,0,16,0,2,
+		4,6,8,10,12,14,16,18,20,22,24,26,28,30,0,0,102,0,37,1,0,0,0,2,42,1,0,0,
+		0,4,45,1,0,0,0,6,73,1,0,0,0,8,75,1,0,0,0,10,78,1,0,0,0,12,80,1,0,0,0,14,
+		83,1,0,0,0,16,86,1,0,0,0,18,88,1,0,0,0,20,90,1,0,0,0,22,93,1,0,0,0,24,
+		96,1,0,0,0,26,98,1,0,0,0,28,100,1,0,0,0,30,102,1,0,0,0,32,36,3,2,1,0,33,
+		36,3,4,2,0,34,36,5,17,0,0,35,32,1,0,0,0,35,33,1,0,0,0,35,34,1,0,0,0,36,
+		39,1,0,0,0,37,35,1,0,0,0,37,38,1,0,0,0,38,40,1,0,0,0,39,37,1,0,0,0,40,
+		41,5,0,0,1,41,1,1,0,0,0,42,43,3,6,3,0,43,44,5,17,0,0,44,3,1,0,0,0,45,46,
+		3,28,14,0,46,50,5,14,0,0,47,49,5,14,0,0,48,47,1,0,0,0,49,52,1,0,0,0,50,
+		48,1,0,0,0,50,51,1,0,0,0,51,53,1,0,0,0,52,50,1,0,0,0,53,57,5,17,0,0,54,
+		56,3,2,1,0,55,54,1,0,0,0,56,59,1,0,0,0,57,55,1,0,0,0,57,58,1,0,0,0,58,
+		60,1,0,0,0,59,57,1,0,0,0,60,61,3,30,15,0,61,62,5,17,0,0,62,5,1,0,0,0,63,
+		74,3,12,6,0,64,74,3,10,5,0,65,74,3,8,4,0,66,74,3,14,7,0,67,74,3,16,8,0,
+		68,74,3,18,9,0,69,74,3,22,11,0,70,74,3,24,12,0,71,74,3,26,13,0,72,74,3,
+		20,10,0,73,63,1,0,0,0,73,64,1,0,0,0,73,65,1,0,0,0,73,66,1,0,0,0,73,67,
+		1,0,0,0,73,68,1,0,0,0,73,69,1,0,0,0,73,70,1,0,0,0,73,71,1,0,0,0,73,72,
+		1,0,0,0,74,7,1,0,0,0,75,76,5,1,0,0,76,77,5,13,0,0,77,9,1,0,0,0,78,79,5,
+		2,0,0,79,11,1,0,0,0,80,81,5,3,0,0,81,82,5,14,0,0,82,13,1,0,0,0,83,84,5,
+		4,0,0,84,85,5,14,0,0,85,15,1,0,0,0,86,87,5,5,0,0,87,17,1,0,0,0,88,89,5,
+		6,0,0,89,19,1,0,0,0,90,91,5,7,0,0,91,92,5,14,0,0,92,21,1,0,0,0,93,94,5,
+		8,0,0,94,95,5,14,0,0,95,23,1,0,0,0,96,97,5,9,0,0,97,25,1,0,0,0,98,99,5,
+		10,0,0,99,27,1,0,0,0,100,101,5,11,0,0,101,29,1,0,0,0,102,103,5,12,0,0,
+		103,31,1,0,0,0,5,35,37,50,57,73
 	};
 
 	public static readonly ATN _ATN =

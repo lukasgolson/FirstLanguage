@@ -8,11 +8,13 @@ grammar EduLang;
 // A line can either be a statement (an instruction followed by a newline)
 // or just a NEWLINE (representing an empty line or a line that became empty
 // after comments were removed).
-program: (statement | NEWLINE)* EOF;
+program: (statement | macro | NEWLINE)* EOF;
 
 // A statement is defined as an instruction followed by a NEWLINE.
 // This enforces that each instruction is terminated by a newline.
 statement: instruction NEWLINE;
+
+macro: macro_instr name=IDENTIFIER (param=IDENTIFIER)* NEWLINE (statement)* block_end_instr NEWLINE;
 
 // The main 'instruction' rule is an alternative of all possible specific instructions.
 instruction:
@@ -52,6 +54,9 @@ jumpz_instr : KW_JUMPZ id=IDENTIFIER;
 print_instr : KW_PRINT;
 halt_instr  : KW_HALT;
 
+macro_instr : KW_MACRO;
+block_end_instr : KW_BLOCK_END;
+
 
 // Lexer Rules
 // These rules define how sequences of characters are grouped into tokens.
@@ -63,7 +68,7 @@ fragment I: [iI]; fragment J: [jJ]; fragment K: [kK]; fragment L: [lL];
 fragment M: [mM]; fragment N: [nN]; fragment O: [oO]; fragment P: [pP];
 fragment Q: [qQ]; fragment R: [rR]; fragment S: [sS]; fragment T: [tT];
 fragment U: [uU]; fragment V: [vV]; fragment W: [wW]; fragment X: [xX];
-fragment Y: [yY]; fragment Z: [zZ];
+fragment Y: [yY]; fragment Z: [zZ]; 
 
 // Keywords
 KW_PUSH : P U S H;
@@ -80,6 +85,9 @@ KW_JUMPZ : J U M P Z;
 
 KW_PRINT: P R I N T;
 KW_HALT : H A L T;
+
+KW_MACRO: M A C R O;
+KW_BLOCK_END: E N D; 
 
 // Token for integer literals
 INTEGER_LITERAL : '-'? [0-9]+ ;

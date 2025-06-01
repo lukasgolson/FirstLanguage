@@ -51,6 +51,16 @@ public interface IEduLangListener : IParseTreeListener {
 	/// <param name="context">The parse tree.</param>
 	void ExitStatement([NotNull] EduLangParser.StatementContext context);
 	/// <summary>
+	/// Enter a parse tree produced by <see cref="EduLangParser.macro"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterMacro([NotNull] EduLangParser.MacroContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="EduLangParser.macro"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitMacro([NotNull] EduLangParser.MacroContext context);
+	/// <summary>
 	/// Enter a parse tree produced by <see cref="EduLangParser.instruction"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
@@ -160,4 +170,24 @@ public interface IEduLangListener : IParseTreeListener {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	void ExitHalt_instr([NotNull] EduLangParser.Halt_instrContext context);
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="EduLangParser.macro_instr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterMacro_instr([NotNull] EduLangParser.Macro_instrContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="EduLangParser.macro_instr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitMacro_instr([NotNull] EduLangParser.Macro_instrContext context);
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="EduLangParser.macro_end_instr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterMacro_end_instr([NotNull] EduLangParser.Macro_end_instrContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="EduLangParser.macro_end_instr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitMacro_end_instr([NotNull] EduLangParser.Macro_end_instrContext context);
 }

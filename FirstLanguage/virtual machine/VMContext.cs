@@ -94,6 +94,7 @@ public class VmContext
                     
                     break;
                 case OpCode.Print:
+                    
                     Console.WriteLine(_stack.Peek());
                     break;
                 case OpCode.Halt:
