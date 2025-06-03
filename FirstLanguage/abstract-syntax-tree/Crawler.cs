@@ -10,7 +10,10 @@ public class Crawler
     public ProgramNode ResolveMacros(ProgramNode program)
     {
         var clone = program.Clone() as ProgramNode;
-        
+        if (clone == null)
+        {
+            throw new InvalidOperationException("The cloned program is not a valid ProgramNode.");
+        }
         
         var nodesToVisit = new Stack<IAstNode>();
 
