@@ -30,7 +30,8 @@ public class VmContext
         }
         catch (InvalidOperationException e)
         {
-            throw new VMException($"Stack underflow with instruction {_instructionIndex}: {(OpCode) _instructions[_instructionIndex]}", e);
+            throw new VMException(
+                $"Stack underflow with instruction {_instructionIndex}: {(OpCode)_instructions[_instructionIndex]}", e);
         }
     }
 
@@ -121,8 +122,22 @@ public class VmContext
 
                     break;
                 case OpCode.Print:
-
                     Console.WriteLine(Peek());
+                    break;
+                case OpCode.Input:
+
+                    while (true)
+                    {
+                        Console.Write("Input: ");
+                        var input = Console.ReadLine();
+                        if (long.TryParse(input, out var result))
+                        {
+                            _stack.Push(result);
+                            break;
+                        }
+                    }
+                  
+                    
                     break;
                 case OpCode.Halt:
                     _executing = false;
@@ -191,10 +206,9 @@ public class VmContext
         List<byte> instructions = [];
         var labelsDict = new Dictionary<string, int>();
         List<string> registers = [];
-
-
+        
         List<(string label, int position)> unresolvedLabels = [];
-
+        
         foreach (var node in program.Children)
         {
             switch (node)
@@ -296,6 +310,9 @@ public class VmContext
                     instructions.Add((byte)register);
                     break;
                 }
+                case InputNode inputNode:
+                    instructions.Add((byte)OpCode.Input);
+                    break;
                 default:
                     var type = node.GetType().Name;
                     throw new CompilerException(

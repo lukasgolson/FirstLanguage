@@ -11,6 +11,7 @@ public enum OpCode : byte
     Sub,
     JumpZ,
     Print,
+    Input,
     Halt,
     Label,
     

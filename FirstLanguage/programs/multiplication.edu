@@ -4,11 +4,10 @@
 # We then multiply 25 by 10
 # ================================================
 
-push 25
-push 1000
+input
+input
 mult
-push 200
-mult
+
 print
 halt
 
