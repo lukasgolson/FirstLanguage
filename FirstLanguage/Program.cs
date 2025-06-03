@@ -3,7 +3,7 @@ using Antlr4.Runtime.Tree;
 using DotMake.CommandLine;
 using FirstLanguage;
 using FirstLanguage.abstract_syntax_tree;
-using FirstLanguage.abstract_syntax_tree.Core;
+using FirstLanguage.abstract_syntax_tree.Nodes.Core;
 using FirstLanguage.virtual_machine;
 
 // Add this single line to run you app!
@@ -35,17 +35,23 @@ public class RootCliCommand
         IParseTree tree = parser.program();
 
         MainVisitor mainVisitor = new MainVisitor();
+        
+        var result = (ProgramNode) mainVisitor.Visit(tree);
+        
+        var crawler = new Crawler();
+        var program = crawler.ResolveMacros(result);
 
-        var result = mainVisitor.Visit(tree);
-
-
-        var vm = new VmContext((ProgramNode)result);
+        var vm = new VmContext(program);
 
         try
         {
             vm.Execute();
         }
         catch (VMException e)
+        {
+            Console.WriteLine(e);
+        }
+        catch (CompilerException e)
         {
             Console.WriteLine(e);
         }
