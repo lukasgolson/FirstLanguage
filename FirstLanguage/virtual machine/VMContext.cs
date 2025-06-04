@@ -1,4 +1,5 @@
-﻿using FirstLanguage.abstract_syntax_tree.Nodes.Core;
+﻿using FirstLanguage.abstract_syntax_tree.Core.logic;
+using FirstLanguage.abstract_syntax_tree.Nodes.Core;
 using FirstLanguage.abstract_syntax_tree.Nodes.Core.arithmetic;
 using FirstLanguage.abstract_syntax_tree.Nodes.Core.logic;
 using FirstLanguage.abstract_syntax_tree.Nodes.Core.manipulation;
@@ -121,6 +122,22 @@ public class VmContext
                     }
 
                     break;
+
+                case OpCode.Gt:
+                {
+                    if (_stack.Count < 2)
+                    {
+                        throw new VMException("Stack underflow, stack does not contain enough elements to add.");
+                    }
+                    
+                    var item1 = _stack.Pop();
+                    var item2 = _stack.Pop();
+                    
+                    _stack.Push(item1 > item2 ? 1 : 0);
+
+                    break;
+                }
+                
                 case OpCode.Print:
                     Console.WriteLine(Peek());
                     break;
@@ -271,6 +288,12 @@ public class VmContext
                     instructions.Add((byte)OpCode.Push);
                     var bytes = LongToBytes(pushNode.Value);
                     instructions.AddRange(bytes);
+                    break;
+                }
+
+                case GTNode:
+                {
+                    instructions.Add((byte)OpCode.Gt);
                     break;
                 }
                 case HaltNode:

@@ -168,6 +168,18 @@ public partial class EduLangBaseListener : IEduLangListener {
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitSub_instr([NotNull] EduLangParser.Sub_instrContext context) { }
 	/// <summary>
+	/// Enter a parse tree produced by <see cref="EduLangParser.gt_instr"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterGt_instr([NotNull] EduLangParser.Gt_instrContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="EduLangParser.gt_instr"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitGt_instr([NotNull] EduLangParser.Gt_instrContext context) { }
+	/// <summary>
 	/// Enter a parse tree produced by <see cref="EduLangParser.label_instr"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>

@@ -1,4 +1,5 @@
 ﻿using FirstLanguage.abstract_syntax_tree;
+using FirstLanguage.abstract_syntax_tree.Core.logic;
 using FirstLanguage.abstract_syntax_tree.Nodes;
 using FirstLanguage.abstract_syntax_tree.Nodes.Core;
 using FirstLanguage.abstract_syntax_tree.Nodes.Core.arithmetic;
@@ -116,6 +117,11 @@ public class MainVisitor : EduLangBaseVisitor<IAstNode>
     public override IAstNode VisitSub_instr(EduLangParser.Sub_instrContext context)
     {
         return new SubNode();
+    }
+
+    public override IAstNode VisitGt_instr(EduLangParser.Gt_instrContext context)
+    {
+        return new GTNode();
     }
 
     public override IAstNode VisitLabel_instr(EduLangParser.Label_instrContext context)

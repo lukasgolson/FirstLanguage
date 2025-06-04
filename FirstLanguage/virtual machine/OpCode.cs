@@ -9,6 +9,7 @@ public enum OpCode : byte
     Store,
     Add,
     Sub,
+    Gt,
     JumpZ,
     Print,
     Input,

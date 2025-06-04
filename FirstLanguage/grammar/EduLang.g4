@@ -25,6 +25,7 @@ instruction:
     | store_instr
     | add_instr
     | sub_instr
+    | gt_instr
     | jumpz_instr
     | print_instr
     | input_instr
@@ -44,6 +45,8 @@ store_instr : KW_STORE id=IDENTIFIER;
 // Arithmetic Operations
 add_instr   : KW_ADD;
 sub_instr   : KW_SUB;
+
+gt_instr : KW_GT;
 
 // Control Flow Instructions
 label_instr : KW_LABEL id=IDENTIFIER;
@@ -80,6 +83,8 @@ KW_STORE: S T O R E;
 
 KW_ADD  : A D D;
 KW_SUB  : S U B;
+
+KW_GT : G T;
 
 KW_LABEL : L A B E L;
 KW_JUMPZ : J U M P Z;

@@ -31,6 +31,9 @@
       <None Update="programs\test.edu">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
+      <None Update="programs\greater-than-equal.edu">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
     </ItemGroup>
 
 </Project>

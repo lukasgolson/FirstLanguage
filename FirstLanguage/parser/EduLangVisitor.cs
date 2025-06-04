@@ -98,6 +98,12 @@ public interface IEduLangVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitSub_instr([NotNull] EduLangParser.Sub_instrContext context);
 	/// <summary>
+	/// Visit a parse tree produced by <see cref="EduLangParser.gt_instr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitGt_instr([NotNull] EduLangParser.Gt_instrContext context);
+	/// <summary>
 	/// Visit a parse tree produced by <see cref="EduLangParser.label_instr"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>

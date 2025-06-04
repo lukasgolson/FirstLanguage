@@ -1,7 +1,7 @@
 ﻿# ================================================
 # Example: Multiplier macro
 # This program defines a new multiply macro
-# We then multiply 25 by 10
+# We then multiply input by input
 # ================================================
 
 input
