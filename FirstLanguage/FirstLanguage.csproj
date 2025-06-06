@@ -34,6 +34,12 @@
       <None Update="programs\greater-than-equal.edu">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
+      <None Update="programs\multistack.edu">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="programs\jumpz.edu">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
     </ItemGroup>
 
 </Project>

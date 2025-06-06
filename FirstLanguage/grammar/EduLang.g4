@@ -37,7 +37,7 @@ instruction:
 
 // Stack Manipulation Instructions
 push_instr  : KW_PUSH val=INTEGER_LITERAL;
-pop_instr   : KW_POP;
+pop_instr   : KW_POP (id=IDENTIFIER)?;
 
 load_instr  : KW_LOAD id=IDENTIFIER;
 store_instr : KW_STORE id=IDENTIFIER;

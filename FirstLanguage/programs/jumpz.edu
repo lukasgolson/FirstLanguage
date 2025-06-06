@@ -1,0 +1,7 @@
+﻿push 10
+push 0
+jumpz test
+push 20
+label test
+print
+halt

@@ -1,4 +1,5 @@
-﻿using Antlr4.Runtime;
+﻿using System.Diagnostics;
+using Antlr4.Runtime;
 using Antlr4.Runtime.Tree;
 using DotMake.CommandLine;
 using FirstLanguage;
@@ -45,7 +46,13 @@ public class RootCliCommand
 
         try
         {
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start(); // Start the stopwatch
+
             vm.Execute();
+            
+            stopwatch.Stop();
+            Console.WriteLine($"Program executed in: {stopwatch.Elapsed.TotalMilliseconds} ms");
         }
         catch (VMException e)
         {

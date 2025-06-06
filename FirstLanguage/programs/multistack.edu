@@ -1,0 +1,16 @@
+﻿push 10
+push 20
+store stack1
+load stack1
+
+push 0
+jumpz test
+print
+label test
+halt
+
+
+macro jump lab
+    push 1
+    jumpz lab
+end
