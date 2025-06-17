@@ -8,14 +8,16 @@ grammar EduLang;
 // A line can either be a statement (an instruction followed by a newline)
 // or just a NEWLINE (representing an empty line or a line that became empty
 // after comments were removed).
-program: (statement | NEWLINE)* EOF;
+program: (unsafe_block | NEWLINE)* EOF;
 
-// A statement is defined as an instruction followed by a NEWLINE.
-statement: (instruction | macro_def | macro_call) NEWLINE;
+// A raw statement is defined as a low-level instruction followed by a NEWLINE.
+low_statement: (instruction | macro_def | macro_call) NEWLINE;
 
-macro_def: macro_instr name=IDENTIFIER args+=IDENTIFIER* NEWLINE (statement | NEWLINE)* block_end_instr;
+macro_def: macro_instr name=IDENTIFIER args+=IDENTIFIER* NEWLINE (low_statement | NEWLINE)* block_end_instr;
 
 macro_call: name=IDENTIFIER args+=IDENTIFIER*;
+
+unsafe_block: unsafe_instr NEWLINE (low_statement | NEWLINE)* block_end_instr;
 
 // The main 'instruction' rule is an alternative of all possible specific instructions.
 instruction:
@@ -58,6 +60,8 @@ print_instr : KW_PRINT;
 input_instr : KW_INPUT;
 halt_instr  : KW_HALT;
 
+unsafe_instr : KW_UNSAFE;
+
 macro_instr : KW_MACRO;
 block_end_instr : KW_BLOCK_END;
 
@@ -73,6 +77,8 @@ fragment M: [mM]; fragment N: [nN]; fragment O: [oO]; fragment P: [pP];
 fragment Q: [qQ]; fragment R: [rR]; fragment S: [sS]; fragment T: [tT];
 fragment U: [uU]; fragment V: [vV]; fragment W: [wW]; fragment X: [xX];
 fragment Y: [yY]; fragment Z: [zZ]; 
+
+fragment COLON: [:]; fragment AT: [@];
 
 // Keywords
 KW_PUSH : P U S H;
@@ -95,6 +101,7 @@ KW_HALT : H A L T;
 
 KW_MACRO: M A C R O;
 KW_BLOCK_END: E N D; 
+KW_UNSAFE: AT U N S A F E;
 
 // Token for integer literals
 INTEGER_LITERAL : '-'? [0-9]+ ;

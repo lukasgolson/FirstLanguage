@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-// Generated from E:/Lukas/Projects/FirstLanguage/FirstLanguage/grammar/EduLang.g4 by ANTLR 4.13.2
+// Generated from C:/Users/olson.stu/RiderProjects/FirstLanguage/FirstLanguage/grammar/EduLang.g4 by ANTLR 4.13.2
 
 // Unreachable code detected
 #pragma warning disable 0162
@@ -45,7 +45,7 @@ public partial class EduLangBaseVisitor<Result> : AbstractParseTreeVisitor<Resul
 	/// <return>The visitor result.</return>
 	public virtual Result VisitProgram([NotNull] EduLangParser.ProgramContext context) { return VisitChildren(context); }
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="EduLangParser.statement"/>.
+	/// Visit a parse tree produced by <see cref="EduLangParser.low_statement"/>.
 	/// <para>
 	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
 	/// on <paramref name="context"/>.
@@ -53,7 +53,7 @@ public partial class EduLangBaseVisitor<Result> : AbstractParseTreeVisitor<Resul
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	public virtual Result VisitStatement([NotNull] EduLangParser.StatementContext context) { return VisitChildren(context); }
+	public virtual Result VisitLow_statement([NotNull] EduLangParser.Low_statementContext context) { return VisitChildren(context); }
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="EduLangParser.macro_def"/>.
 	/// <para>
@@ -74,6 +74,16 @@ public partial class EduLangBaseVisitor<Result> : AbstractParseTreeVisitor<Resul
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	public virtual Result VisitMacro_call([NotNull] EduLangParser.Macro_callContext context) { return VisitChildren(context); }
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="EduLangParser.unsafe_block"/>.
+	/// <para>
+	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
+	/// on <paramref name="context"/>.
+	/// </para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	public virtual Result VisitUnsafe_block([NotNull] EduLangParser.Unsafe_blockContext context) { return VisitChildren(context); }
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="EduLangParser.instruction"/>.
 	/// <para>
@@ -204,6 +214,16 @@ public partial class EduLangBaseVisitor<Result> : AbstractParseTreeVisitor<Resul
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	public virtual Result VisitHalt_instr([NotNull] EduLangParser.Halt_instrContext context) { return VisitChildren(context); }
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="EduLangParser.unsafe_instr"/>.
+	/// <para>
+	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
+	/// on <paramref name="context"/>.
+	/// </para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	public virtual Result VisitUnsafe_instr([NotNull] EduLangParser.Unsafe_instrContext context) { return VisitChildren(context); }
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="EduLangParser.macro_instr"/>.
 	/// <para>

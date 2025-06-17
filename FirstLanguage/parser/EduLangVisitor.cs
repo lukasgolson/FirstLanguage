@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-// Generated from E:/Lukas/Projects/FirstLanguage/FirstLanguage/grammar/EduLang.g4 by ANTLR 4.13.2
+// Generated from C:/Users/olson.stu/RiderProjects/FirstLanguage/FirstLanguage/grammar/EduLang.g4 by ANTLR 4.13.2
 
 // Unreachable code detected
 #pragma warning disable 0162
@@ -38,11 +38,11 @@ public interface IEduLangVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitProgram([NotNull] EduLangParser.ProgramContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="EduLangParser.statement"/>.
+	/// Visit a parse tree produced by <see cref="EduLangParser.low_statement"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitStatement([NotNull] EduLangParser.StatementContext context);
+	Result VisitLow_statement([NotNull] EduLangParser.Low_statementContext context);
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="EduLangParser.macro_def"/>.
 	/// </summary>
@@ -55,6 +55,12 @@ public interface IEduLangVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitMacro_call([NotNull] EduLangParser.Macro_callContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="EduLangParser.unsafe_block"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitUnsafe_block([NotNull] EduLangParser.Unsafe_blockContext context);
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="EduLangParser.instruction"/>.
 	/// </summary>
@@ -133,6 +139,12 @@ public interface IEduLangVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitHalt_instr([NotNull] EduLangParser.Halt_instrContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="EduLangParser.unsafe_instr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitUnsafe_instr([NotNull] EduLangParser.Unsafe_instrContext context);
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="EduLangParser.macro_instr"/>.
 	/// </summary>

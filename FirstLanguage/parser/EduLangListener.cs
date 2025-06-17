@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-// Generated from E:/Lukas/Projects/FirstLanguage/FirstLanguage/grammar/EduLang.g4 by ANTLR 4.13.2
+// Generated from C:/Users/olson.stu/RiderProjects/FirstLanguage/FirstLanguage/grammar/EduLang.g4 by ANTLR 4.13.2
 
 // Unreachable code detected
 #pragma warning disable 0162
@@ -41,15 +41,15 @@ public interface IEduLangListener : IParseTreeListener {
 	/// <param name="context">The parse tree.</param>
 	void ExitProgram([NotNull] EduLangParser.ProgramContext context);
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="EduLangParser.statement"/>.
+	/// Enter a parse tree produced by <see cref="EduLangParser.low_statement"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void EnterStatement([NotNull] EduLangParser.StatementContext context);
+	void EnterLow_statement([NotNull] EduLangParser.Low_statementContext context);
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="EduLangParser.statement"/>.
+	/// Exit a parse tree produced by <see cref="EduLangParser.low_statement"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void ExitStatement([NotNull] EduLangParser.StatementContext context);
+	void ExitLow_statement([NotNull] EduLangParser.Low_statementContext context);
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="EduLangParser.macro_def"/>.
 	/// </summary>
@@ -70,6 +70,16 @@ public interface IEduLangListener : IParseTreeListener {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	void ExitMacro_call([NotNull] EduLangParser.Macro_callContext context);
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="EduLangParser.unsafe_block"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterUnsafe_block([NotNull] EduLangParser.Unsafe_blockContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="EduLangParser.unsafe_block"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitUnsafe_block([NotNull] EduLangParser.Unsafe_blockContext context);
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="EduLangParser.instruction"/>.
 	/// </summary>
@@ -200,6 +210,16 @@ public interface IEduLangListener : IParseTreeListener {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	void ExitHalt_instr([NotNull] EduLangParser.Halt_instrContext context);
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="EduLangParser.unsafe_instr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterUnsafe_instr([NotNull] EduLangParser.Unsafe_instrContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="EduLangParser.unsafe_instr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitUnsafe_instr([NotNull] EduLangParser.Unsafe_instrContext context);
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="EduLangParser.macro_instr"/>.
 	/// </summary>

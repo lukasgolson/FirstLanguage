@@ -16,7 +16,7 @@ public class MainVisitor : EduLangBaseVisitor<IAstNode>
     {
         var programNode = new ProgramNode();
 
-        foreach (var statementContext in context.statement())
+        foreach (var statementContext in context.unsafe_block())
         {
             var stmtNode = Visit(statementContext);
             if (stmtNode != null)
@@ -28,8 +28,24 @@ public class MainVisitor : EduLangBaseVisitor<IAstNode>
         return programNode;
     }
 
+    public override IAstNode VisitUnsafe_block(EduLangParser.Unsafe_blockContext context)
+    {
+        var unsafeNode = new UnsafeNode();
 
-    public override IAstNode VisitStatement(EduLangParser.StatementContext context)
+        foreach (var statementContext in context.low_statement())
+        {
+            var stmtNode = Visit(statementContext);
+            if (stmtNode != null)
+            {
+                unsafeNode.Children.Add(stmtNode);
+            }
+        }
+
+        return unsafeNode;
+    }
+
+
+    public override IAstNode VisitLow_statement(EduLangParser.Low_statementContext context)
     {
         if (context.instruction() != null)
         {
@@ -67,7 +83,7 @@ public class MainVisitor : EduLangBaseVisitor<IAstNode>
         var macroDef = new MacroDefNode(label, argumentNames.ToArray());
 
 
-        foreach (var statementContext in context.statement())
+        foreach (var statementContext in context.low_statement())
         {
             var stmtNode = Visit(statementContext);
             if (stmtNode != null)
