@@ -4,43 +4,45 @@
 # We then multiply input by input
 # ================================================
 
-input
-input
-mult
-
-print
-halt
-
-macro jump lab
-    PUSH 0
-    JUMPZ lab
-end
-
-macro mult
-    STORE i # Multiplier
-    STORE j # Multiplicand
-
-    PUSH 0
-    STORE sum
-
-    label loopStart
-        LOAD i
-        JUMPZ endLoop # If i is 0, we are done
+@unsafe
+    input
+    input
+    mult
     
-        # Add multiplicand to sum
-        LOAD sum
-        LOAD j
-        ADD
+    print
+    halt
+    
+    macro jump lab
+        PUSH 0
+        JUMPZ lab
+    end
+    
+    macro mult
+        STORE i # Multiplier
+        STORE j # Multiplicand
+    
+        PUSH 0
         STORE sum
     
-        # Decrement multiplier
-        PUSH 1
-        LOAD i
-        SUB
-        STORE i
+        label loopStart
+            LOAD i
+            JUMPZ endLoop # If i is 0, we are done
         
-        jump loopStart # Unconditional jump back to loopStart
-    
-    label endLoop
-        LOAD sum
+            # Add multiplicand to sum
+            LOAD sum
+            LOAD j
+            ADD
+            STORE sum
+        
+            # Decrement multiplier
+            PUSH 1
+            LOAD i
+            SUB
+            STORE i
+            
+            jump loopStart # Unconditional jump back to loopStart
+        
+        label endLoop
+            LOAD sum
+    end
 end

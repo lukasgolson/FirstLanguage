@@ -5,7 +5,6 @@ using FirstLanguage.abstract_syntax_tree.Nodes.Core.logic;
 using FirstLanguage.abstract_syntax_tree.Nodes.Core.manipulation;
 using FirstLanguage.abstract_syntax_tree.Nodes.Core.Misc;
 using FirstLanguage.abstract_syntax_tree.Nodes.Core.variables;
-using System.Collections.Generic;
 using FirstLanguage.abstract_syntax_tree.Nodes;
 
 namespace FirstLanguage.virtual_machine;

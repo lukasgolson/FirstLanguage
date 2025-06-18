@@ -46,16 +46,21 @@ public class Crawler
                     if (parent != null)
                     {
                         var index = parent.Children.IndexOf(unsafeNode);
-                        parent.Children.RemoveAt(index);
+                        parent.Children.Remove(node);
                         parent.Children.InsertRange(index, children);
+                    }
 
+                    foreach (var child in children)
+                    {
+                        child.Parent = parent;
                     }
                     
-                    break;
-                case MacroDefNode macroDefNode when !macros.TryAdd(macroDefNode.Label, macroDefNode):
-                    throw new CompilerException("Macro definition could not be added. Has it been already defined?");
-                case MacroDefNode:
+                    break; 
+                
+                case MacroDefNode macroDefNode:
                 {
+                    macros.Add(macroDefNode.Label, macroDefNode);
+                    
                     if (node.Parent is IBlockNode blockNodeParent)
                     {
                         blockNodeParent.Children.Remove(node); // Unlink the node from its parent

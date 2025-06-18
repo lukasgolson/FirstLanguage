@@ -5,44 +5,45 @@
 # ================================================
 
 # Setup
-input
-input
-gte
-print
-
-# Macro definitions
-
-macro jump lab
-push 0
-jumpz lab
+@unsafe
+    input
+    input
+    gte
+    print
+    
+    # Macro definitions
+    
+    macro jump lab
+    push 0
+    jumpz lab
+    end
+    
+    macro gte
+    
+    store val1
+    store val2
+    
+    load val1
+    load val2
+    sub
+    jumpz gte
+    
+    load val1
+    load val2
+    gt
+    
+    jumpz lt
+    
+    label gte
+    push 1
+    jump endlabel
+    
+    label lt
+    push 0
+    jump endlabel
+    
+    label endlabel
+    end
+    
+    halt
 end
-
-macro gte
-
-store val1
-store val2
-
-load val1
-load val2
-sub
-jumpz gte
-
-load val1
-load val2
-gt
-
-jumpz lt
-
-label gte
-push 1
-jump endlabel
-
-label lt
-push 0
-jump endlabel
-
-label endlabel
-end
-
-halt
-
