@@ -6,6 +6,7 @@ using FirstLanguage.abstract_syntax_tree.Nodes.Core.manipulation;
 using FirstLanguage.abstract_syntax_tree.Nodes.Core.Misc;
 using FirstLanguage.abstract_syntax_tree.Nodes.Core.variables;
 using System.Collections.Generic;
+using FirstLanguage.abstract_syntax_tree.Nodes;
 
 namespace FirstLanguage.virtual_machine;
 
@@ -360,6 +361,9 @@ public class VmContext
                 case InputNode inputNode:
                     instructions.Add((byte)OpCode.Input);
                     break;
+                case UnsafeNode:
+                    // We can ignore the unsafe Node as it just indicates manually written vm code.
+                    break;
                 default:
                     var type = node.GetType().Name;
                     throw new CompilerException(
@@ -388,14 +392,13 @@ public class VmContext
             {
                 throw new CompilerException($"Label [{label}] not defined");
             }
-
         }
 
         // To create our final byte code, our final instructions will look like: init op codes to start registries, program
 
         var initInstructions = new List<byte>();
 
-        int remainingRegisters = registers.Count; // The main stack is automatically initialized by the VM
+        int remainingRegisters = registers.Count; // The VM automatically initializes the main stack
 
         while (remainingRegisters > 0)
         {
@@ -412,9 +415,7 @@ public class VmContext
                 remainingRegisters = 0;
             }
         }
-
-     
-
+        
         List<byte> finalInstructions = [];
         finalInstructions.AddRange(initInstructions);
         finalInstructions.AddRange(instructions);

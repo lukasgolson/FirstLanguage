@@ -9,8 +9,7 @@ public class Crawler
 {
     public ProgramNode ResolveMacros(ProgramNode program)
     {
-        var clone = program.Clone() as ProgramNode;
-        if (clone == null)
+        if (program.Clone() is not ProgramNode clone)
         {
             throw new InvalidOperationException("The cloned program is not a valid ProgramNode.");
         }
@@ -37,22 +36,36 @@ public class Crawler
                 }
             }
 
-            if (node is MacroDefNode macroDefNode)
+            switch (node)
             {
-                if (!macros.TryAdd(macroDefNode.Label, macroDefNode))
-                {
+                case UnsafeNode unsafeNode:
+
+                    var parent = unsafeNode.Parent as IBlockNode;
+                    var children = unsafeNode.Children;
+
+                    if (parent != null)
+                    {
+                        var index = parent.Children.IndexOf(unsafeNode);
+                        parent.Children.RemoveAt(index);
+                        parent.Children.InsertRange(index, children);
+
+                    }
+                    
+                    break;
+                case MacroDefNode macroDefNode when !macros.TryAdd(macroDefNode.Label, macroDefNode):
                     throw new CompilerException("Macro definition could not be added. Has it been already defined?");
-                }
-
-                if (node.Parent is IBlockNode blockNodeParent)
+                case MacroDefNode:
                 {
-                    blockNodeParent.Children.Remove(node); // Unlink the node from its parent
-                }
-            }
+                    if (node.Parent is IBlockNode blockNodeParent)
+                    {
+                        blockNodeParent.Children.Remove(node); // Unlink the node from its parent
+                    }
 
-            if (node is MacroCallNode macroCallNode)
-            {
-                callSites.Add(macroCallNode);
+                    break;
+                }
+                case MacroCallNode macroCallNode:
+                    callSites.Add(macroCallNode);
+                    break;
             }
         }
 

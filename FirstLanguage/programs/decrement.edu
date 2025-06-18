@@ -1,15 +1,7 @@
-﻿push 258
-store value
-label start
-push 10
-load value
-sub
-print
-store value
-load value
-jumpz end
-push 0
-jumpz start
-
-label end
-halt
+﻿@unsafe
+    push 258
+    
+    
+    print
+    halt
+end
