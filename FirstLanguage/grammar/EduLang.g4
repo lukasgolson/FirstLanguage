@@ -8,7 +8,7 @@ grammar EduLang;
 // A line can either be a statement (an instruction followed by a newline)
 // or just a NEWLINE (representing an empty line or a line that became empty
 // after comments were removed).
-program: (unsafe_block | NEWLINE)* EOF;
+program: (unsafe_block | if_instr | NEWLINE)* EOF;
 
 // A raw statement is defined as a low-level instruction followed by a NEWLINE.
 low_statement: (instruction | macro_def | macro_call) NEWLINE;
@@ -37,6 +37,11 @@ instruction:
 
 // Specific parser rules for each EduLang instruction.
 
+// High Level Instructions
+if_instr : KW_IF KW_OPEN condition=IDENTIFIER KW_CLOSE NEWLINE (low_statement | NEWLINE)* ((KW_ELSE (low_statement | NEWLINE)* KW_BLOCK_END) | KW_BLOCK_END);
+
+
+// Low Level Instructions
 // Stack Manipulation Instructions
 push_instr  : KW_PUSH val=INTEGER_LITERAL;
 pop_instr   : KW_POP (id=IDENTIFIER)?;
@@ -80,7 +85,7 @@ fragment Y: [yY]; fragment Z: [zZ];
 
 fragment COLON: [:]; fragment AT: [@];
 
-// Keywords
+// Low Level Keywords
 KW_PUSH : P U S H;
 KW_POP  : P O P;
 
@@ -102,6 +107,13 @@ KW_HALT : H A L T;
 KW_MACRO: M A C R O;
 KW_BLOCK_END: E N D; 
 KW_UNSAFE: AT U N S A F E;
+
+// High level instructions
+KW_IF: I F;
+KW_ELSE: E L S E;
+
+KW_OPEN: [(];
+KW_CLOSE: [)];
 
 // Token for integer literals
 INTEGER_LITERAL : '-'? [0-9]+ ;

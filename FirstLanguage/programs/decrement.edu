@@ -1,7 +1,0 @@
-﻿@unsafe
-    push 258
-    
-    
-    print
-    halt
-end

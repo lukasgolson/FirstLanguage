@@ -6,7 +6,7 @@
 
 @unsafe
     # 1) Initialize N = 25 and store in register 'n'
-    PUSH 25
+    PUSH 50
     STORE n
     
     # 2) Initialize 'sum' = 0
