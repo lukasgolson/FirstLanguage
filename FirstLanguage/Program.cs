@@ -15,7 +15,7 @@ Cli.Run<RootCliCommand>(args);
 public class RootCliCommand
 {
     [CliOption(Description = "File to compile.")]
-    public string File { get; set; }
+    public required string File { get; set; }
 
 
     public static void ProcessFile(string filePath)
@@ -40,9 +40,15 @@ public class RootCliCommand
         var result = (ProgramNode) mainVisitor.Visit(tree);
         
         var crawler = new Crawler();
-        var program = crawler.ResolveMacros(result);
+        
+        
+        
+        var program = crawler.SimplifyProgram(result);
 
-        var vm = new VmContext(program);
+        var compiledProgram = VmCompiler.CompileBytecode(program);
+        
+        
+        var vm = new VmContext(compiledProgram);
 
         try
         {

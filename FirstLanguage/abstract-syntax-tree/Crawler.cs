@@ -7,7 +7,7 @@ namespace FirstLanguage.abstract_syntax_tree;
 
 public class Crawler
 {
-    public ProgramNode ResolveMacros(ProgramNode program)
+    public ProgramNode SimplifyProgram(ProgramNode program)
     {
         if (program.Clone() is not ProgramNode clone)
         {
