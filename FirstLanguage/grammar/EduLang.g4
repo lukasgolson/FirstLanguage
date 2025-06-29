@@ -3,61 +3,80 @@ grammar EduLang;
 
 // Parser Rules
 
-// The entry point for parsing an EduLang program.
-// A program consists of zero or more lines, followed by the End-Of-File marker.
-// A line can either be a statement (an instruction followed by a newline)
-// or just a NEWLINE (representing an empty line or a line that became empty
-// after comments were removed).
-program: (unsafe_block | if_instr | NEWLINE)* EOF;
+
+program: (low_statement | NEWLINE)* EOF;
+
 
 // A raw statement is defined as a low-level instruction followed by a NEWLINE.
-low_statement: (instruction | macro_def | macro_call) NEWLINE;
+low_statement: (assign | if_instr | jump_instr | label_instr | call_instr | macro_def | return_instr) NEWLINE;
+
+literal: INTEGER_LITERAL | BOOL_LITERAL;
+
+assign : location=IDENTIFIER KW_ASSIGN (operation | literal);
+
+if_instr : KW_IF condition=operation KW_THEN NEWLINE (low_statement | NEWLINE)* ((KW_ELSE (low_statement | NEWLINE)* KW_BLOCK_END) | KW_BLOCK_END);
+
+    
+operation :  operand1=IDENTIFIER (arithmatic_operators | comparison_operators) operand2=IDENTIFIER;
+
+label_instr : KW_LABEL id=IDENTIFIER;
+
+jump_instr : (jumpz_op | jumpnz_op | call_op) id=IDENTIFIER;
+
+call_instr : call_op name=IDENTIFIER args+=IDENTIFIER*;
 
 macro_def: macro_instr name=IDENTIFIER args+=IDENTIFIER* NEWLINE (low_statement | NEWLINE)* block_end_instr;
 
-macro_call: name=IDENTIFIER args+=IDENTIFIER*;
+return_instr : return_op (operation | INTEGER_LITERAL);
 
-unsafe_block: unsafe_instr NEWLINE (low_statement | NEWLINE)* block_end_instr;
-
-// The main 'instruction' rule is an alternative of all possible specific instructions.
-instruction:
-    load_instr
-    | pop_instr
-    | push_instr
-    | store_instr
-    | add_instr
-    | sub_instr
-    | gt_instr
-    | jumpz_instr
-    | print_instr
-    | input_instr
-    | halt_instr
-    | label_instr
+    
+arithmatic_operators :
+    add_op
+    | sub_op
+    | mult_op
+    | div_op
+    | mod_op
     ;
+    
+comparison_operators : 
+    eq_comp |
+    neq_comp |
+    gt_comp |
+    gte_comp |
+    lt_comp |
+    lte_comp
+;
+
 
 // Specific parser rules for each EduLang instruction.
 
 // High Level Instructions
-if_instr : KW_IF KW_OPEN condition=IDENTIFIER KW_CLOSE NEWLINE (low_statement | NEWLINE)* ((KW_ELSE (low_statement | NEWLINE)* KW_BLOCK_END) | KW_BLOCK_END);
 
 
-// Low Level Instructions
-// Stack Manipulation Instructions
-push_instr  : KW_PUSH val=INTEGER_LITERAL;
-pop_instr   : KW_POP (id=IDENTIFIER)?;
+// Math Operators
+add_op : KW_ADD;
+sub_op : KW_SUB;
+mult_op : KW_MULT;
+div_op : KW_DIV;
+mod_op : KW_MOD;
 
-load_instr  : KW_LOAD id=IDENTIFIER;
-store_instr : KW_STORE id=IDENTIFIER;
+// Logic operators
+eq_comp : KW_EQ;
+neq_comp : KW_NEQ;
+gt_comp : KW_GT;
+gte_comp : KW_GTE;
+lt_comp : KW_LT;
+lte_comp : KW_LTE;
 
-// Arithmetic Operations
-add_instr   : KW_ADD;
-sub_instr   : KW_SUB;
 
-gt_instr : KW_GT;
+
+
 
 // Control Flow Instructions
-label_instr : KW_LABEL id=IDENTIFIER;
-jumpz_instr : KW_JUMPZ id=IDENTIFIER;
+jumpz_op : KW_JUMPZ;
+jumpnz_op : KW_JUMPNZ;
+call_op : KW_CALL;
+return_op : KW_RETURN;
 
 
 // Misc
@@ -65,14 +84,11 @@ print_instr : KW_PRINT;
 input_instr : KW_INPUT;
 halt_instr  : KW_HALT;
 
-unsafe_instr : KW_UNSAFE;
-
 macro_instr : KW_MACRO;
 block_end_instr : KW_BLOCK_END;
 
 
 // Lexer Rules
-// These rules define how sequences of characters are grouped into tokens.
 
 // Fragment rules for case-insensitive letters (used in keywords)
 fragment A: [aA]; fragment B: [bB]; fragment C: [cC]; fragment D: [dD];
@@ -83,40 +99,58 @@ fragment Q: [qQ]; fragment R: [rR]; fragment S: [sS]; fragment T: [tT];
 fragment U: [uU]; fragment V: [vV]; fragment W: [wW]; fragment X: [xX];
 fragment Y: [yY]; fragment Z: [zZ]; 
 
-fragment COLON: [:]; fragment AT: [@];
+fragment COLON: [:]; fragment AT: [@]; fragment EQUALS_SIGN: [=];
 
-// Low Level Keywords
-KW_PUSH : P U S H;
-KW_POP  : P O P;
 
-KW_LOAD : L O A D;
-KW_STORE: S T O R E;
+KW_ASSIGN : EQUALS_SIGN;
+KW_LABEL : L A B E L;
 
+
+// Math
 KW_ADD  : A D D;
 KW_SUB  : S U B;
+KW_MULT : M U L T;
+KW_DIV : D I V;
+KW_MOD : M O D;
+KW_NEG : N E G;
 
+
+// Logic
+KW_EQ : E Q;
+KW_NEQ : N E Q;
 KW_GT : G T;
+KW_GTE : G T E;
+KW_LT : L T;
+KW_LTE : L T E;
 
-KW_LABEL : L A B E L;
+// Flow
 KW_JUMPZ : J U M P Z;
+KW_JUMPNZ : J U M P N Z;
+KW_CALL : C A L L;
+KW_RETURN : R E T U R N;
 
+// System
 KW_PRINT: P R I N T;
 KW_INPUT: I N P U T;
 KW_HALT : H A L T;
+KW_NOOP : N O O P;
 
+// Sugar (doesn't necessarily follow TAC conventions)
 KW_MACRO: M A C R O;
-KW_BLOCK_END: E N D; 
-KW_UNSAFE: AT U N S A F E;
 
-// High level instructions
 KW_IF: I F;
+KW_THEN: T H E N;
 KW_ELSE: E L S E;
+
+KW_BLOCK_END: E N D; 
 
 KW_OPEN: [(];
 KW_CLOSE: [)];
 
 // Token for integer literals
 INTEGER_LITERAL : '-'? [0-9]+ ;
+
+BOOL_LITERAL : (T R U E | F A L S E);
 
 // Token for identifiers (variable names and label names)
 // Identifiers remain case-sensitive.

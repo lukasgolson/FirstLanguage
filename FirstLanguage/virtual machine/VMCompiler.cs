@@ -11,8 +11,7 @@ namespace FirstLanguage.virtual_machine;
 
 public class VmCompiler
 {
-    
-        public static VmProgram CompileBytecode(ProgramNode program)
+    public static VmProgram CompileBytecode(ProgramNode program)
     {
         List<byte> instructions = [];
         var labelsDict = new Dictionary<string, int>();
@@ -147,7 +146,7 @@ public class VmCompiler
                 {
                     instructions[unresolvedJump[i].position - 1] = (byte)OpCode.JumpZb;
                 }
-                
+
                 instructions[unresolvedJump[i].position] = (byte)Math.Abs(offset);
                 unresolvedJump.RemoveAt(i);
             }
@@ -178,7 +177,7 @@ public class VmCompiler
                 remainingRegisters = 0;
             }
         }
-        
+
         List<byte> finalInstructions = [];
         finalInstructions.AddRange(initInstructions);
         finalInstructions.AddRange(instructions);
@@ -188,5 +187,4 @@ public class VmCompiler
 
         int Position() => instructions.Count - 1;
     }
-
 }

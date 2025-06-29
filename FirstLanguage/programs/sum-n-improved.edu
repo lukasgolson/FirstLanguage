@@ -1,0 +1,68 @@
+﻿# Program: Sums integers from 1 to N (user input)
+
+# 1. Initialize variables (using named registers/stacks)
+#    n_reg: Stores the input number N.
+#    sum_reg: Stores the accumulating sum (initialized to 0).
+#    counter_reg: Stores the current number in the iteration (starts at 1).
+
+INPUT             # Prompts the user to enter a number. The entered value is pushed onto the main stack.
+STORE n_reg       # Pops the input number from the main stack and stores it in the 'n_reg' variable (register/stack).
+
+PUSH 0            # Pushes the integer 0 onto the main stack.
+STORE sum_reg     # Pops 0 from the main stack and stores it in the 'sum_reg' variable.
+                  # This initializes our sum to zero.
+
+PUSH 1            # Pushes the integer 1 onto the main stack.
+STORE counter_reg # Pops 1 from the main stack and stores it in the 'counter_reg' variable.
+                  # This initializes our loop counter to one.
+
+# 2. Loop Start: This section defines the beginning of our main loop.
+LABEL loop_start
+
+#    Condition Check for Loop: Loop while (counter_reg <= n_reg)
+#    The JUMPZ instruction jumps if the *top of the stack is 0*.
+#    We want to exit the loop if `counter_reg > n_reg`.
+#    The GT instruction pushes 1 if the first popped value (counter_reg) is GREATER THAN the second popped value (n_reg), otherwise pushes 0.
+#    So, if `counter_reg > n_reg` is TRUE, GT pushes 1. We need this to become 0 for JUMPZ to trigger.
+#    If `counter_reg > n_reg` is FALSE, GT pushes 0. We need this to become non-zero (e.g., 1) for JUMPZ to NOT trigger.
+
+LOAD counter_reg  # Pushes the value of 'counter_reg' onto the main stack. (Stack: [counter])
+LOAD n_reg        # Pushes the value of 'n_reg' onto the main stack. (Stack: [counter, n])
+GT                # Pops the top two values (counter, n).
+                  # Pushes 1 onto the stack if 'counter' > 'n', otherwise pushes 0. (Stack: [GT_result])
+
+#    Invert the GT_result: (1 - GT_result)
+#    If GT_result was 1 (meaning counter > n, time to exit), (1 - 1) = 0. JUMPZ will jump.
+#    If GT_result was 0 (meaning counter <= n, continue loop), (1 - 0) = 1. JUMPZ will NOT jump.
+PUSH 1            # Pushes 1 onto the main stack. (Stack: [GT_result, 1])
+SUB               # Pops 1 and GT_result. Calculates (1 - GT_result). (Stack: [inverted_GT_result])
+
+JUMPZ end_loop    # Pops 'inverted_GT_result'.
+                  # If 'inverted_GT_result' is 0, jumps to 'end_loop' (because counter > n).
+                  # If 'inverted_GT_result' is non-zero (1), continues to the next instruction (loop body, because counter <= n).
+
+# 3. Loop Body: These instructions are executed as long as the loop condition is met.
+
+  LOAD sum_reg      # Pushes the current value of 'sum_reg' onto the main stack.
+  LOAD counter_reg  # Pushes the current value of 'counter_reg' onto the main stack.
+  ADD               # Pops the top two values (sum, counter). Adds them and pushes the result (new sum).
+  STORE sum_reg     # Pops the new sum from the main stack and stores it back in 'sum_reg'.
+
+  LOAD counter_reg  # Pushes the current value of 'counter_reg' onto the main stack.
+  PUSH 1            # Pushes the integer 1 onto the main stack.
+  ADD               # Pops (counter, 1). Adds them and pushes the result (counter + 1).
+  STORE counter_reg # Pops the new counter value and stores it back in 'counter_reg'.
+
+  # Unconditional jump back to the start of the loop (`loop_start`).
+  # This is achieved by pushing a 0 and then using JUMPZ, as JUMPZ always jumps if the value is 0.
+  PUSH 0            # Pushes 0 onto the main stack.
+  JUMPZ loop_start  # Pops 0. Since it's 0, it unconditionally jumps back to 'loop_start'.
+
+# 4. End Loop: This label marks the point where the program jumps to after the loop finishes.
+LABEL end_loop
+
+# 5. Print Result: Displays the final calculated sum.
+LOAD sum_reg      # Pushes the final value of 'sum_reg' onto the main stack.
+PRINT             # Prints the top element of the main stack (the final sum) to the console.
+
+HALT              # Stops the program execution.
