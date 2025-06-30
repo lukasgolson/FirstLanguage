@@ -1,169 +1,133 @@
-﻿// Define the grammar name for EduLang
-grammar EduLang;
+﻿grammar EduLang;
 
-// Parser Rules
+/*
+ * ==============================================================================
+ * Parser Rules
+ * ==============================================================================
+ */
 
+program: statement* EOF;
 
-program: (low_statement | NEWLINE)* EOF;
+statement:
+      label_def
+    | macro_def
+    | instruction NEWLINE
+    | NEWLINE
+    ;
 
+label_def: name=IDENTIFIER ':';
 
-// A raw statement is defined as a low-level instruction followed by a NEWLINE.
-low_statement: (assign | if_instr | jump_instr | label_instr | call_instr | macro_def | return_instr) NEWLINE;
+// A macro block containing TAC-style statements
+macro_def: KW_MACRO name=IDENTIFIER args+=IDENTIFIER* NEWLINE body=block KW_ENDMACRO;
 
+block: statement*;
+
+// All executable instructions
+instruction:
+      assign_instr
+    | if_instr
+    | jump_instr
+    | call_instr
+    | return_instr
+    | print_instr
+    | input_instr
+    | halt_instr
+    | noop_instr
+    ;
+
+// An operand is a simple variable or constant.
+operand: IDENTIFIER | literal;
 literal: INTEGER_LITERAL | BOOL_LITERAL;
 
-assign : location=IDENTIFIER KW_ASSIGN (operation | literal);
 
-if_instr : KW_IF condition=operation KW_THEN NEWLINE (low_statement | NEWLINE)* ((KW_ELSE (low_statement | NEWLINE)* KW_BLOCK_END) | KW_BLOCK_END);
+assign_instr:
+    dest=IDENTIFIER '=' (
+          src1=operand op=operator src2=operand // e.g., x = y ADD z
+        | src=operand                          // e.g., x = y
+    );
 
-    
-operation :  operand1=IDENTIFIER (arithmatic_operators | comparison_operators) operand2=IDENTIFIER;
+if_instr:
+    KW_IF condition=operand NEWLINE
+        then_block=block
+    (KW_ELSE NEWLINE
+        else_block=block
+    )?
+    KW_ENDIF;
 
-label_instr : KW_LABEL id=IDENTIFIER;
-
-jump_instr : (jumpz_op | jumpnz_op | call_op) id=IDENTIFIER;
-
-call_instr : call_op name=IDENTIFIER args+=IDENTIFIER*;
-
-macro_def: macro_instr name=IDENTIFIER args+=IDENTIFIER* NEWLINE (low_statement | NEWLINE)* block_end_instr;
-
-return_instr : return_op (operation | INTEGER_LITERAL);
-
-    
-arithmatic_operators :
-    add_op
-    | sub_op
-    | mult_op
-    | div_op
-    | mod_op
+jump_instr:
+      KW_JUMP target=IDENTIFIER
+    | (KW_JUMPZ | KW_JUMPNZ) condition=operand target=IDENTIFIER // condition is now an operand
     ;
-    
-comparison_operators : 
-    eq_comp |
-    neq_comp |
-    gt_comp |
-    gte_comp |
-    lt_comp |
-    lte_comp
-;
 
+call_instr: KW_CALL target=IDENTIFIER (args+=operand)*;
+return_instr: KW_RETURN value=operand;
+print_instr: KW_PRINT value=operand;
+input_instr: KW_INPUT target=IDENTIFIER;
+halt_instr:  KW_HALT;
+noop_instr:  KW_NOOP;
 
-// Specific parser rules for each EduLang instruction.
+operator:
+      KW_ADD | KW_SUB | KW_MULT | KW_DIV | KW_MOD
+    | KW_EQ | KW_NEQ | KW_GT | KW_GTE | KW_LT | KW_LTE
+    ;
 
-// High Level Instructions
+/*
+ * ==============================================================================
+ * Lexer Rules
+ * ==============================================================================
+ */
 
+COLON : ':';
 
-// Math Operators
-add_op : KW_ADD;
-sub_op : KW_SUB;
-mult_op : KW_MULT;
-div_op : KW_DIV;
-mod_op : KW_MOD;
+// --- Keywords (Case-Insensitive via Fragments) ---
+// Math
+KW_ADD  : A D D;
+KW_SUB  : S U B;
+KW_MULT : M U L T;
+KW_DIV  : D I V;
+KW_MOD  : M O D;
 
-// Logic operators
-eq_comp : KW_EQ;
-neq_comp : KW_NEQ;
-gt_comp : KW_GT;
-gte_comp : KW_GTE;
-lt_comp : KW_LT;
-lte_comp : KW_LTE;
+// Comparison Logic
+KW_EQ   : E Q;
+KW_NEQ  : N E Q;
+KW_GT   : G T;
+KW_GTE  : G T E;
+KW_LT   : L T;
+KW_LTE  : L T E;
 
+// Flow Control & Procedures
+KW_IF        : I F;
+KW_ELSE      : E L S E;
+KW_JUMP      : J U M P;
+KW_JUMPZ     : J U M P Z;
+KW_JUMPNZ    : J U M P N Z;
+KW_CALL      : C A L L;
+KW_RETURN    : R E T U R N;
+KW_MACRO     : M A C R O;
+KW_ENDIF     : E N D I F;
+KW_ENDMACRO  : E N D M A C R O;
 
+// System Instructions
+KW_PRINT : P R I N T;
+KW_INPUT : I N P U T;
+KW_HALT  : H A L T;
+KW_NOOP  : N O O P;
 
+// --- Literals and Identifiers ---
+INTEGER_LITERAL : '-'? [0-9]+;
+BOOL_LITERAL    : T R U E | F A L S E;
+IDENTIFIER      : [a-zA-Z_] [a-zA-Z_0-9]*;
 
+// --- Whitespace and Comments ---
+COMMENT : '#' ~[\r\n]* -> channel(HIDDEN);
+WS      : [ \t]+      -> channel(HIDDEN);
+NEWLINE : ( '\r' '\n'? | '\n' );
 
-// Control Flow Instructions
-jumpz_op : KW_JUMPZ;
-jumpnz_op : KW_JUMPNZ;
-call_op : KW_CALL;
-return_op : KW_RETURN;
-
-
-// Misc
-print_instr : KW_PRINT;
-input_instr : KW_INPUT;
-halt_instr  : KW_HALT;
-
-macro_instr : KW_MACRO;
-block_end_instr : KW_BLOCK_END;
-
-
-// Lexer Rules
-
-// Fragment rules for case-insensitive letters (used in keywords)
+// --- Case-Insensitive Letter Fragments (Complete Set) ---
 fragment A: [aA]; fragment B: [bB]; fragment C: [cC]; fragment D: [dD];
 fragment E: [eE]; fragment F: [fF]; fragment G: [gG]; fragment H: [hH];
 fragment I: [iI]; fragment J: [jJ]; fragment K: [kK]; fragment L: [lL];
 fragment M: [mM]; fragment N: [nN]; fragment O: [oO]; fragment P: [pP];
 fragment Q: [qQ]; fragment R: [rR]; fragment S: [sS]; fragment T: [tT];
 fragment U: [uU]; fragment V: [vV]; fragment W: [wW]; fragment X: [xX];
-fragment Y: [yY]; fragment Z: [zZ]; 
-
-fragment COLON: [:]; fragment AT: [@]; fragment EQUALS_SIGN: [=];
-
-
-KW_ASSIGN : EQUALS_SIGN;
-KW_LABEL : L A B E L;
-
-
-// Math
-KW_ADD  : A D D;
-KW_SUB  : S U B;
-KW_MULT : M U L T;
-KW_DIV : D I V;
-KW_MOD : M O D;
-KW_NEG : N E G;
-
-
-// Logic
-KW_EQ : E Q;
-KW_NEQ : N E Q;
-KW_GT : G T;
-KW_GTE : G T E;
-KW_LT : L T;
-KW_LTE : L T E;
-
-// Flow
-KW_JUMPZ : J U M P Z;
-KW_JUMPNZ : J U M P N Z;
-KW_CALL : C A L L;
-KW_RETURN : R E T U R N;
-
-// System
-KW_PRINT: P R I N T;
-KW_INPUT: I N P U T;
-KW_HALT : H A L T;
-KW_NOOP : N O O P;
-
-// Sugar (doesn't necessarily follow TAC conventions)
-KW_MACRO: M A C R O;
-
-KW_IF: I F;
-KW_THEN: T H E N;
-KW_ELSE: E L S E;
-
-KW_BLOCK_END: E N D; 
-
-KW_OPEN: [(];
-KW_CLOSE: [)];
-
-// Token for integer literals
-INTEGER_LITERAL : '-'? [0-9]+ ;
-
-BOOL_LITERAL : (T R U E | F A L S E);
-
-// Token for identifiers (variable names and label names)
-// Identifiers remain case-sensitive.
-IDENTIFIER      : [a-zA-Z_] [a-zA-Z_0-9]* ;
-
-// Comments start with '#' and go to the end of the line.
-// They are sent to the HIDDEN channel, so the parser ignores them for rules.
-COMMENT         : '#' ~[\r\n]* -> channel(HIDDEN) ;
-
-// Whitespace (spaces and tabs) within a line.
-// Also sent to the HIDDEN channel.
-WS              : [ \t]+ -> channel(HIDDEN) ;
-
-// Newline characters. These are significant as they terminate statements.
-// They are NOT sent to the hidden channel.
-NEWLINE         : ( '\r' '\n'? | '\n' ) ;
+fragment Y: [yY]; fragment Z: [zZ];
