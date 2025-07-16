@@ -9,8 +9,8 @@
 program: statement* EOF;
 
 statement:
-      label_def
-    | macro_def
+      label_def NEWLINE
+    | macro_def NEWLINE
     | instruction NEWLINE
     | NEWLINE
     ;
@@ -38,7 +38,6 @@ instruction:
 // An operand is a simple variable or constant.
 operand: IDENTIFIER | literal;
 literal: INTEGER_LITERAL | BOOL_LITERAL;
-
 
 assign_instr:
     dest=IDENTIFIER '=' (
